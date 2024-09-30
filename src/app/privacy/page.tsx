@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import List from "@/components/Privacy/PrivacyList";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Content Manage",
+  title: "Lound | Admin page - Content Manage",
   icons: "/images/favicon.ico",
 };
 

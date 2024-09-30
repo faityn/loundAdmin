@@ -62,7 +62,7 @@ const Header = (props: {
               height={0}
               src={"/images/logo/logo.png"}
               alt="Logo"
-              className="w-[130px] max-h-[40px] "
+              className="min-w-[100px] max-h-[35px] "
               unoptimized={true}
               priority
             />

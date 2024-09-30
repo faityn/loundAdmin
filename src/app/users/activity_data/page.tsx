@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import UsersActivityDataList from "@/components/users/UsersActivityDataList";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Users",
+  title: "Lound | Admin page - Users",
   icons: "/images/favicon.ico",
 };
 

@@ -4,8 +4,8 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AdminRoleList from "@/components/Admin/AdminRoleList";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page",
-  description: "MICE Admin page",
+  title: "Lound | Admin page",
+  description: "Lound Admin page",
   icons: "/images/favicon.ico",
 };
 

@@ -70,11 +70,18 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
       }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-4 ">
-        <div className="flex items-center pt-1">
-          <Link href="/">
-            <span className="text-[34px] text-white">MICE</span>{" "}
-            <span className="text-xl">Admin Page</span>
-          </Link>
+        <div className="flex items-end gap-2">
+          <div className=" pb-2">
+            <Link href="/">
+              <img
+                src={`/images/logo/lound-logo-white.png`}
+                contextMenu="false"
+                alt="logo "
+                className="max-w-[140px] max-h-[40px]  "
+              />
+            </Link>
+          </div>
+          <div className="text-xl text-blue-300">Admin Page</div>
         </div>
         <button
           ref={trigger}

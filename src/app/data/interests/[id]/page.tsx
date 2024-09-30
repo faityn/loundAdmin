@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import InterestsUpdate from "@/components/Interests/InterestsUpdate";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Data Manage",
+  title: "Lound | Admin page - Data Manage",
   icons: "/images/favicon.ico",
 };
 

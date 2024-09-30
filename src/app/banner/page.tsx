@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import BannerList from "@/components/Banner/BannerList";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Banner Manage",
+  title: "Lound | Admin page - Banner Manage",
   icons: "/images/favicon.ico",
 };
 

@@ -46,7 +46,7 @@ const Login: React.FC = () => {
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5 xl:py-12">
             <div className=" w-full flex justify-center"></div>
             <h2 className="mb-9 text-xl font-bold text-black dark:text-white sm:text-title-md mt-5 text-center">
-              Sign In to <span className="text-3xl text-primary">MICE</span>{" "}
+              Sign In to <span className="text-3xl text-primary">Lound</span>{" "}
               dashboard
             </h2>
             <div className="w-full text-center text-red">{error}</div>

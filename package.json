@@ -1,5 +1,5 @@
 {
-  "name": "mice-admin-dashboard",
+  "name": "Lound-admin-dashboard",
   "version": "1.3.1",
   "private": true,
   "scripts": {
@@ -48,7 +48,7 @@
     "typescript": "^5"
   },
   "main": "index.js",
-  "repository": "https://github.com/faityn/miceAdmin.git",
+  "repository": "https://github.com/faityn/LoundAdmin.git",
   "author": "faityn <faitynb@gmail.com>",
   "license": "MKIT"
 }

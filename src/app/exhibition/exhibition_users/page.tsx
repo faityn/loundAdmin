@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import ExhibitionUsersList from "@/components/Exhibition/ExhibitionUsersList";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Exhibition Manage",
+  title: "Lound | Admin page - Exhibition Manage",
   icons: "/images/favicon.ico",
 };
 

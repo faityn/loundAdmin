@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import EventOrderList from "@/components/Events/EventOrderList";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Events Manage",
+  title: "Lound | Admin page - Events Manage",
   icons: "/images/favicon.ico",
 };
 

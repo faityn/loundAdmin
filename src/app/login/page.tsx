@@ -3,7 +3,7 @@ import AuthLayout from "@/components/Layouts/AuthLayout";
 import Login from "@/components/Login/Login";
 
 export const metadata: Metadata = {
-  title: "MICE | Admin page - Login",
+  title: "Lound | Admin page - Login",
   icons: "/images/favicon.ico",
 };
 
