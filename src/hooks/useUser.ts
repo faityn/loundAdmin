@@ -18,7 +18,10 @@ export const adminLogin = async (username: string, password: string) => {
         redirect: "follow",
       }
     );
+    console.log(response);
+
     const data = await response.text();
+    console.log(data);
     return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -67,6 +70,9 @@ export const getLoginData = async (token: string) => {
         redirect: "follow",
       }
     );
+
+    console.log(response);
+
     const data = await response.json();
 
     return { status: response.ok, result: data };

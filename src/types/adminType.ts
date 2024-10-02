@@ -15,15 +15,18 @@ export type AdminType = {
 };
 
 export type ExhibitionType = {
-  id?: number;
+  exhibitionId?: number;
+  adminId?: string;
   title?: string;
-  brand?: string;
-  category?: string;
-  images?: string[];
-  meta?: {
-    createdAt?: string;
-  };
-  created_at?: string;
+  short_desc?: string;
+  imgUrl?: string;
+  img?: string;
+  startDate?: string;
+  endDate?: string;
+  status?: string;
+  rating?: number;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type BannerType = {
@@ -59,4 +62,42 @@ export type PrivacyType = {
   content?: string;
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type ExhibitionOptionType = {
+  interest?: [{ interestId: number; title: string }];
+  purpose?: [{ purposeId: number; title: string }];
+  status?: [
+    {
+      value: string;
+      text: string;
+    }
+  ];
+  content?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type LecturesArrayType = {
+  title?: string;
+  short_desc?: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+  imgIndex?: number;
+};
+
+export type ExhibitionLecturesType = {
+  imgUrl?: string;
+  lectureId?: number;
+  exhibitionId?: number;
+  startDate?: string;
+  endDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  title?: string;
+  short_desc?: string;
+  exhibition?: {
+    title: string;
+  };
 };

@@ -4,7 +4,6 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { RecoilRoot } from "recoil";
 import { useRouter } from "next/navigation";
-import getToken from "@/helper/getToken";
 import getRole from "@/helper/getRole";
 interface WithRoleProps {
   children: ReactNode;
@@ -15,22 +14,22 @@ export default function DefaultLayout({
   allowedRoles,
 }: WithRoleProps) {
   const router = useRouter();
-  const token = getToken();
   const [userRole, setUserRole] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getAdminRole = async () => {
     const role = await getRole();
-    setUserRole(String(role));
+    if (role === "expired") {
+      router.push("/login");
+    } else {
+      setUserRole(String(role));
+    }
   };
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getAdminRole();
   }, []);
-  if (token === undefined || token === "undefined") {
-    router.push("/login");
-    return null;
-  }
+
   return (
     <RecoilRoot>
       <div className="flex h-screen overflow-hidden">
