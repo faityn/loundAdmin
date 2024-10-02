@@ -1,5 +1,26 @@
 "use server";
 
+export const getInterestsOptions = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/options`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getInterestsList = async (token: string) => {
   try {
     const response = await fetch(

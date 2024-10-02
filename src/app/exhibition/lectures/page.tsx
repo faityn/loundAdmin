@@ -1,23 +1,26 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import ExhibitionList from "@/components/Exhibition/ExhibitionList";
+import ExhibitionLecturesList from "@/components/Exhibition/ExhibitionLecturesList";
 
 export const metadata: Metadata = {
   title: "Lound | Admin page - Exhibition Manage",
   icons: "/images/favicon.ico",
 };
 
-const ExhibitionPage = () => {
+const ExhibitionLecturesPage = () => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
-      <Breadcrumb parentName="Exhibition Manage" pageName="Exhibition List" />
+    <DefaultLayout allowedRoles={["Super Admin"]}>
+      <Breadcrumb
+        parentName="Exhibition Manage"
+        pageName="Exhibition Lectures"
+      />
 
       <div className="flex flex-col gap-10">
-        <ExhibitionList url="/exhibition" />
+        <ExhibitionLecturesList url="/exhibition/lectures" />
       </div>
     </DefaultLayout>
   );
 };
 
-export default ExhibitionPage;
+export default ExhibitionLecturesPage;

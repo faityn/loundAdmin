@@ -464,6 +464,21 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             }
                           >
                             <Link
+                              href="/exhibition/lectures"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white capitalize ${
+                                pathname === "/exhibition/lectures" &&
+                                "text-white"
+                              }`}
+                            >
+                              Exhibition lectures
+                            </Link>
+                          </li>
+                          <li
+                            className={
+                              userRole === "Super Admin" ? "" : "hidden"
+                            }
+                          >
+                            <Link
                               href="/exhibition/exhibition_users"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white capitalize ${
                                 pathname === "/exhibition/exhibition_users" &&

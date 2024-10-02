@@ -1,8 +1,11 @@
 import {
   AdminType,
   BannerType,
+  ExhibitionLecturesType,
+  ExhibitionOptionType,
   ExhibitionType,
   InterestsType,
+  LecturesArrayType,
   PrivacyType,
   ProfessionType,
   PurposesType,
@@ -20,8 +23,23 @@ export const exhibitionListAtom = atom<ExhibitionType[]>({
   default: [],
 });
 
+export const exhibitionDetailAtom = atom<ExhibitionType[]>({
+  key: "exhibitionDetailAtom",
+  default: [],
+});
+
 export const checkedListAtom = atom<string[]>({
   key: "checked_list_atom",
+  default: [],
+});
+
+export const checkedInterestsListAtom = atom<string[]>({
+  key: "checkedInterestsListAtom",
+  default: [],
+});
+
+export const checkedPurposesListAtom = atom<string[]>({
+  key: "checkedPurposesListAtom",
   default: [],
 });
 
@@ -102,5 +120,25 @@ export const privacyListAtom = atom<PrivacyType[]>({
 
 export const privacyDetailAtom = atom<PrivacyType[]>({
   key: "privacyDetailAtom",
+  default: [],
+});
+
+export const exhibitionOptionAtom = atom<ExhibitionOptionType[]>({
+  key: "exhibitionOptionAtom",
+  default: [],
+});
+
+export const lecturesArrayAtom = atom<LecturesArrayType[]>({
+  key: "lecturesArrayAtom",
+  default: [],
+});
+
+export const exhibitionLecturesAtom = atom<ExhibitionLecturesType[]>({
+  key: "exhibitionLecturesAtom",
+  default: [],
+});
+
+export const exhibitionAllAtom = atom<ExhibitionType[]>({
+  key: "exhibitionAllAtom",
   default: [],
 });

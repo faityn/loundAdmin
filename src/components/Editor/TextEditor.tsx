@@ -16,7 +16,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
       textareaName="content"
       apiKey={process.env.NEXT_PUBLIC_EDITOR_API_KEY}
       init={{
-        menubar: true,
+        height: 250,
+        menubar: false,
         plugins:
           "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
         toolbar:

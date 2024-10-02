@@ -54,3 +54,53 @@ export const convertUTCDateToDate = (utcDate: Date) => {
 };
 
 export { encrypt, decrypt };
+
+export const datePickerOption1 = (startDateParam: string) => {
+  const options = {
+    autoHide: true,
+    clearBtn: false,
+    todayBtn: false,
+    clearBtnText: "Clear",
+    defaultDate: startDateParam ? new Date(String(startDateParam)) : new Date(),
+    theme: {
+      background: "bg-white dark:bg-graydark",
+      todayBtn: "",
+      clearBtn: "dark:bg-graydark",
+      icons: "dark:bg-graydark",
+      text: "text-black",
+      disabledText: "text-black/50 dark:text-white/50",
+      input:
+        "w-full rounded border-[1.5px] border-stroke bg-transparent  font-normal outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary",
+      inputIcon: "gg",
+      selected: "",
+    },
+    language: "en",
+    inputPlaceholderProp: "Select start date",
+  };
+  return options;
+};
+
+export const datePickerOption2 = (endDateParam: string) => {
+  const options = {
+    clearBtn: false,
+    todayBtn: false,
+    clearBtnText: "Clear",
+    defaultDate: endDateParam ? new Date(String(endDateParam)) : new Date(),
+    theme: {
+      background: "bg-white dark:bg-graydark",
+      todayBtn: "",
+      clearBtn: "dark:bg-graydark",
+      icons: "dark:bg-graydark",
+      text: "text-black",
+      disabledText: "text-black/50 dark:text-white/50",
+      input:
+        "w-full rounded border-[1.5px] border-stroke bg-transparent  font-normal outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary",
+      inputIcon: "gg",
+      selected: "",
+    },
+    language: "en",
+
+    inputPlaceholderProp: "Select end date",
+  };
+  return options;
+};
