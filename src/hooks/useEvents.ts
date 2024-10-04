@@ -451,3 +451,26 @@ export const deleteBanner = async (token: string, id: number) => {
     console.error("Error fetching data:", error);
   }
 };
+
+export const uploadImage = async (formdata: FormData) => {
+  const image: File | null = (formdata.get("file") as unknown) as File;
+  const formData2 = new FormData();
+  if (image !== null) {
+    formData2.append("img", image);
+  }
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/image/upload`,
+      {
+        method: "POST",
+        body: formData2,
+      }
+    );
+
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};

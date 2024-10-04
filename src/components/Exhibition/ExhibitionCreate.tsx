@@ -256,7 +256,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                           show={show}
                           setShow={handleStartClose}
                         >
-                          <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black">
+                          <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
                             <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
                               <HiOutlineCalendarDays className="text-xl" />
                             </div>
@@ -279,7 +279,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                           show={endShow}
                           setShow={handleClose}
                         >
-                          <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black">
+                          <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
                             <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
                               <HiOutlineCalendarDays className="text-xl" />
                             </div>
