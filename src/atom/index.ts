@@ -9,6 +9,7 @@ import {
   PrivacyType,
   ProfessionType,
   PurposesType,
+  UsersType,
 } from "@/types/adminType";
 
 import { atom } from "recoil";
@@ -140,5 +141,10 @@ export const exhibitionLecturesAtom = atom<ExhibitionLecturesType[]>({
 
 export const exhibitionAllAtom = atom<ExhibitionType[]>({
   key: "exhibitionAllAtom",
+  default: [],
+});
+
+export const userAllListAtom = atom<UsersType[]>({
+  key: "userAllListAtom",
   default: [],
 });

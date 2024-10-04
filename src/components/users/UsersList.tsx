@@ -1,20 +1,22 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { adminAllListAtom, checkedListAtom, totalPageAtom } from "@/atom";
+import { checkedListAtom, totalPageAtom, userAllListAtom } from "@/atom";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
-import { getUsersList } from "@/hooks/useUser";
+import { deleteUser, getUsersList } from "@/hooks/useUser";
 import CustomModal from "../Modal/Confirm";
+import getToken from "@/helper/getToken";
 const UsersList = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
+  const size = 20;
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?id=0`;
   const [isOpen, setIsOpen] = useState(false);
-  const [userAllList, setUserAllList] = useRecoilState(adminAllListAtom);
-  const [checkedUsers, setChechedUsers] = useRecoilState(checkedListAtom);
+  const [userAllList, setUserAllList] = useRecoilState(userAllListAtom);
+  const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -24,22 +26,26 @@ const UsersList = () => {
   };
 
   const userDelete = async () => {
-    console.log("delete");
-    //getData();
-    setChechedUsers([]);
+    const userToken = getToken();
+
+    checkedElements.forEach(async (element) => {
+      await deleteUser(String(userToken), Number(element));
+    });
+    getData();
+    setChechedElements([]);
     setIsOpen(false);
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
       const allIds = userAllList?.map((data) => {
-        return data?.id;
+        return data?.userId;
       });
-      setChechedUsers(() =>
+      setChechedElements(() =>
         e.target.checked ? (([...allIds] as unknown) as string[]) : []
       );
     } else {
-      setChechedUsers((prevChecked) =>
+      setChechedElements((prevChecked) =>
         e.target.checked
           ? [...prevChecked, id]
           : prevChecked.filter((item: string) => item !== id)
@@ -48,10 +54,15 @@ const UsersList = () => {
   };
 
   const getData = async () => {
-    const response = await getUsersList();
-
-    setTotalPage(response?.pages);
-    setUserAllList(response?.users);
+    const userToken = getToken();
+    const response = await getUsersList(
+      String(userToken),
+      Number(page),
+      Number(size)
+    );
+    const totalPage = Math.ceil(Number(response?.count) / Number(size));
+    setTotalPage(totalPage);
+    setUserAllList(response?.rows);
   };
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,7 +78,7 @@ const UsersList = () => {
               type="button"
               className="inline-flex items-center justify-center rounded-md disabled:bg-slate-300 bg-rose-400 px-5 py-2 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
               onClick={openModal}
-              disabled={checkedUsers?.length > 0 ? false : true}
+              disabled={checkedElements?.length > 0 ? false : true}
             >
               Delete
             </button>
@@ -75,8 +86,8 @@ const UsersList = () => {
           {isOpen ? (
             <CustomModal>
               <h2 className="text-xl text-black">
-                ({checkedUsers?.length}){" "}
-                {checkedUsers?.length > 1 ? "Users" : "User"} will <br /> be
+                ({checkedElements?.length}){" "}
+                {checkedElements?.length > 1 ? "Users" : "User"} will <br /> be
                 deleted
               </h2>
               <div className="mb-2 mt-4 text-lg text-black">
@@ -119,20 +130,20 @@ const UsersList = () => {
                       className="sr-only"
                       onChange={(e) => handleCheck(e, "all")}
                       checked={
-                        checkedUsers.length === userAllList?.length
+                        checkedElements.length === userAllList?.length
                           ? true
                           : false
                       }
                     />
                     <div
                       className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                        checkedUsers.length === userAllList?.length &&
+                        checkedElements.length === userAllList?.length &&
                         "border-primary bg-gray dark:bg-transparent"
                       }`}
                     >
                       <span
                         className={`h-2 w-2 rounded-sm ${
-                          checkedUsers.length === userAllList?.length &&
+                          checkedElements.length === userAllList?.length &&
                           "bg-primary"
                         }`}
                       ></span>
@@ -165,32 +176,32 @@ const UsersList = () => {
               <tr key={index}>
                 <td className="border-b  border-[#eee] px-3 py-4  dark:border-strokedark ">
                   <label
-                    htmlFor={String(item?.id)}
+                    htmlFor={String(item?.userId)}
                     className="flex cursor-pointer select-none items-center"
                   >
                     <div className="relative">
                       <input
                         type="checkbox"
-                        id={String(item?.id)}
+                        id={String(item?.userId)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, (item?.id as unknown) as string)
+                          handleCheck(e, (item?.userId as unknown) as string)
                         }
-                        checked={checkedUsers.includes(
-                          (item?.id as unknown) as string
+                        checked={checkedElements.includes(
+                          (item?.userId as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                          checkedUsers.includes(
-                            (item?.id as unknown) as string
+                          checkedElements.includes(
+                            (item?.userId as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
-                            checkedUsers.includes(
-                              (item?.id as unknown) as string
+                            checkedElements.includes(
+                              (item?.userId as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>
@@ -204,17 +215,18 @@ const UsersList = () => {
                   </h5>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <img
-                    src={`${item?.image}`}
-                    contextMenu="false"
-                    alt={item?.username}
-                    className="max-w-[140px] max-h-[40px]  "
-                  />
+                  {item?.imgUrl ? (
+                    <img
+                      src={`${item?.imgUrl}`}
+                      alt={item?.username}
+                      className="max-w-[150px] max-h-[50px]  "
+                    />
+                  ) : (
+                    ""
+                  )}
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <h5 className="font-medium  dark:text-white">
-                    {item?.firstName} {item?.lastName}
-                  </h5>
+                  <h5 className="font-medium  dark:text-white">{item?.name}</h5>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">{item?.email}</p>
