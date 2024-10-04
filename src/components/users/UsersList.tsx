@@ -1,11 +1,6 @@
 "use client";
 import { useRecoilState } from "recoil";
-import {
-  adminAllListAtom,
-  checkedListAtom,
-  totalPageAtom,
-  userAllListAtom,
-} from "@/atom";
+import { checkedListAtom, totalPageAtom, userAllListAtom } from "@/atom";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
@@ -65,7 +60,6 @@ const UsersList = () => {
       Number(page),
       Number(size)
     );
-    console.log(response);
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
     setTotalPage(totalPage);
     setUserAllList(response?.rows);
