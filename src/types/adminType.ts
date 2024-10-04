@@ -101,3 +101,30 @@ export type ExhibitionLecturesType = {
     title: string;
   };
 };
+
+export type UsersType = {
+  userId?: number;
+  imgUrl?: string;
+  username?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+
+  birthday?: string;
+  isForeigner?: boolean;
+  img?: string;
+  gender?: string;
+  roleId?: number;
+  companyName?: string;
+  position?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  role?: {
+    roleId?: number;
+    createdAt?: string;
+    updatedAt?: string;
+    role_name?: string;
+  };
+  profession?: string;
+};

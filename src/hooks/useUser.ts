@@ -81,15 +81,47 @@ export const getLoginData = async (token: string) => {
   }
 };
 
-export const getUsersList = async () => {
+export const getUsersList = async (
+  token: string,
+  page: number,
+  size: number
+) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=20`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/list?page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
     );
 
     const data = await response.json();
 
     return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const deleteUser = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/user/delete/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);
   }
