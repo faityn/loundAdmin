@@ -70,7 +70,10 @@ const ExhibitionList = ({ url }: Props) => {
       Number(size)
     );
 
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
+    const totalPage =
+      response !== undefined
+        ? Math.ceil(Number(response?.count) / Number(size))
+        : 1;
     setTotalPage(totalPage);
     setExhibitionList(response?.rows);
   };

@@ -279,7 +279,8 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </SidebarLinkGroup>
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === "/event" || pathname.includes("event")
+                  pathname === "/conferences" ||
+                  pathname.includes("conferences")
                 }
               >
                 {(handleClick, open) => {
@@ -288,8 +289,8 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <Link
                         href="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out  hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/event" ||
-                            pathname.includes("event")) &&
+                          (pathname === "/conferences" ||
+                            pathname.includes("conferences")) &&
                           "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
@@ -300,7 +301,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }}
                       >
                         <FaAtom />
-                        Event manage
+                        Conferences manage
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && "rotate-180"
@@ -332,9 +333,10 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             }
                           >
                             <Link
-                              href="/event"
+                              href="/conferences"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
-                                pathname === "/event" && "text-white"
+                                pathname.includes("/conferences") &&
+                                "text-white"
                               }`}
                             >
                               목록 확인 및 설정
@@ -346,10 +348,12 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             }
                           >
                             <Link
-                              href="/event/apply_list"
+                              href="/conferences/apply_list"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
-                                (pathname === "/event/apply_list" ||
-                                  pathname.includes("event/apply_list")) &&
+                                (pathname === "/conferences/apply_list" ||
+                                  pathname.includes(
+                                    "conferences/apply_list"
+                                  )) &&
                                 "text-white"
                               }`}
                             >
@@ -358,10 +362,10 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                           <li>
                             <Link
-                              href="/event/info"
+                              href="/conferences/info"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
-                                (pathname === "/event/info" ||
-                                  pathname.includes("event/info")) &&
+                                (pathname === "/conferences/info" ||
+                                  pathname.includes("conferences/info")) &&
                                 "text-white"
                               }`}
                             >
@@ -371,10 +375,10 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                           <li>
                             <Link
-                              href="/event/order"
+                              href="/conferences/order"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
-                                (pathname === "/event/order" ||
-                                  pathname.includes("event/order")) &&
+                                (pathname === "/conferences/order" ||
+                                  pathname.includes("conferences/order")) &&
                                 "text-white"
                               }`}
                             >
@@ -383,10 +387,12 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                           <li>
                             <Link
-                              href="/event/preparation"
+                              href="/conferences/preparation"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
-                                (pathname === "/event/preparation" ||
-                                  pathname.includes("event/preparation")) &&
+                                (pathname === "/conferences/preparation" ||
+                                  pathname.includes(
+                                    "conferences/preparation"
+                                  )) &&
                                 "text-white"
                               }`}
                             >

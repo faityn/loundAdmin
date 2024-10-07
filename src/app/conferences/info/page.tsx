@@ -1,23 +1,23 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import EventOrderList from "@/components/Events/EventOrderList";
+import ConferenceInfoList from "@/components/Conferences/ConferenceInfoList";
 
 export const metadata: Metadata = {
-  title: "Lound | Admin page - Events Manage",
+  title: "Lound | Admin page - Conferences Manage",
   icons: "/images/favicon.ico",
 };
 
-const EventOrderPage = () => {
+const ConferenceInfoPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
-      <Breadcrumb parentName="Events Manage" pageName="Events Order" />
+      <Breadcrumb parentName="Conferences Manage" pageName="Conferences Info" />
 
       <div className="flex flex-col gap-10">
-        <EventOrderList />
+        <ConferenceInfoList />
       </div>
     </DefaultLayout>
   );
 };
 
-export default EventOrderPage;
+export default ConferenceInfoPage;
