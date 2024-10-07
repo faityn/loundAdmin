@@ -128,3 +128,36 @@ export type UsersType = {
   };
   profession?: string;
 };
+
+export type ConferenceType = {
+  conferenceId?: number;
+  description?: string;
+  exhibitionId?: number;
+  exhibition?: ExhibitionType;
+  title?: string;
+  isStopRegister?: boolean;
+  imgUrl?: string;
+  img?: string;
+  participation?: string;
+  personCnt?: number;
+  request: string;
+  start?: string;
+  startDate?: string;
+  endDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  user?: {
+    companyName?: string;
+    img?: string;
+    imgUrl?: string;
+    name?: string;
+    position?: string;
+    userId?: number;
+  };
+  userId?: number;
+};
+
+export type ConferenceOptionType = {
+  value: string;
+  text: string;
+};

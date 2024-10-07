@@ -1,6 +1,8 @@
 import {
   AdminType,
   BannerType,
+  ConferenceOptionType,
+  ConferenceType,
   ExhibitionLecturesType,
   ExhibitionOptionType,
   ExhibitionType,
@@ -146,5 +148,20 @@ export const exhibitionAllAtom = atom<ExhibitionType[]>({
 
 export const userAllListAtom = atom<UsersType[]>({
   key: "userAllListAtom",
+  default: [],
+});
+
+export const conferencesListAtom = atom<ConferenceType[]>({
+  key: "conferencesListAtom",
+  default: [],
+});
+
+export const conferencesDetailAtom = atom<ConferenceType[]>({
+  key: "conferencesDetailAtom",
+  default: [],
+});
+
+export const conferenceOptionAtom = atom<ConferenceOptionType[]>({
+  key: "conferenceOptionAtom",
   default: [],
 });
