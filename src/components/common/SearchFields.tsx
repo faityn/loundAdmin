@@ -8,17 +8,27 @@ import {
 } from "@/atom";
 import { datePickerOption1, datePickerOption2 } from "@/helper/utility";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Datepicker from "tailwind-datepicker-react";
 interface Props {
-  id?: number;
-  name?: string;
   handleSubmit?: () => void;
+  searchType?: string;
+  search?: string;
+  start?: string;
+  end?: string;
+  status?: string;
 }
-const SearchFields = ({ handleSubmit }: Props) => {
+const SearchFields = ({
+  handleSubmit,
+  searchType,
+  search,
+  start,
+  end,
+  status,
+}: Props) => {
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const searchOptions = useRecoilValue(searchOptionsAtom);
@@ -31,7 +41,13 @@ const SearchFields = ({ handleSubmit }: Props) => {
   const options = datePickerOption1(startDate);
 
   const options2 = datePickerOption2(endDate);
-
+  useEffect(() => {
+    setOptionType(searchType as string);
+    setSearchWord(search as string);
+    setStartDate(start as string);
+    setEndDate(end as string);
+    setOptionStatus(status as string);
+  }, []);
   const handleTypeOption = (val: string) => {
     setOptionType(val);
   };
@@ -124,7 +140,7 @@ const SearchFields = ({ handleSubmit }: Props) => {
                 </div>
                 <div className="w-25 relative z-20 bg-transparent dark:bg-form-input ">
                   <select
-                    value={optionStatus}
+                    defaultValue={optionStatus}
                     onChange={(e) => handleStatusOption(e.target.value)}
                     className={`relative z-10 text-md w-full appearance-none rounded border border-stroke bg-transparent px-5 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
                   >
@@ -154,7 +170,7 @@ const SearchFields = ({ handleSubmit }: Props) => {
               <div className="flex gap-2 w-full ">
                 <div className="w-35 relative z-20 bg-transparent dark:bg-form-input ">
                   <select
-                    value={optionType}
+                    defaultValue={optionType}
                     onChange={(e) => handleTypeOption(e.target.value)}
                     className={`relative z-20 text-md w-full appearance-none rounded border border-stroke bg-transparent px-5 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
                   >

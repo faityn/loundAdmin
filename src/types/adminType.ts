@@ -118,6 +118,7 @@ export type UsersType = {
   companyName?: string;
   position?: string;
   status?: string;
+  recentLogin?: string;
   createdAt?: string;
   updatedAt?: string;
   role?: {
