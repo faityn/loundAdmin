@@ -8,7 +8,7 @@ const getRole = async () => {
     const loginData = await getLoginData(userToken);
 
     if (loginData?.status) {
-      return loginData?.result?.isSuper ? "Super Admin" : "Admin";
+      return loginData?.result?.admin?.isSuper ? "Super Admin" : "Admin";
     } else {
       return "expired";
     }

@@ -1,21 +1,16 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { adminAllListAtom, checkedListAtom, totalPageAtom } from "@/atom";
+import { checkedListAtom } from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
-import Pagination from "../Pagination/Pagination";
-import { getUsersList } from "@/hooks/useUser";
+
+//import { getUsersList } from "@/hooks/useUser";
 import CustomModal from "../Modal/Confirm";
-import getToken from "@/helper/getToken";
+//import getToken from "@/helper/getToken";
 const UsersActivityDataList = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const page = searchParams.get("page");
-  const size = 20;
-  const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
-  const pageUrl = `${pathname}?id=0`;
+  //const size = 20;
+  //const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const [isOpen, setIsOpen] = useState(false);
-  const [userAllList, setUserAllList] = useRecoilState(adminAllListAtom);
+  //const [userAllList, setUserAllList] = useRecoilState(adminAllListAtom);
   const [checkedUsers, setChechedUsers] = useRecoilState(checkedListAtom);
   const openModal = () => {
     setIsOpen(true);
@@ -32,34 +27,16 @@ const UsersActivityDataList = () => {
     setIsOpen(false);
   };
 
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    if (id === "all") {
-      const allIds = userAllList?.map((data) => {
-        return data?.id;
-      });
-      setChechedUsers(() =>
-        e.target.checked ? (([...allIds] as unknown) as string[]) : []
-      );
-    } else {
-      setChechedUsers((prevChecked) =>
-        e.target.checked
-          ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id)
-      );
-    }
-  };
-
   const getData = async () => {
-    const userToken = getToken();
-    const response = await getUsersList(
-      String(userToken),
-      Number(page),
-      Number(size)
-    );
-
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
+    // const userToken = getToken();
+    // const response = await getUsersList(
+    //   String(userToken),
+    //   Number(page),
+    //   Number(size)
+    // );
+    // const totalPage = Math.ceil(Number(response?.count) / Number(size));
+    // setTotalPage(totalPage);
+    // setUserAllList(response?.rows);
   };
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,39 +92,7 @@ const UsersActivityDataList = () => {
         <table className="w-full table-auto text-sm">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="w-[30px] px-3 py-3 font-medium text-black dark:text-white ">
-                <label
-                  htmlFor="checkboxLabelOne"
-                  className="flex cursor-pointer select-none items-center"
-                >
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      id="checkboxLabelOne"
-                      className="sr-only"
-                      onChange={(e) => handleCheck(e, "all")}
-                      checked={
-                        checkedUsers.length === userAllList?.length
-                          ? true
-                          : false
-                      }
-                    />
-                    <div
-                      className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                        checkedUsers.length === userAllList?.length &&
-                        "border-primary bg-gray dark:bg-transparent"
-                      }`}
-                    >
-                      <span
-                        className={`h-2 w-2 rounded-sm ${
-                          checkedUsers.length === userAllList?.length &&
-                          "bg-primary"
-                        }`}
-                      ></span>
-                    </div>
-                  </div>
-                </label>
-              </th>
+              <th className="w-[30px] px-3 py-3 font-medium text-black dark:text-white "></th>
               <th className="min-w-50px] px-4 py-3 font-medium text-black dark:text-white ">
                 #
               </th>
@@ -168,87 +113,10 @@ const UsersActivityDataList = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {userAllList?.map((item, index) => (
-              <tr key={index}>
-                <td className="border-b  border-[#eee] px-3 py-4  dark:border-strokedark ">
-                  <label
-                    htmlFor={String(item?.id)}
-                    className="flex cursor-pointer select-none items-center"
-                  >
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        id={String(item?.id)}
-                        className="sr-only"
-                        onChange={(e) =>
-                          handleCheck(e, (item?.id as unknown) as string)
-                        }
-                        checked={checkedUsers.includes(
-                          (item?.id as unknown) as string
-                        )}
-                      />
-                      <div
-                        className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                          checkedUsers.includes(
-                            (item?.id as unknown) as string
-                          ) && "border-primary bg-gray dark:bg-transparent"
-                        }`}
-                      >
-                        <span
-                          className={`h-2 w-2 rounded-sm ${
-                            checkedUsers.includes(
-                              (item?.id as unknown) as string
-                            ) && "bg-primary"
-                          }`}
-                        ></span>
-                      </div>
-                    </div>
-                  </label>
-                </td>
-                <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <h5 className="font-medium text-black dark:text-white">
-                    {index + 1}
-                  </h5>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <img
-                    src={`${item?.image}`}
-                    contextMenu="false"
-                    alt={item?.username}
-                    className="max-w-[140px] max-h-[40px]  "
-                  />
-                </td>
-                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <h5 className="font-medium  dark:text-white">
-                    {item?.firstName} {item?.lastName}
-                  </h5>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">{item?.email}</p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">{item?.phone}</p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium bg-success text-success `}
-                  >
-                    None
-                  </p>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
-        {totalPage > 1 ? (
-          <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
-        ) : (
-          ""
-        )}
-      </div>
+      <div className="my-5 text-right"></div>
     </div>
   );
 };

@@ -1,5 +1,8 @@
 import {
+  AdminMenuType,
+  AdminRoleType,
   AdminType,
+  AdminUsersType,
   BannerType,
   ConferenceOptionType,
   ConferenceType,
@@ -8,9 +11,11 @@ import {
   ExhibitionType,
   InterestsType,
   LecturesArrayType,
+  MenuItem,
   PrivacyType,
   ProfessionType,
   PurposesType,
+  SearchOptionsType,
   UsersType,
 } from "@/types/adminType";
 
@@ -164,4 +169,42 @@ export const conferencesDetailAtom = atom<ConferenceType[]>({
 export const conferenceOptionAtom = atom<ConferenceOptionType[]>({
   key: "conferenceOptionAtom",
   default: [],
+});
+
+export const adminListAtom = atom<AdminUsersType[]>({
+  key: "adminListAtom",
+  default: [],
+});
+
+export const adminRoleListAtom = atom<AdminRoleType[]>({
+  key: "adminRoleListAtom",
+  default: [],
+});
+
+export const adminMenuListAtom = atom<AdminMenuType[]>({
+  key: "adminMenuListAtom",
+  default: [],
+});
+
+export const adminMenuItemAtom = atom<MenuItem[]>({
+  key: "adminMenuItemAtom",
+  default: [],
+});
+
+export const searchOptionsAtom = atom<SearchOptionsType>({
+  key: "searchOptionsAtom",
+  default: {},
+});
+export const optionTypeAtom = atom({
+  key: "optionTypeAtom",
+  default: "",
+});
+
+export const optionStatusAtom = atom({
+  key: "optionStatusAtom",
+  default: "",
+});
+export const searchWordAtom = atom({
+  key: "searchWordAtom",
+  default: "",
 });

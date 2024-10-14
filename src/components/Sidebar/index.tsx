@@ -253,7 +253,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 pathname === "/users" && "text-white"
                               }`}
                             >
-                              Users list
+                              참가자 관리
                             </Link>
                           </li>
                           <li
@@ -335,6 +335,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <Link
                               href="/conferences"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
+                                pathname === "/conferences" &&
                                 pathname.includes("/conferences") &&
                                 "text-white"
                               }`}
@@ -365,7 +366,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               href="/conferences/info"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out capitalize hover:text-white ${
                                 (pathname === "/conferences/info" ||
-                                  pathname.includes("conferences/info")) &&
+                                  pathname.includes("/conferences/info")) &&
                                 "text-white"
                               }`}
                             >

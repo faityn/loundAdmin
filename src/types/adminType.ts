@@ -161,3 +161,78 @@ export type ConferenceOptionType = {
   value: string;
   text: string;
 };
+
+export type AdminUsersType = {
+  adminId?: number;
+  roleId?: number;
+  img?: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  isSuper?: boolean;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type AdminRoleType = {
+  roleId?: number;
+  role_name?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type AdminMenuType = {
+  menuId?: number;
+  parentId?: number;
+  url?: string;
+  depth?: number;
+  ord?: number;
+  iconClass?: string;
+  isAdmin?: boolean;
+  menu_name?: string;
+  children?: [
+    {
+      menuId?: number;
+      parentId?: number;
+      url?: string;
+      depth?: number;
+      ord?: number;
+      iconClass?: string;
+      isAdmin?: boolean;
+      menu_name?: string;
+    }
+  ];
+};
+
+export type MenuItem = {
+  menuId: number;
+  isUse: boolean;
+};
+
+export type SearchOptionsType = {
+  search?: [
+    {
+      value?: string;
+      text?: string;
+    }
+  ];
+  status?: [
+    {
+      value?: string;
+      text?: string;
+    }
+  ];
+};
+
+export type SearchValueType = [
+  {
+    searchType: string;
+    searchWord: string;
+    startDate: string;
+    endDate: string;
+    status: string;
+  }
+];

@@ -8,6 +8,7 @@ import getRole from "@/helper/getRole";
 interface WithRoleProps {
   children: ReactNode;
   allowedRoles: string[];
+  menuId?: string;
 }
 export default function DefaultLayout({
   children,
