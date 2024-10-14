@@ -1,7 +1,5 @@
 "use server";
 
-import { SearchValueType } from "@/types/adminType";
-
 export const adminLogin = async (username: string, password: string) => {
   try {
     const raw = JSON.stringify({
@@ -73,8 +71,6 @@ export const getLoginData = async (token: string) => {
       }
     );
 
-    console.log(response);
-
     const data = await response.json();
 
     return { status: response.ok, result: data };
@@ -85,34 +81,15 @@ export const getLoginData = async (token: string) => {
 
 export const getUsersList = async (
   token: string,
-  searchValue: SearchValueType,
+  searchUrl: string,
   page: number,
   size: number
 ) => {
-  console.log(searchValue);
-
-  //const searchTypeParam = searchValue[0]?.searchType;
-  const searchType =
-    searchValue[0]?.searchType !== "" ? searchValue[0]?.searchType : "all";
-
-  const searchWord =
-    searchValue[0]?.searchWord !== null
-      ? `&search=${searchValue[0]?.searchWord}`
-      : "";
-  const startDate =
-    searchValue[0]?.startDate !== null
-      ? `&startDate=${searchValue[0]?.startDate}`
-      : "";
-  // const endDate =
-  //   searchValue[0]?.endDate !== "" ? `&endDate=${searchValue[0]?.endDate}` : "";
-  // const status =
-  //   searchValue[0]?.status !== "" ? `&status=${searchValue[0]?.status}` : "";
-  const searchUrl = `searchType=${searchType}${searchWord}${startDate}`;
-  //console.log(searchUrl);
+  const search = searchUrl;
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/list?${searchUrl}page=${page}&pageSize=${size}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/list?${search}&page=${page}&pageSize=${size}`,
       {
         method: "GET",
         headers: {
