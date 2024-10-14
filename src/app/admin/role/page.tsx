@@ -15,7 +15,7 @@ export default function Role() {
       <DefaultLayout allowedRoles={["Super Admin"]}>
         <Breadcrumb parentName="Admin manage" pageName="Admin role" />
         <div className="flex flex-col gap-10">
-          <AdminRoleList />
+          <AdminRoleList url="/admin/role" />
         </div>
       </DefaultLayout>
     </>

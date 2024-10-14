@@ -14,7 +14,7 @@ const UsersPage = () => {
       <Breadcrumb parentName="Users Manage" pageName="Users List" />
 
       <div className="flex flex-col gap-10">
-        <UsersList />
+        <UsersList url="users" />
       </div>
     </DefaultLayout>
   );
