@@ -24,25 +24,27 @@ const TextEditor: React.FC<TextEditorProps> = ({
   };
 
   return (
-    <Editor
-      textareaName="content"
-      apiKey={process.env.NEXT_PUBLIC_EDITOR_API_KEY}
-      init={{
-        height: 350,
-        menubar: true,
-        plugins:
-          "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
-        toolbar:
-          " fontsize bold italic underline | image  align numlist bullist indent outdent link",
-        images_upload_handler: UploadHandler, // Use the updated function here
-        automatic_uploads: true,
-        file_picker_types: "image",
-        content_style:
-          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-      }}
-      value={contentValue}
-      onEditorChange={onEditorChange}
-    />
+    <div className="rounded-lg border border-slate-300">
+      <Editor
+        textareaName="content"
+        apiKey={process.env.NEXT_PUBLIC_EDITOR_API_KEY}
+        init={{
+          height: 350,
+          menubar: true,
+          plugins:
+            "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
+          toolbar:
+            " fontsize bold italic underline | image  align numlist bullist indent outdent link",
+          images_upload_handler: UploadHandler, // Use the updated function here
+          automatic_uploads: true,
+          file_picker_types: "image",
+          content_style:
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px } ",
+        }}
+        value={contentValue}
+        onEditorChange={onEditorChange}
+      />
+    </div>
   );
 };
 
