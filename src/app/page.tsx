@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import AdminList from "@/components/Admin/AdminList";
+import UsersList from "@/components/users/UsersList";
 
 export const metadata: Metadata = {
   title: "Lound | Admin page",
@@ -13,9 +13,9 @@ export default function Home() {
   return (
     <>
       <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
-        <Breadcrumb parentName="Admin manage" pageName="Admin list" />
+        <Breadcrumb parentName="행사 관리" pageName="참가자 관리" />
         <div className="flex flex-col gap-10">
-          <AdminList />
+          <UsersList url="users" />
         </div>
       </DefaultLayout>
     </>

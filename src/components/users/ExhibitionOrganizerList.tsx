@@ -15,7 +15,6 @@ import {
   startDateAtom,
   totalPageAtom,
   userDetailOptionsAtom,
-
 } from "@/atom";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -95,14 +94,14 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
     const end = endDate ? `&endDate=${endDate}` : "";
     const status = optionStatus ? `&status=${optionStatus}` : "";
     const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
-    const newUrl = decodeURIComponent(searchUrl);
+    const newUrl2 = decodeURIComponent(searchUrl);
     const userToken = getToken();
-    router.push(`/${url}?${newUrl}`);
+    router.push(`/${url}?${newUrl2}`);
 
     const response = await getExhibitionOrganizerList(
       String(userToken),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      newUrl as string,
+      newUrl2 as string,
       Number(page),
       Number(size),
     );

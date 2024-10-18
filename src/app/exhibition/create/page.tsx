@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const CreatePage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
-      <Breadcrumb parentName="Exhibition Manage" pageName="Exhibition Create" />
+      <Breadcrumb parentName="행사 관리" pageName="행사 등록" />
 
       <div className="flex flex-col gap-10">
         <ExhibitionCreate url="/exhibition" />

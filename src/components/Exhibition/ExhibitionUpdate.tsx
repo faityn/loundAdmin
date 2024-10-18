@@ -61,10 +61,10 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
   const [optionsList, setOptionsList] = useRecoilState(exhibitionOptionAtom);
   const [contentRequired, setContentRequired] = useState(false);
   const [checkedInterests, setChechedInterests] = useRecoilState(
-    checkedInterestsListAtom
+    checkedInterestsListAtom,
   );
   const [checkedPurposes, setChechedPurposes] = useRecoilState(
-    checkedPurposesListAtom
+    checkedPurposesListAtom,
   );
   const {
     register,
@@ -91,10 +91,10 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
 
     if (response?.status) {
       const newCheckedInterestsArray = response?.result?.interests?.map(
-        (item: { interestId: number }) => item.interestId
+        (item: { interestId: number }) => item.interestId,
       );
       const newCheckedPurposesArray = response?.result?.purposes?.map(
-        (item: { purposeId: number }) => item.purposeId
+        (item: { purposeId: number }) => item.purposeId,
       );
 
       setChechedInterests(newCheckedInterestsArray);
@@ -126,23 +126,23 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
 
   const handleCheckInterests = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string
+    id: string,
   ) => {
     setChechedInterests((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id)
+        : prevChecked.filter((item: string) => item !== id),
     );
   };
 
   const handleCheckPurposes = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string
+    id: string,
   ) => {
     setChechedPurposes((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id)
+        : prevChecked.filter((item: string) => item !== id),
     );
   };
 
@@ -203,7 +203,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       const res = await updateExhibition(
         formdata,
         newCheckedInterestsArray,
-        newCheckedPurposesArray
+        newCheckedPurposesArray,
       );
 
       if (res?.status) {
@@ -279,7 +279,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                         </h5>
                       </td>
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                        <div className="flex max-sm:flex-col w-full gap-4 ">
+                        <div className="flex w-full gap-4 max-sm:flex-col ">
                           <div className="relative w-full">
                             <Datepicker
                               options={options}
@@ -287,14 +287,14 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                               show={show}
                               setShow={handleStartClose}
                             >
-                              <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
+                              <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-stroke bg-transparent px-1 py-2 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
                                   <HiOutlineCalendarDays className="text-xl" />
                                 </div>
                                 <input
                                   {...register("startDate")}
                                   type="text"
-                                  className="w-full h-full rounded  outline-none bg-transparent focus:border-primary active:border-primary font-normal transition pl-4 pr-9"
+                                  className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
                                   placeholder="Select Date"
                                   value={startDate}
                                   onFocus={() => setShow(true)}
@@ -310,14 +310,14 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                               show={endShow}
                               setShow={handleClose}
                             >
-                              <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
+                              <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-stroke bg-transparent px-1 py-2 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
                                   <HiOutlineCalendarDays className="text-xl" />
                                 </div>
                                 <input
                                   {...register("endDate")}
                                   type="text"
-                                  className="w-full h-full rounded  outline-none bg-transparent focus:border-primary active:border-primary font-normal transition pl-4 pr-9"
+                                  className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
                                   placeholder="Select Date"
                                   value={endDate}
                                   onFocus={() => setEndShow(true)}
@@ -344,7 +344,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                               src={`${item?.imgUrl}`}
                               contextMenu="false"
                               alt={item?.title}
-                              className="max-w-[500px] max-h-[200px]  "
+                              className="max-h-[200px] max-w-[500px]  "
                             />
                           )}
                         </div>
@@ -392,7 +392,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                         </h5>
                       </td>
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                        <div className=" gap-6 grid grid-cols-12">
+                        <div className=" grid grid-cols-12 gap-6">
                           {optionsList[0]?.interest?.map((item, index) => (
                             <div key={index} className="col-span-4">
                               <label
@@ -407,17 +407,17 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     onChange={(e) =>
                                       handleCheckInterests(
                                         e,
-                                        (item?.interestId as unknown) as string
+                                        item?.interestId as unknown as string,
                                       )
                                     }
                                     checked={checkedInterests.includes(
-                                      (item?.interestId as unknown) as string
+                                      item?.interestId as unknown as string,
                                     )}
                                   />
                                   <div
                                     className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                       checkedInterests.includes(
-                                        (item?.interestId as unknown) as string
+                                        item?.interestId as unknown as string,
                                       ) &&
                                       "border-primary bg-gray dark:bg-transparent"
                                     }`}
@@ -425,7 +425,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     <span
                                       className={`h-2 w-2 rounded-sm ${
                                         checkedInterests.includes(
-                                          (item?.interestId as unknown) as string
+                                          item?.interestId as unknown as string,
                                         ) && "bg-primary"
                                       }`}
                                     ></span>
@@ -446,7 +446,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                         </h5>
                       </td>
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                        <div className=" gap-6 grid grid-cols-12">
+                        <div className=" grid grid-cols-12 gap-6">
                           {optionsList[0]?.purpose?.map((item, index) => (
                             <div key={index} className="col-span-4">
                               <label
@@ -461,17 +461,17 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     onChange={(e) =>
                                       handleCheckPurposes(
                                         e,
-                                        (item?.purposeId as unknown) as string
+                                        item?.purposeId as unknown as string,
                                       )
                                     }
                                     checked={checkedPurposes.includes(
-                                      (item?.purposeId as unknown) as string
+                                      item?.purposeId as unknown as string,
                                     )}
                                   />
                                   <div
                                     className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                       checkedPurposes.includes(
-                                        (item?.purposeId as unknown) as string
+                                        item?.purposeId as unknown as string,
                                       ) &&
                                       "border-primary bg-gray dark:bg-transparent"
                                     }`}
@@ -479,7 +479,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     <span
                                       className={`h-2 w-2 rounded-sm ${
                                         checkedPurposes.includes(
-                                          (item?.purposeId as unknown) as string
+                                          item?.purposeId as unknown as string,
                                         ) && "bg-primary"
                                       }`}
                                     ></span>
@@ -598,7 +598,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       <div className="my-5 text-right">
         {isOpen ? (
           <AlertModal>
-            <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-green-600">
+            <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
               <FaRegCheckCircle className="text-xl" />{" "}
               <div className="">Saved successfully</div>
             </div>
@@ -616,7 +616,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
         )}
         {createError ? (
           <AlertModal>
-            <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-red">
+            <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-red">
               <LuAlertCircle className="text-xl" />{" "}
               <div className="">Not saved!!</div>
             </div>

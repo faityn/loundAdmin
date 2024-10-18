@@ -19,8 +19,10 @@ const AdminList = () => {
     const userToken = getToken();
     const getData = async () => {
       const response = await getAdminList(userToken as string);
+      console.log(response);
+
       setTotalPage(response?.pages);
-      setUserAllList(response?.users);
+      setUserAllList(response?.rows);
     };
 
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,7 +68,7 @@ const AdminList = () => {
                       src={`${item?.image}`}
                       contextMenu="false"
                       alt={item?.username}
-                      className="max-w-[140px] max-h-[40px]  "
+                      className="max-h-[40px] max-w-[140px]  "
                     />
                   )}
                 </td>

@@ -1,31 +1,69 @@
 "use client";
-import { useRecoilState } from "recoil";
-import { checkedListAtom, exhibitionListAtom, totalPageAtom } from "@/atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  checkedListAtom,
+  dataSavedAtom,
+  detailOpenAtom,
+  endDateAtom,
+  exhibitionDetailAtom,
+  exhibitionListAtom,
+  optionStatusAtom,
+  optionTypeAtom,
+  searchOptionsAtom,
+  searchWordAtom,
+  startDateAtom,
+  totalPageAtom,
+} from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
-import { deleteExhibition, getExhibitionList } from "@/hooks/useEvents";
+import {
+  changeExhibitionStatus,
+  deleteExhibition,
+  getExhibitionDetail,
+  getExhibitionList,
+  getExhibitionSearchOptionList,
+} from "@/hooks/useEvents";
 import Link from "next/link";
 import { FiEdit } from "react-icons/fi";
 import { format } from "date-fns";
 import getToken from "@/helper/getToken";
 import DeleteConfirm from "../Modal/DeleteConfirm";
+import SearchFields from "../common/SearchFields";
+import Loader from "../common/Loader";
+import { FaChevronDown } from "react-icons/fa";
+import ExhibitionDetailModal from "./ExhibitionDetailModal";
 
 interface Props {
   url?: string;
 }
 const ExhibitionList = ({ url }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+
+  const [newUrl, setNewUrl] = useState("");
+  const [pageLimit, setPageLimit] = useState("10");
+
   const page = searchParams.get("page");
-  const size = 20;
+  const size = pageLimit;
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
-  const pageUrl = `${pathname}?id=0`;
+  const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [exhibitionList, setExhibitionList] = useRecoilState(
-    exhibitionListAtom
-  );
+  const [exhibitionList, setExhibitionList] =
+    useRecoilState(exhibitionListAtom);
+  const setSearchOptions = useSetRecoilState(searchOptionsAtom);
+  const setExhibitionDetail = useSetRecoilState(exhibitionDetailAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
+  const optionStatus = useRecoilValue(optionStatusAtom);
+  const searchWord = useRecoilValue(searchWordAtom);
+  const startDate = useRecoilValue(startDateAtom);
+  const endDate = useRecoilValue(endDateAtom);
+  const optionType = useRecoilValue(optionTypeAtom);
+  const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
+  const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -45,67 +83,201 @@ const ExhibitionList = ({ url }: Props) => {
     setIsOpen(false);
   };
 
+  const statusChange = async (status: string) => {
+    const userToken = getToken();
+
+    checkedElements.forEach(async (element) => {
+      await changeExhibitionStatus(
+        String(userToken),
+        Number(element),
+        String(status),
+      );
+    });
+    getData();
+    setChechedElements([]);
+    setIsOpen(false);
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    const search = searchWord ? `&search=${searchWord}` : "";
+    const start = startDate ? `&startDate=${startDate}` : "";
+    const end = endDate ? `&endDate=${endDate}` : "";
+    const status = optionStatus ? `&status=${optionStatus}` : "";
+    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const newUrl2 = decodeURIComponent(searchUrl);
+    const userToken = getToken();
+    router.push(`/${url}?${newUrl2}`);
+
+    const response = await getExhibitionList(
+      String(userToken),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      newUrl as string,
+      Number(page),
+      Number(size),
+    );
+
+    const totalPage = Math.ceil(Number(response?.count) / Number(size));
+    setTotalPage(totalPage);
+    setExhibitionList(response?.rows);
+    setLoading(false);
+  };
+
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
       const allIds = exhibitionList?.map((data) => {
         return data?.exhibitionId;
       });
       setChechedElements(() =>
-        e.target.checked ? (([...allIds] as unknown) as string[]) : []
+        e.target.checked ? ([...allIds] as unknown as string[]) : [],
       );
     } else {
       setChechedElements((prevChecked) =>
         e.target.checked
           ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id)
+          : prevChecked.filter((item: string) => item !== id),
       );
     }
   };
 
+  const handlePageLimit = (value: string) => {
+    setPageLimit(value);
+  };
+
+  const ExhibitionDetail = async (exhibitionId: number) => {
+    setDataSaved(false);
+    const userToken = getToken();
+
+    const response = await getExhibitionDetail(
+      String(userToken),
+      Number(exhibitionId),
+    );
+
+    if (response?.status) {
+      setExhibitionDetail([response.result]);
+    }
+
+    setDetailOpen(true);
+  };
+
+  const getSearchOption = async () => {
+    const userToken = getToken();
+    const response = await getExhibitionSearchOptionList(String(userToken));
+
+    setSearchOptions(response);
+  };
+
   const getData = async () => {
+    const searchType = searchParams.get("searchType");
+
+    const search = searchParams.get("search")
+      ? `&search=${searchParams.get("search")}`
+      : "";
+    const start = searchParams.get("startDate")
+      ? `&startDate=${searchParams.get("startDate")}`
+      : "";
+    const end = searchParams.get("endDate")
+      ? `&endDate=${searchParams.get("endDate")}`
+      : "";
+    const status = searchParams.get("status")
+      ? `&status=${searchParams.get("status")}`
+      : "";
+    const pageLimitNew = searchParams.get("pageLimit")
+      ? searchParams.get("pageLimit")
+      : size;
+
+    setPageLimit(pageLimitNew as string);
+    const searchUrl = `searchType=${searchType}${search}${start}${end}${status}`;
+    const newUrl = decodeURIComponent(searchUrl);
+    setNewUrl(newUrl);
     const userToken = getToken();
     const response = await getExhibitionList(
       String(userToken),
+      newUrl as string,
       Number(page),
-      Number(size)
+      Number(size),
     );
-
-    const totalPage =
-      response !== undefined
-        ? Math.ceil(Number(response?.count) / Number(size))
-        : 1;
-    setTotalPage(totalPage);
-    setExhibitionList(response?.rows);
+    if (response) {
+      const totalPage = Math.ceil(Number(response?.count) / Number(size));
+      setTotalPage(totalPage);
+      setExhibitionList(response?.rows);
+    }
   };
+
   useEffect(() => {
-    //eslint-disable-next-line react-hooks/exhaustive-deps
+    if (dataSaved === true) {
+      //eslint-disable-next-line react-hooks/exhaustive-deps
+      getData();
+    }
+  }, [dataSaved]);
+
+  useEffect(() => {
+    getSearchOption();
     getData();
-  }, []);
+  }, [searchParams, pageLimit]);
   return (
     <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+      <div>
+        <SearchFields
+          handleSubmit={handleSubmit}
+          searchType={searchParams.get("searchType") as string}
+          search={searchParams.get("search") as string}
+          start={searchParams.get("startDate") as string}
+          end={searchParams.get("endDate") as string}
+          status={searchParams.get("status") as string}
+        />
+        {loading ? <Loader /> : ""}
+      </div>
       <div className="grid grid-cols-12  pb-4">
         <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
           <div className="flex w-full  justify-end gap-4">
+            <div className="relative z-20 w-39 bg-transparent dark:bg-form-input ">
+              <select
+                value={pageLimit}
+                onChange={(e) => handlePageLimit(e.target.value)}
+                className={`relative z-10 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-1.5 text-sm text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+              >
+                <option value="10" className="text-black dark:text-bodydark">
+                  10개씩 보기
+                </option>
+                <option value="20" className="text-black dark:text-bodydark">
+                  20개씩 보기
+                </option>
+                <option value="50" className="text-black dark:text-bodydark">
+                  50개씩 보기
+                </option>
+                <option value="100" className="text-black dark:text-bodydark">
+                  100개씩 보기
+                </option>
+              </select>
+              <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-sm text-black dark:text-white">
+                <FaChevronDown />
+              </span>
+            </div>
             <Link
               href={"/exhibition/create"}
-              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
             >
-              Create
+              등록
             </Link>
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md disabled:bg-slate-300 bg-rose-400 px-5 py-2 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
+              className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
               onClick={openModal}
               disabled={checkedElements?.length > 0 ? false : true}
             >
-              Delete
+              삭제
             </button>
           </div>
+
+          {detailOpen ? <ExhibitionDetailModal /> : ""}
+
           {isOpen ? (
             <DeleteConfirm>
-              <div className="w-full border-l-6 pb-5 border-warning shadow-md bg-warning bg-opacity-[15%] dark:bg-[#1B1B24] dark:bg-opacity-30">
-                <div className="flex px-7 pt-6 pb-4">
+              <div className="w-full border-l-6 border-warning bg-warning bg-opacity-[15%] pb-5 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30">
+                <div className="flex px-7 pb-4 pt-6">
                   <div className="mr-5 flex h-9 w-9 items-center justify-center rounded-lg bg-warning bg-opacity-30">
                     <svg
                       width="19"
@@ -189,21 +361,22 @@ const ExhibitionList = ({ url }: Props) => {
                 #
               </th>
 
-              <th className="w-full px-4 py-3 font-medium text-black dark:text-white ">
-                Title
+              <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white ">
+                회사 이름
               </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                Image
+                행사 이름
               </th>
               <th className="min-w-[250px] px-4 py-4 font-medium text-black dark:text-white ">
-                Duration
-              </th>
-              <th className="min-w-[100px] px-4 py-4 font-medium text-black dark:text-white ">
-                Status
+                행사 일정
               </th>
               <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white ">
-                Created date
+                등록일
               </th>
+              <th className="min-w-[100px] px-4 py-4 font-medium text-black dark:text-white ">
+                상태
+              </th>
+
               <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white">
                 Action
               </th>
@@ -225,24 +398,24 @@ const ExhibitionList = ({ url }: Props) => {
                         onChange={(e) =>
                           handleCheck(
                             e,
-                            (item?.exhibitionId as unknown) as string
+                            item?.exhibitionId as unknown as string,
                           )
                         }
                         checked={checkedElements.includes(
-                          (item?.exhibitionId as unknown) as string
+                          item?.exhibitionId as unknown as string,
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            (item?.exhibitionId as unknown) as string
+                            item?.exhibitionId as unknown as string,
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              (item?.exhibitionId as unknown) as string
+                              item?.exhibitionId as unknown as string,
                             ) && "bg-primary"
                           }`}
                         ></span>
@@ -257,19 +430,22 @@ const ExhibitionList = ({ url }: Props) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <h5 className="font-medium  dark:text-white">
-                    {item?.title}
-                  </h5>
+                  <div
+                    onClick={() => ExhibitionDetail(Number(item?.exhibitionId))}
+                  >
+                    <h5 className="cursor-pointer  font-medium  dark:text-white">
+                      {item?.admin?.companyName}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  {item?.img && (
-                    <img
-                      src={`${item?.imgUrl}`}
-                      contextMenu="false"
-                      alt={item?.title}
-                      className="max-w-[140px] max-h-[40px]  "
-                    />
-                  )}
+                  <div
+                    onClick={() => ExhibitionDetail(Number(item?.exhibitionId))}
+                  >
+                    <h5 className="cursor-pointer  font-medium  dark:text-white">
+                      {item?.title}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium  dark:text-white">
@@ -282,17 +458,6 @@ const ExhibitionList = ({ url }: Props) => {
                       : ""}
                   </h5>
                 </td>
-                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <p
-                    className={`inline-flex rounded-full capitalize bg-opacity-10 px-3 py-1 text-sm font-medium ${
-                      item?.status === "use"
-                        ? "bg-success text-success"
-                        : "bg-danger text-danger"
-                    }  `}
-                  >
-                    {item?.status}
-                  </p>
-                </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {item?.createdAt
@@ -300,9 +465,21 @@ const ExhibitionList = ({ url }: Props) => {
                       : ""}
                   </p>
                 </td>
+                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
+                  <p
+                    className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium capitalize ${
+                      item?.status === "use"
+                        ? "bg-green-500 text-green-500"
+                        : "bg-orange-400 text-orange-400"
+                    }  `}
+                  >
+                    {item?.statusText}
+                  </p>
+                </td>
+
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p
-                    className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-xl font-medium bg-success text-primary `}
+                    className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-xl font-medium text-primary `}
                   >
                     <Link href={`${url}/${item?.exhibitionId}`}>
                       <FiEdit className="text-[17px]" />
@@ -313,7 +490,27 @@ const ExhibitionList = ({ url }: Props) => {
             ))}
           </tbody>
         </table>
+
+        <div className="mt-4 flex justify-end gap-3">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            onClick={() => statusChange("disabled")}
+            disabled={checkedElements?.length > 0 ? false : true}
+          >
+            대기
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            onClick={() => statusChange("use")}
+            disabled={checkedElements?.length > 0 ? false : true}
+          >
+            승인
+          </button>
+        </div>
       </div>
+
       <div className="my-5 text-right">
         {totalPage > 1 ? (
           <Pagination currentPage={Number(page)} pageUrl={pageUrl} />

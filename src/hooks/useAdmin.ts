@@ -11,7 +11,7 @@ export const getAdminRoleList = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      }
+      },
     );
 
     const data = await response.json();
@@ -33,8 +33,9 @@ export const getAdminList = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      }
+      },
     );
+    
 
     const data = await response.json();
 
@@ -59,7 +60,7 @@ export const checkRole = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      }
+      },
     );
 
     const data = await response.text();
@@ -83,7 +84,7 @@ export const deleteRole = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      }
+      },
     );
 
     const data = await response.text();
@@ -104,7 +105,7 @@ export const getAdminMenuList = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      }
+      },
     );
 
     const data = await response.json();
