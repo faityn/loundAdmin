@@ -8,6 +8,7 @@ import {
   ConferenceType,
   ExhibitionLecturesType,
   ExhibitionOptionType,
+  ExhibitionOrganizerListType,
   ExhibitionType,
   InterestsType,
   LecturesArrayType,
@@ -16,6 +17,9 @@ import {
   ProfessionType,
   PurposesType,
   SearchOptionsType,
+  UserDetailOptionsType,
+  UserExhibitionListType,
+  UserExhibitionRatingType,
   UsersType,
 } from "@/types/adminType";
 
@@ -156,6 +160,11 @@ export const userAllListAtom = atom<UsersType[]>({
   default: [],
 });
 
+export const userDetailAtom = atom<UsersType[]>({
+  key: "userDetailAtom",
+  default: [],
+});
+
 export const conferencesListAtom = atom<ConferenceType[]>({
   key: "conferencesListAtom",
   default: [],
@@ -207,4 +216,68 @@ export const optionStatusAtom = atom({
 export const searchWordAtom = atom({
   key: "searchWordAtom",
   default: "",
+});
+
+export const detailOpenAtom = atom({
+  key: "detailOpenAtom",
+  default: false,
+});
+
+export const birthDateAtom = atom({
+  key: "birthDateAtom",
+  default: "",
+});
+
+export const optionRoleAtom = atom({
+  key: "optionRoleAtom",
+  default: "",
+});
+
+export const optionProfessionAtom = atom({
+  key: "optionProfessionAtom",
+  default: "",
+});
+
+export const userDetailOptionsAtom = atom<UserDetailOptionsType>({
+  key: "userDetailOptionsAtom",
+  default: {},
+});
+
+export const checkedInterestAtom = atom<string[]>({
+  key: "checkedInterestAtom",
+  default: [],
+});
+
+export const checkedPurposesAtom = atom<string[]>({
+  key: "checkedPurposesAtom",
+  default: [],
+});
+
+export const userExhibitionListAtom = atom<UserExhibitionListType[]>({
+  key: "userExhibitionListAtom",
+  default: [],
+});
+
+export const userExhibitionRatingAtom = atom<UserExhibitionRatingType>({
+  key: "userExhibitionRatingAtom",
+  default: {},
+});
+export const dataSavedAtom = atom({
+  key: "dataSavedAtom",
+  default: false,
+});
+
+export const createExOrganizerOpenAtom = atom({
+  key: "createExOrganizerOpenAtom",
+  default: false,
+});
+
+export const organizerAllListAtom = atom<ExhibitionOrganizerListType[]>({
+  key: "organizerAllListAtom",
+  default: [],
+});
+
+export const organizerDetailAtom = atom<ExhibitionOrganizerListType[]>({
+  key: "organizerDetailAtom",
+  default: [],
 });
