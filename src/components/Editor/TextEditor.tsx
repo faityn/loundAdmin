@@ -5,7 +5,7 @@ import { uploadImage } from "@/hooks/useEvents";
 interface TextEditorProps {
   initialValue?: string;
   contentValue?: string;
-  onEditorChange: (content: string) => void;
+  onEditorChange?: (content: string) => void;
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({

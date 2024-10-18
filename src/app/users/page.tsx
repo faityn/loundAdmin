@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const UsersPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
-      <Breadcrumb parentName="Users Manage" pageName="Users List" />
+      <Breadcrumb parentName="행사 관리" pageName="참가자 관리" />
 
       <div className="flex flex-col gap-10">
         <UsersList url="users" />

@@ -22,12 +22,18 @@ export type ExhibitionType = {
   short_desc?: string;
   imgUrl?: string;
   img?: string;
+  description?: string;
   startDate?: string;
   endDate?: string;
   status?: string;
   rating?: number;
   createdAt?: string;
   updatedAt?: string;
+  admin?: {
+    adminId?: string;
+    firstName?: string;
+    companyName?: string;
+  };
 };
 
 export type BannerType = {

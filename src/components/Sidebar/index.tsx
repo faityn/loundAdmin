@@ -7,7 +7,7 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 import { RiListSettingsLine } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaUserCog, FaUsers, FaAtom, FaIndent } from "react-icons/fa";
+import { FaUsers, FaIndent } from "react-icons/fa";
 import { ImStatsDots } from "react-icons/im";
 import { SiGotomeeting } from "react-icons/si";
 interface SidebarProps {
@@ -114,7 +114,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
-              <SidebarLinkGroup
+              {/* <SidebarLinkGroup
                 activeCondition={
                   pathname === "/admin" ||
                   pathname === "/" ||
@@ -196,10 +196,12 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === "/users" || pathname.includes("users")
+                  pathname === "/users" ||
+                  pathname === "/" ||
+                  pathname.includes("users")
                 }
               >
                 {(handleClick, open) => {
@@ -209,6 +211,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         href="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out  hover:bg-graydark dark:hover:bg-meta-4 ${
                           (pathname === "/users" ||
+                            pathname === "/" ||
                             pathname.includes("users")) &&
                           "bg-graydark dark:bg-meta-4"
                         }`}
@@ -220,7 +223,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }}
                       >
                         <FaUsers />
-                        Users manage
+                        회원 관리
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && "rotate-180"
@@ -250,13 +253,14 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <Link
                               href="/users"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/users" && "text-white"
+                                pathname === "/users" ||
+                                (pathname === "/" && "text-white")
                               }`}
                             >
                               참가자 관리
                             </Link>
                           </li>
-                          <li
+                          {/* <li
                             className={
                               userRole === "Super Admin" ? "" : "hidden"
                             }
@@ -268,10 +272,14 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
-                              Activity data
+                              활동 데이터 확인
                             </Link>
-                          </li>
-                          <li>
+                          </li> */}
+                          <li
+                            className={`${
+                              userRole === "Super Admin" ? "" : "hidden"
+                            }`}
+                          >
                             <Link
                               href="/users/exhibition_organizer"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
@@ -288,7 +296,128 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
+
               <SidebarLinkGroup
+                activeCondition={
+                  pathname === "/exhibition" || pathname.includes("exhibition")
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <React.Fragment>
+                      <Link
+                        href="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                          (pathname === "/exhibition" ||
+                            pathname.includes("exhibition")) &&
+                          "bg-graydark dark:bg-meta-4"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <SiGotomeeting />
+                        행사 관리
+                        <svg
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                            open && "rotate-180"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
+                            fill=""
+                          />
+                        </svg>
+                      </Link>
+                      {/* <!-- Dropdown Menu Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
+                      >
+                        <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <Link
+                              href="/exhibition"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/exhibition" && "text-white"
+                              }`}
+                            >
+                              등록 전시 승인
+                            </Link>
+                          </li>
+
+                          <li>
+                            <Link
+                              href="/exhibition/create"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/exhibition/create" &&
+                                "text-white"
+                              }`}
+                            >
+                              행사 등록
+                            </Link>
+                          </li>
+
+                          <li
+                            className={
+                              userRole === "Super Admin" ? "" : "hidden"
+                            }
+                          >
+                            <Link
+                              href="/exhibition/exhibition_users"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/exhibition/exhibition_users" &&
+                                "text-white"
+                              }`}
+                            >
+                              행사 참가자 관리
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/exhibition/feedback"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/exhibition/feedback" &&
+                                "text-white"
+                              }`}
+                            >
+                              행사 피드백 관리
+                            </Link>
+                          </li>
+                          <li
+                            className={
+                              userRole === "Super Admin" ? "" : "hidden"
+                            }
+                          >
+                            <Link
+                              href="/exhibition/lectures"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/exhibition/lectures" &&
+                                "text-white"
+                              }`}
+                            >
+                              Exhibition lectures
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Menu End --> */}
+                    </React.Fragment>
+                  );
+                }}
+              </SidebarLinkGroup>
+              {/* <SidebarLinkGroup
                 activeCondition={
                   pathname === "/conferences" ||
                   pathname.includes("conferences")
@@ -416,114 +545,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup>
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/exhibition" || pathname.includes("exhibition")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <Link
-                        href="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/exhibition" ||
-                            pathname.includes("exhibition")) &&
-                          "bg-graydark dark:bg-meta-4"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <SiGotomeeting />
-                        Exhibition manage
-                        <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && "rotate-180"
-                          }`}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                            fill=""
-                          />
-                        </svg>
-                      </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <Link
-                              href="/exhibition"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/exhibition" && "text-white"
-                              }`}
-                            >
-                              행사 정보 등록
-                            </Link>
-                          </li>
-                          <li
-                            className={
-                              userRole === "Super Admin" ? "" : "hidden"
-                            }
-                          >
-                            <Link
-                              href="/exhibition/lectures"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/exhibition/lectures" &&
-                                "text-white"
-                              }`}
-                            >
-                              Exhibition lectures
-                            </Link>
-                          </li>
-                          <li
-                            className={
-                              userRole === "Super Admin" ? "" : "hidden"
-                            }
-                          >
-                            <Link
-                              href="/exhibition/exhibition_users"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/exhibition/exhibition_users" &&
-                                "text-white"
-                              }`}
-                            >
-                              행사 참가자 관리
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/exhibition/feedback"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/exhibition/feedback" &&
-                                "text-white"
-                              }`}
-                            >
-                              행사 피드백 관리
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
 
               <SidebarLinkGroup
                 activeCondition={
@@ -535,7 +557,9 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <Link
                         href="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                        className={`${
+                          userRole === "Super Admin" ? "" : "hidden"
+                        } group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                           (pathname === "/data" || pathname.includes("data")) &&
                           "bg-graydark dark:bg-meta-4"
                         }`}

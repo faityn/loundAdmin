@@ -404,9 +404,9 @@ export const updateExhibitionOrganizer = async (
 ) => {
   const formData2 = new FormData();
   formData2.append("adminId", formdata.get("adminId") as string);
-  // if (formdata.get("password")) {
-  //   formData2.append("password", formdata.get("password") as string);
-  // }
+  if (formdata.get("password")) {
+    formData2.append("password", formdata.get("password") as string);
+  }
 
   formData2.append("firstName", formdata.get("firstName") as string);
   formData2.append("companyName", formdata.get("companyName") as string);
