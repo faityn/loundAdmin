@@ -31,7 +31,7 @@ const ExhibitionDetailModal: React.FC = () => {
     await changeExhibitionStatus(
       String(userToken),
       Number(exhibitionDetail[0]?.exhibitionId),
-      String(status),
+      String(status)
     );
     setIsOpen(true);
   };

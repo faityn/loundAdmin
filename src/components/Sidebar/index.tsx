@@ -7,7 +7,7 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 import { RiListSettingsLine } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaUsers, FaIndent } from "react-icons/fa";
+import { FaUsers, FaIndent, FaAtom } from "react-icons/fa";
 import { ImStatsDots } from "react-icons/im";
 import { SiGotomeeting } from "react-icons/si";
 interface SidebarProps {
@@ -26,7 +26,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const storedSidebarExpanded = "true";
 
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
   useEffect(() => {
@@ -417,7 +417,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-              {/* <SidebarLinkGroup
+              <SidebarLinkGroup
                 activeCondition={
                   pathname === "/conferences" ||
                   pathname.includes("conferences")
@@ -483,7 +483,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               목록 확인 및 설정
                             </Link>
                           </li>
-                          <li
+                          {/* <li
                             className={
                               userRole === "Super Admin" ? "" : "hidden"
                             }
@@ -493,7 +493,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
                                 (pathname === "/conferences/apply_list" ||
                                   pathname.includes(
-                                    "conferences/apply_list",
+                                    "conferences/apply_list"
                                   )) &&
                                 "text-white"
                               }`}
@@ -532,20 +532,20 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
                                 (pathname === "/conferences/preparation" ||
                                   pathname.includes(
-                                    "conferences/preparation",
+                                    "conferences/preparation"
                                   )) &&
                                 "text-white"
                               }`}
                             >
                               준비물 확인
                             </Link>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup> */}
+              </SidebarLinkGroup>
 
               <SidebarLinkGroup
                 activeCondition={

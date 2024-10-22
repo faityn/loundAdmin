@@ -4,7 +4,7 @@ export const getExhibitionList = async (
   token: string,
   searchUrl: string,
   page: number,
-  size: number,
+  size: number
 ) => {
   const search = searchUrl;
 
@@ -18,7 +18,7 @@ export const getExhibitionList = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -41,7 +41,7 @@ export const getExhibitionSearchOptionList = async (token: string) => {
           locale: "mn",
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
     return data;
@@ -55,9 +55,9 @@ export const createExhibition = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   checkedInterests: any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  checkedPurposes: any,
+  checkedPurposes: any
 ) => {
-  const image: File | null = formdata.get("img") as unknown as File;
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
 
@@ -83,7 +83,7 @@ export const createExhibition = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -98,9 +98,9 @@ export const updateExhibition = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   checkedInterests: any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  checkedPurposes: any,
+  checkedPurposes: any
 ) => {
-  const image: File | null = formdata.get("img") as unknown as File;
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
 
@@ -127,7 +127,7 @@ export const updateExhibition = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     console.log(response);
 
@@ -149,7 +149,7 @@ export const getExhibitionDetail = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
 
@@ -169,7 +169,7 @@ export const deleteExhibition = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -182,7 +182,7 @@ export const deleteExhibition = async (token: string, id: number) => {
 export const changeExhibitionStatus = async (
   token: string,
   id: number,
-  status: string,
+  status: string
 ) => {
   try {
     const raw = JSON.stringify({
@@ -199,7 +199,7 @@ export const changeExhibitionStatus = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -212,7 +212,7 @@ export const changeExhibitionStatus = async (
 export const getExhibitionLecturesList = async (
   token: string,
   page: number,
-  size: number,
+  size: number
 ) => {
   try {
     const response = await fetch(
@@ -224,7 +224,7 @@ export const getExhibitionLecturesList = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -234,6 +234,37 @@ export const getExhibitionLecturesList = async (
     console.error("Error fetching data:", error);
   }
 };
+
+export const changeConferenceStatus = async (
+  token: string,
+  id: number,
+  status: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      conferenceId: Number(id),
+      request: status,
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/update/request`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const createExhibitionLectures = async (formdata: FormData) => {
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
@@ -255,7 +286,7 @@ export const createExhibitionLectures = async (formdata: FormData) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -287,7 +318,7 @@ export const updateExhibitionLectures = async (formdata: FormData) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -307,7 +338,7 @@ export const deleteExhibitionLectures = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -328,7 +359,7 @@ export const getExhibitionLectureDetail = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     console.log(response);
 
@@ -350,7 +381,7 @@ export const getExhibitionAll = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -363,7 +394,7 @@ export const getExhibitionAll = async (token: string) => {
 export const getExhibitionUsersList = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=10&skip=30`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=10&skip=30`
     );
 
     const data = await response.json();
@@ -377,7 +408,7 @@ export const getExhibitionUsersList = async () => {
 export const getExhibitionFeedbackList = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=2&skip=50`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=2&skip=50`
     );
 
     const data = await response.json();
@@ -399,7 +430,7 @@ export const getBannerList = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
 
@@ -420,7 +451,7 @@ export const getBannerDetail = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
 
@@ -431,7 +462,7 @@ export const getBannerDetail = async (token: string, id: number) => {
 };
 
 export const createBanner = async (formdata: FormData) => {
-  const image: File | null = formdata.get("img") as unknown as File;
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
   formData2.append("title", "Garchig 1");
@@ -448,7 +479,7 @@ export const createBanner = async (formdata: FormData) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -459,7 +490,7 @@ export const createBanner = async (formdata: FormData) => {
 };
 
 export const updateBanner = async (formdata: FormData) => {
-  const image: File | null = formdata.get("img") as unknown as File;
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
   formData2.append("id", formdata.get("id") as string);
@@ -477,7 +508,7 @@ export const updateBanner = async (formdata: FormData) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -497,7 +528,7 @@ export const deleteBanner = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -508,7 +539,7 @@ export const deleteBanner = async (token: string, id: number) => {
 };
 
 export const uploadImage = async (formdata: FormData) => {
-  const image: File | null = formdata.get("file") as unknown as File;
+  const image: File | null = (formdata.get("file") as unknown) as File;
   const formData2 = new FormData();
   if (image !== null) {
     formData2.append("img", image);
@@ -519,7 +550,7 @@ export const uploadImage = async (formdata: FormData) => {
       {
         method: "POST",
         body: formData2,
-      },
+      }
     );
 
     const data = await response.json();
@@ -533,7 +564,7 @@ export const uploadImage = async (formdata: FormData) => {
 export const getConferencesList = async (
   token: string,
   page: number,
-  size: number,
+  size: number
 ) => {
   try {
     const response = await fetch(
@@ -545,7 +576,7 @@ export const getConferencesList = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -567,7 +598,7 @@ export const getConferenceDetail = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
 
@@ -588,7 +619,7 @@ export const getConferencesOptions = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
 
@@ -601,7 +632,7 @@ export const getConferencesOptions = async (token: string) => {
 export const updateConferenceStatus = async (
   token: string,
   id: string,
-  status: string,
+  status: string
 ) => {
   try {
     console.log(id, status);
@@ -620,7 +651,7 @@ export const updateConferenceStatus = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
     console.log(response);
 

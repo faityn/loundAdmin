@@ -1,12 +1,7 @@
 "use client";
-import {
-  checkedListAtom,
-  conferencesListAtom,
-  dataSavedAtom,
-  totalPageAtom,
-} from "@/atom";
+import { conferencesListAtom, totalPageAtom } from "@/atom";
 import getToken from "@/helper/getToken";
-import { changeConferenceStatus, getConferencesList } from "@/hooks/useEvents";
+import { getConferencesList } from "@/hooks/useEvents";
 import { format } from "date-fns";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -28,42 +23,6 @@ const ConferencesList = ({ url }: Props) => {
   const [conferencesList, setConferencesList] = useRecoilState(
     conferencesListAtom
   );
-  const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
-  const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
-
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    if (id === "all") {
-      const allIds = conferencesList?.map((data) => {
-        return data?.conferenceId;
-      });
-      setChechedElements(() =>
-        e.target.checked ? (([...allIds] as unknown) as string[]) : []
-      );
-    } else {
-      setChechedElements((prevChecked) =>
-        e.target.checked
-          ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id)
-      );
-    }
-  };
-
-  const statusChange = async (status: string) => {
-    const userToken = getToken();
-
-    checkedElements.forEach(async (element) => {
-      await changeConferenceStatus(
-        String(userToken),
-        Number(element),
-        String(status)
-      );
-    });
-    getData();
-    setChechedElements([]);
-    setDataSaved(true);
-    //setIsOpen(false);
-  };
-
   const getData = async () => {
     const userToken = getToken();
     const response = await getConferencesList(
@@ -79,13 +38,6 @@ const ConferencesList = ({ url }: Props) => {
     setTotalPage(totalPage);
     setConferencesList(response?.rows);
   };
-
-  useEffect(() => {
-    if (dataSaved === true) {
-      //eslint-disable-next-line react-hooks/exhaustive-deps
-      getData();
-    }
-  }, [dataSaved]);
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
@@ -102,39 +54,6 @@ const ConferencesList = ({ url }: Props) => {
         <table className="w-full table-auto text-sm">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="w-[30px] px-3 py-3 font-medium text-black dark:text-white ">
-                <label
-                  htmlFor="checkboxLabelOne"
-                  className="flex cursor-pointer select-none items-center"
-                >
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      id="checkboxLabelOne"
-                      className="sr-only"
-                      onChange={(e) => handleCheck(e, "all")}
-                      checked={
-                        checkedElements.length === conferencesList?.length
-                          ? true
-                          : false
-                      }
-                    />
-                    <div
-                      className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                        checkedElements.length === conferencesList?.length &&
-                        "border-primary bg-gray dark:bg-transparent"
-                      }`}
-                    >
-                      <span
-                        className={`h-2 w-2 rounded-sm ${
-                          checkedElements.length === conferencesList?.length &&
-                          "bg-primary"
-                        }`}
-                      ></span>
-                    </div>
-                  </div>
-                </label>
-              </th>
               <th className="min-w-50px] px-4 py-3 font-medium text-black dark:text-white ">
                 #
               </th>
@@ -162,44 +81,6 @@ const ConferencesList = ({ url }: Props) => {
           <tbody>
             {conferencesList?.map((item, index) => (
               <tr key={index}>
-                <td className="border-b  border-[#eee] px-3 py-4  dark:border-strokedark ">
-                  <label
-                    htmlFor={String(item?.conferenceId)}
-                    className="flex cursor-pointer select-none items-center"
-                  >
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        id={String(item?.conferenceId)}
-                        className="sr-only"
-                        onChange={(e) =>
-                          handleCheck(
-                            e,
-                            (item?.conferenceId as unknown) as string
-                          )
-                        }
-                        checked={checkedElements.includes(
-                          (item?.conferenceId as unknown) as string
-                        )}
-                      />
-                      <div
-                        className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                          checkedElements.includes(
-                            (item?.conferenceId as unknown) as string
-                          ) && "border-primary bg-gray dark:bg-transparent"
-                        }`}
-                      >
-                        <span
-                          className={`h-2 w-2 rounded-sm ${
-                            checkedElements.includes(
-                              (item?.conferenceId as unknown) as string
-                            ) && "bg-primary"
-                          }`}
-                        ></span>
-                      </div>
-                    </div>
-                  </label>
-                </td>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
                     {index + 1}
@@ -258,24 +139,6 @@ const ConferencesList = ({ url }: Props) => {
             ))}
           </tbody>
         </table>
-        <div className="mt-4 flex justify-end gap-3">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-            onClick={() => statusChange("register")}
-            disabled={checkedElements?.length > 0 ? false : true}
-          >
-            대기
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-            onClick={() => statusChange("approved")}
-            disabled={checkedElements?.length > 0 ? false : true}
-          >
-            승인
-          </button>
-        </div>
       </div>
       <div className="my-5 text-right">
         {totalPage > 1 ? (
