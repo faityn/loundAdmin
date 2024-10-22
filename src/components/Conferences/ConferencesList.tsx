@@ -51,7 +51,7 @@ const ConferencesList = ({ url }: Props) => {
   const statusChange = async (status: string) => {
     const userToken = getToken();
 
-    checkedElements.forEach(async (element) => {
+    checkedElements?.forEach(async (element) => {
       await changeConferenceStatus(
         String(userToken),
         Number(element),

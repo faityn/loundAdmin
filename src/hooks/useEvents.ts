@@ -243,10 +243,11 @@ export const changeConferenceStatus = async (
   try {
     const raw = JSON.stringify({
       conferenceId: Number(id),
-      request: status,
+      request: String(status),
     });
+
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/update/request`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/conference/update/request`,
       {
         method: "POST",
         body: raw,
