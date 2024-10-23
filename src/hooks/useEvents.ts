@@ -129,7 +129,6 @@ export const updateExhibition = async (
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.text();
     return { status: response.ok, result: data };
@@ -267,6 +266,7 @@ export const changeConferenceStatus = async (
 };
 
 export const createExhibitionLectures = async (formdata: FormData) => {
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
 
@@ -276,7 +276,9 @@ export const createExhibitionLectures = async (formdata: FormData) => {
   formData2.append("startDate", formdata.get("startDate") as string);
   formData2.append("endDate", formdata.get("endDate") as string);
   formData2.append("description", formdata.get("description") as string);
-
+  if (image !== null) {
+    formData2.append("img", image);
+  }
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lecture/create`,
@@ -298,6 +300,7 @@ export const createExhibitionLectures = async (formdata: FormData) => {
 };
 
 export const updateExhibitionLectures = async (formdata: FormData) => {
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
 
@@ -308,7 +311,9 @@ export const updateExhibitionLectures = async (formdata: FormData) => {
   formData2.append("startDate", formdata.get("startDate") as string);
   formData2.append("endDate", formdata.get("endDate") as string);
   formData2.append("description", formdata.get("description") as string);
-
+  if (image !== null) {
+    formData2.append("img", image);
+  }
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lecture/update`,
