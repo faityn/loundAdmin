@@ -3,6 +3,7 @@ import {
   endDateAtom,
   exhibitionAllAtom,
   exhibitionDetailAtom,
+  fileAtom,
   startDateAtom,
 } from "@/atom";
 import getToken from "@/helper/getToken";
@@ -52,6 +53,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   const [show, setShow] = useState(false);
   const [endShow, setEndShow] = useState(false);
   const [contentValue, setContentValue] = useState("");
+  const [file1, setFile1] = useRecoilState(fileAtom);
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const [contentRequired, setContentRequired] = useState(false);
@@ -129,7 +131,12 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   const handleOption = (val: string) => {
     setOptionValue(val);
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleFileChange1 = (e: any) => {
+    const newFile = e.target.files[0];
 
+    setFile1(newFile);
+  };
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (contentValue === "") {
       setContentRequired(true);
@@ -147,7 +154,9 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
       formdata.append("startDate", startDate);
       formdata.append("endDate", endDate);
       formdata.append("description", contentValue);
-
+      if (file1 !== null) {
+        formdata.append("img", file1);
+      }
       const res = await updateExhibitionLectures(formdata);
 
       if (res?.status) {
@@ -312,7 +321,39 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                         </div>
                       </td>
                     </tr>
-
+                    <tr>
+                      <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                        <h5 className="font-medium text-black dark:text-white">
+                          Image
+                        </h5>
+                      </td>
+                      <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                        Current image
+                        <div className="mb-4">
+                          {item?.img && (
+                            <img
+                              src={`${item?.imgUrl}`}
+                              contextMenu="false"
+                              alt={item?.title}
+                              className="max-h-[200px] max-w-[500px]  "
+                            />
+                          )}
+                        </div>
+                        <div className="rounded-sm  ">
+                          <input
+                            {...register("image")}
+                            type="file"
+                            className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                            onChange={handleFileChange1}
+                          />
+                          {errors.image && (
+                            <span className="font-medium text-red">
+                              Image is required
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
                     <tr>
                       <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <h5 className="font-medium text-black dark:text-white">

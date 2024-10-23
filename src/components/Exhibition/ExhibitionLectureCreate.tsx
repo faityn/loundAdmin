@@ -12,7 +12,12 @@ import { LuAlertCircle } from "react-icons/lu";
 import TextEditor from "../Editor/TextEditor";
 import { useRecoilState } from "recoil";
 import { format } from "date-fns";
-import { endDateAtom, exhibitionAllAtom, startDateAtom } from "@/atom";
+import {
+  endDateAtom,
+  exhibitionAllAtom,
+  fileAtom,
+  startDateAtom,
+} from "@/atom";
 import Datepicker from "tailwind-datepicker-react";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { datePickerOption1, datePickerOption2 } from "@/helper/utility";
@@ -37,7 +42,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
   const [createError, setCreateError] = useState(false);
   const [contentValue, setContentValue] = useState("");
   const [contentRequired, setContentRequired] = useState(false);
-
+  const [file1, setFile1] = useRecoilState(fileAtom);
   const [exhibitionAllList, setExhibitionAllList] = useRecoilState(
     exhibitionAllAtom
   );
@@ -63,7 +68,6 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
   }, []);
-  console.log(exhibitionAllList);
 
   const options = datePickerOption1(startDate);
 
@@ -99,6 +103,13 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
     setEndShow(state);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleFileChange1 = (e: any) => {
+    const newFile = e.target.files[0];
+
+    setFile1(newFile);
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (contentValue === "") {
       setContentRequired(true);
@@ -118,7 +129,9 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
       formdata.append("startDate", startDate);
       formdata.append("endDate", endDate);
       formdata.append("description", contentValue);
-
+      if (file1 !== null) {
+        formdata.append("img", file1);
+      }
       const res = await createExhibitionLectures(formdata);
 
       if (res?.status) {
@@ -275,7 +288,30 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                     </div>
                   </td>
                 </tr>
-
+                <tr>
+                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <h5 className="font-medium text-black dark:text-white">
+                      Image
+                    </h5>
+                  </td>
+                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <div className="rounded-sm  ">
+                      <input
+                        {...register("image", {
+                          required: true,
+                        })}
+                        type="file"
+                        className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                        onChange={handleFileChange1}
+                      />
+                      {errors.image && (
+                        <span className="font-medium text-red">
+                          Image is required
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                </tr>
                 <tr>
                   <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                     <h5 className="font-medium text-black dark:text-white">
