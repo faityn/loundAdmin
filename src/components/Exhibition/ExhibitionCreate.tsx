@@ -52,10 +52,10 @@ const ExhibitionCreate = ({ url }: Props) => {
   const [contentRequired, setContentRequired] = useState(false);
   const [optionsList, setOptionsList] = useRecoilState(exhibitionOptionAtom);
   const [checkedInterests, setChechedInterests] = useRecoilState(
-    checkedInterestsListAtom,
+    checkedInterestsListAtom
   );
   const [checkedPurposes, setChechedPurposes] = useRecoilState(
-    checkedPurposesListAtom,
+    checkedPurposesListAtom
   );
   const [show, setShow] = useState(false);
   const [endShow, setEndShow] = useState(false);
@@ -98,23 +98,23 @@ const ExhibitionCreate = ({ url }: Props) => {
 
   const handleCheckInterests = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     setChechedInterests((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id),
+        : prevChecked.filter((item: string) => item !== id)
     );
   };
 
   const handleCheckPurposes = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     setChechedPurposes((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id),
+        : prevChecked.filter((item: string) => item !== id)
     );
   };
 
@@ -173,10 +173,13 @@ const ExhibitionCreate = ({ url }: Props) => {
       if (file1 !== null) {
         formdata.append("img", file1);
       }
+
+      console.log(newCheckedInterestsArray);
+
       const res = await createExhibition(
         formdata,
         newCheckedInterestsArray,
-        newCheckedPurposesArray,
+        newCheckedPurposesArray
       );
 
       if (res?.status) {
@@ -381,17 +384,17 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 onChange={(e) =>
                                   handleCheckInterests(
                                     e,
-                                    item?.interestId as unknown as string,
+                                    (item?.interestId as unknown) as string
                                   )
                                 }
                                 checked={checkedInterests.includes(
-                                  item?.interestId as unknown as string,
+                                  (item?.interestId as unknown) as string
                                 )}
                               />
                               <div
                                 className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                   checkedInterests.includes(
-                                    item?.interestId as unknown as string,
+                                    (item?.interestId as unknown) as string
                                   ) &&
                                   "border-primary bg-gray dark:bg-transparent"
                                 }`}
@@ -399,7 +402,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 <span
                                   className={`h-2 w-2 rounded-sm ${
                                     checkedInterests.includes(
-                                      item?.interestId as unknown as string,
+                                      (item?.interestId as unknown) as string
                                     ) && "bg-primary"
                                   }`}
                                 ></span>
@@ -435,17 +438,17 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 onChange={(e) =>
                                   handleCheckPurposes(
                                     e,
-                                    item?.purposeId as unknown as string,
+                                    (item?.purposeId as unknown) as string
                                   )
                                 }
                                 checked={checkedPurposes.includes(
-                                  item?.purposeId as unknown as string,
+                                  (item?.purposeId as unknown) as string
                                 )}
                               />
                               <div
                                 className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                   checkedPurposes.includes(
-                                    item?.purposeId as unknown as string,
+                                    (item?.purposeId as unknown) as string
                                   ) &&
                                   "border-primary bg-gray dark:bg-transparent"
                                 }`}
@@ -453,7 +456,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 <span
                                   className={`h-2 w-2 rounded-sm ${
                                     checkedPurposes.includes(
-                                      item?.purposeId as unknown as string,
+                                      (item?.purposeId as unknown) as string
                                     ) && "bg-primary"
                                   }`}
                                 ></span>
