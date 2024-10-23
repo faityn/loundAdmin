@@ -471,7 +471,7 @@ export const createBanner = async (formdata: FormData) => {
   const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
-  formData2.append("title", "Garchig 1");
+  formData2.append("title", formdata.get("title") as string);
   if (image !== null) {
     formData2.append("img", image);
   }
