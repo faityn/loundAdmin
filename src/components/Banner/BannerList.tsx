@@ -92,7 +92,7 @@ const BannerList = () => {
             <CustomModal>
               <h2 className="text-xl text-black">
                 ({checkedElements?.length}){" "}
-                {checkedElements?.length > 1 ? "Users" : "User"} will <br /> be
+                {checkedElements?.length > 1 ? "Items" : "Item"} will <br /> be
                 deleted
               </h2>
               <div className="mb-2 mt-4 text-lg text-black">

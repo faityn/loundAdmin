@@ -172,7 +172,7 @@ const BannerUpdate = ({ id }: Props) => {
       <div className="my-5 text-right">
         {isOpen ? (
           <CustomModal>
-            <h2 className="text-xl text-black"> Expert information </h2>
+            <h2 className="text-xl text-black"> Banner </h2>
             <div className="mb-2 mt-4 text-lg text-green-600">
               Saved successfully
             </div>
@@ -190,7 +190,7 @@ const BannerUpdate = ({ id }: Props) => {
         )}
         {createError ? (
           <CustomModal>
-            <h2 className="text-xl text-black"> Banner Create </h2>
+            <h2 className="text-xl text-black"> Banner Update </h2>
             <div className="mb-2 mt-4 text-lg text-red">Error!!</div>
             <div className="flex w-full items-center justify-center gap-4">
               <button
