@@ -51,8 +51,9 @@ const ExhibitionList = ({ url }: Props) => {
   const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [exhibitionList, setExhibitionList] =
-    useRecoilState(exhibitionListAtom);
+  const [exhibitionList, setExhibitionList] = useRecoilState(
+    exhibitionListAtom
+  );
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
   const setExhibitionDetail = useSetRecoilState(exhibitionDetailAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
@@ -90,7 +91,7 @@ const ExhibitionList = ({ url }: Props) => {
       await changeExhibitionStatus(
         String(userToken),
         Number(element),
-        String(status),
+        String(status)
       );
     });
     getData();
@@ -115,7 +116,7 @@ const ExhibitionList = ({ url }: Props) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       newUrl as string,
       Number(page),
-      Number(size),
+      Number(size)
     );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -130,13 +131,13 @@ const ExhibitionList = ({ url }: Props) => {
         return data?.exhibitionId;
       });
       setChechedElements(() =>
-        e.target.checked ? ([...allIds] as unknown as string[]) : [],
+        e.target.checked ? (([...allIds] as unknown) as string[]) : []
       );
     } else {
       setChechedElements((prevChecked) =>
         e.target.checked
           ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id),
+          : prevChecked.filter((item: string) => item !== id)
       );
     }
   };
@@ -151,7 +152,7 @@ const ExhibitionList = ({ url }: Props) => {
 
     const response = await getExhibitionDetail(
       String(userToken),
-      Number(exhibitionId),
+      Number(exhibitionId)
     );
 
     if (response?.status) {
@@ -196,7 +197,7 @@ const ExhibitionList = ({ url }: Props) => {
       String(userToken),
       newUrl as string,
       Number(page),
-      Number(size),
+      Number(size)
     );
     if (response) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -310,7 +311,7 @@ const ExhibitionList = ({ url }: Props) => {
                     onClick={userDelete}
                     className="rounded-md bg-red px-3 py-1 text-white "
                   >
-                    Delete{" "}
+                    삭제{" "}
                   </button>
                 </div>
               </div>
@@ -398,24 +399,24 @@ const ExhibitionList = ({ url }: Props) => {
                         onChange={(e) =>
                           handleCheck(
                             e,
-                            item?.exhibitionId as unknown as string,
+                            (item?.exhibitionId as unknown) as string
                           )
                         }
                         checked={checkedElements.includes(
-                          item?.exhibitionId as unknown as string,
+                          (item?.exhibitionId as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            item?.exhibitionId as unknown as string,
+                            (item?.exhibitionId as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              item?.exhibitionId as unknown as string,
+                              (item?.exhibitionId as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>

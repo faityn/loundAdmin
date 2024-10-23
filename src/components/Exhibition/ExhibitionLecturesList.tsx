@@ -88,7 +88,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
               href={"/exhibition/lectures/create"}
               className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
             >
-              Create
+              생성
             </Link>
             <button
               type="button"
@@ -96,7 +96,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
               onClick={openModal}
               disabled={checkedElements?.length > 0 ? false : true}
             >
-              Delete
+              삭제
             </button>
           </div>
           {isOpen ? (
@@ -116,7 +116,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
                   onClick={userDelete}
                   className="rounded-md bg-red px-3 py-1 text-white "
                 >
-                  Delete{" "}
+                  삭제{" "}
                 </button>
               </div>
             </CustomModal>
