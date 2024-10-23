@@ -54,7 +54,7 @@ const UsersActivityDataList = () => {
               onClick={openModal}
               disabled={checkedUsers?.length > 0 ? false : true}
             >
-              Delete
+              삭제
             </button>
           </div>
           {isOpen ? (
@@ -79,7 +79,7 @@ const UsersActivityDataList = () => {
                   onClick={userDelete}
                   className="rounded-md bg-red px-3 py-1 text-white "
                 >
-                  Delete{" "}
+                  삭제{" "}
                 </button>
               </div>
             </CustomModal>

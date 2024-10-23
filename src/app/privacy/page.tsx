@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 const PrivacyPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
-      <Breadcrumb parentName="Content Manage" pageName="Privacy Policy" />
+      <Breadcrumb
+        parentName="개인정보 처리방침 관리"
+        pageName="개인정보 처리방침"
+      />
 
       <div className="flex flex-col gap-10">
         <List url="/privacy" />
