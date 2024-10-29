@@ -11,8 +11,9 @@ import {
 } from "@/hooks/useEvents";
 import { FiEdit } from "react-icons/fi";
 import getToken from "@/helper/getToken";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import Link from "next/link";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface Props {
   url?: string;
@@ -239,17 +240,25 @@ const ExhibitionLecturesList = ({ url }: Props) => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   {item?.startDate
-                    ? format(item?.startDate as string, "yyyy-MM-dd HH:mm")
+                    ? formatInTimeZone(
+                        parseISO(item?.startDate),
+                        "UTC",
+                        "yyyy-MM-dd HH:mm"
+                      )
                     : ""}{" "}
                   ~{" "}
                   {item?.endDate
-                    ? format(item?.endDate as string, "yyyy-MM-dd HH:mm")
+                    ? formatInTimeZone(
+                        parseISO(item?.endDate),
+                        "UTC",
+                        "yyyy-MM-dd HH:mm"
+                      )
                     : ""}
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {item?.createdAt
-                      ? format(item?.createdAt as string, "yyyy-MM-dd HH:mm:ss")
+                      ? format(item?.createdAt as string, "yyyy-MM-dd HH:mm")
                       : ""}
                   </p>
                 </td>
