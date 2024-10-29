@@ -20,12 +20,13 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import AlertModal from "../Modal/AlertModal";
 import { LuAlertCircle } from "react-icons/lu";
 import NotFound from "../common/NotFound";
-import Datepicker from "tailwind-datepicker-react";
-import { datePickerOption1, datePickerOption2 } from "@/helper/utility";
+
 import { getExhibitionDetail, updateExhibition } from "@/hooks/useEvents";
-import { format } from "date-fns";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
+import { format, parseISO } from "date-fns";
 import TextEditor from "../Editor/TextEditor";
+import { formatInTimeZone } from "date-fns-tz";
+import EndDatePicker from "../common/EndDatePicker";
+import StartDatePicker from "../common/StartDatePicker";
 interface Props {
   id: number;
   url?: string;
@@ -52,19 +53,17 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
   const [notFound, setNotFound] = useState(false);
   const [itemsDetail, setItemsDetail] = useRecoilState(exhibitionDetailAtom);
   const [file1, setFile1] = useRecoilState(fileAtom);
-  const [show, setShow] = useState(false);
   const [useStatus, setUseStatus] = useState("use");
-  const [endShow, setEndShow] = useState(false);
   const [contentValue, setContentValue] = useState("");
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const [optionsList, setOptionsList] = useRecoilState(exhibitionOptionAtom);
   const [contentRequired, setContentRequired] = useState(false);
   const [checkedInterests, setChechedInterests] = useRecoilState(
-    checkedInterestsListAtom,
+    checkedInterestsListAtom
   );
   const [checkedPurposes, setChechedPurposes] = useRecoilState(
-    checkedPurposesListAtom,
+    checkedPurposesListAtom
   );
   const {
     register,
@@ -91,16 +90,29 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
 
     if (response?.status) {
       const newCheckedInterestsArray = response?.result?.interests?.map(
-        (item: { interestId: number }) => item.interestId,
+        (item: { interestId: number }) => item.interestId
       );
       const newCheckedPurposesArray = response?.result?.purposes?.map(
-        (item: { purposeId: number }) => item.purposeId,
+        (item: { purposeId: number }) => item.purposeId
       );
+
+      const startDate = formatInTimeZone(
+        parseISO(response?.result?.startDate),
+        "UTC",
+        "yyyy-MM-dd"
+      );
+      const endDate = formatInTimeZone(
+        parseISO(response?.result?.endDate),
+        "UTC",
+        "yyyy-MM-dd"
+      );
+
+      setStartDate(startDate);
+      setEndDate(endDate);
 
       setChechedInterests(newCheckedInterestsArray);
       setChechedPurposes(newCheckedPurposesArray);
-      setStartDate(format(response?.result?.startDate, "yyyy-MM-dd"));
-      setEndDate(format(response?.result?.endDate, "yyyy-MM-dd"));
+
       setContentValue(response?.result?.description);
       setUseStatus(response?.result?.status);
       setItemsDetail([response?.result]);
@@ -108,10 +120,6 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       setNotFound(true);
     }
   };
-
-  const options = datePickerOption1(startDate);
-
-  const options2 = datePickerOption2(endDate);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFileChange1 = (e: any) => {
@@ -126,23 +134,23 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
 
   const handleCheckInterests = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     setChechedInterests((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id),
+        : prevChecked.filter((item: string) => item !== id)
     );
   };
 
   const handleCheckPurposes = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     setChechedPurposes((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id),
+        : prevChecked.filter((item: string) => item !== id)
     );
   };
 
@@ -151,7 +159,8 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const startDateChange = (date: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const startDateChange = (date: Date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setStartDate(formattedDate);
   };
@@ -160,12 +169,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setEndDate(formattedDate);
   };
-  const handleStartClose = (state: boolean) => {
-    setShow(state);
-  };
-  const handleClose = (state: boolean) => {
-    setEndShow(state);
-  };
+
   const closeModal = () => {
     setIsOpen(false);
     router.push(`${url}`);
@@ -203,7 +207,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       const res = await updateExhibition(
         formdata,
         newCheckedInterestsArray,
-        newCheckedPurposesArray,
+        newCheckedPurposesArray
       );
 
       if (res?.status) {
@@ -281,50 +285,18 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <div className="flex w-full gap-4 max-sm:flex-col ">
                           <div className="relative w-full">
-                            <Datepicker
-                              options={options}
-                              onChange={startDateChange}
-                              show={show}
-                              setShow={handleStartClose}
-                            >
-                              <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-stroke bg-transparent px-1 py-2 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                                <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                                  <HiOutlineCalendarDays className="text-xl" />
-                                </div>
-                                <input
-                                  {...register("startDate")}
-                                  type="text"
-                                  className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
-                                  placeholder="Select Date"
-                                  value={startDate}
-                                  onFocus={() => setShow(true)}
-                                  readOnly
-                                />
-                              </div>
-                            </Datepicker>
+                            <StartDatePicker
+                              label="Start"
+                              onDateChange={startDateChange}
+                              defaultDate={startDate}
+                            />
                           </div>
                           <div className="relative w-full">
-                            <Datepicker
-                              options={options2}
-                              onChange={handleChange}
-                              show={endShow}
-                              setShow={handleClose}
-                            >
-                              <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-stroke bg-transparent px-1 py-2 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                                <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                                  <HiOutlineCalendarDays className="text-xl" />
-                                </div>
-                                <input
-                                  {...register("endDate")}
-                                  type="text"
-                                  className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
-                                  placeholder="Select Date"
-                                  value={endDate}
-                                  onFocus={() => setEndShow(true)}
-                                  readOnly
-                                />
-                              </div>
-                            </Datepicker>
+                            <EndDatePicker
+                              label="End"
+                              onDateChange={handleChange}
+                              defaultDate={endDate}
+                            />
                           </div>
                         </div>
                       </td>
@@ -407,17 +379,17 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     onChange={(e) =>
                                       handleCheckInterests(
                                         e,
-                                        item?.interestId as unknown as string,
+                                        (item?.interestId as unknown) as string
                                       )
                                     }
                                     checked={checkedInterests.includes(
-                                      item?.interestId as unknown as string,
+                                      (item?.interestId as unknown) as string
                                     )}
                                   />
                                   <div
                                     className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                       checkedInterests.includes(
-                                        item?.interestId as unknown as string,
+                                        (item?.interestId as unknown) as string
                                       ) &&
                                       "border-primary bg-gray dark:bg-transparent"
                                     }`}
@@ -425,7 +397,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     <span
                                       className={`h-2 w-2 rounded-sm ${
                                         checkedInterests.includes(
-                                          item?.interestId as unknown as string,
+                                          (item?.interestId as unknown) as string
                                         ) && "bg-primary"
                                       }`}
                                     ></span>
@@ -461,17 +433,17 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     onChange={(e) =>
                                       handleCheckPurposes(
                                         e,
-                                        item?.purposeId as unknown as string,
+                                        (item?.purposeId as unknown) as string
                                       )
                                     }
                                     checked={checkedPurposes.includes(
-                                      item?.purposeId as unknown as string,
+                                      (item?.purposeId as unknown) as string
                                     )}
                                   />
                                   <div
                                     className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                       checkedPurposes.includes(
-                                        item?.purposeId as unknown as string,
+                                        (item?.purposeId as unknown) as string
                                       ) &&
                                       "border-primary bg-gray dark:bg-transparent"
                                     }`}
@@ -479,7 +451,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                     <span
                                       className={`h-2 w-2 rounded-sm ${
                                         checkedPurposes.includes(
-                                          item?.purposeId as unknown as string,
+                                          (item?.purposeId as unknown) as string
                                         ) && "bg-primary"
                                       }`}
                                     ></span>

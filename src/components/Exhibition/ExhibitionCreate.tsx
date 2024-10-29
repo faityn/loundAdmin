@@ -174,8 +174,6 @@ const ExhibitionCreate = ({ url }: Props) => {
         formdata.append("img", file1);
       }
 
-      console.log(newCheckedInterestsArray);
-
       const res = await createExhibition(
         formdata,
         newCheckedInterestsArray,

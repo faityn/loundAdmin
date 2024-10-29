@@ -285,27 +285,6 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                               onDateChange={startDateChange}
                               defaultDate={startDate}
                             />
-                            {/* <Datepicker
-                              options={options}
-                              onChange={startDateChange}
-                              show={show}
-                              setShow={handleStartClose}
-                            >
-                              <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
-                                <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                                  <HiOutlineCalendarDays className="text-xl" />
-                                </div>
-                                <input
-                                  {...register("startDate")}
-                                  type="text"
-                                  className="w-full h-full rounded  outline-none bg-transparent focus:border-primary active:border-primary font-normal transition pl-4 pr-9"
-                                  placeholder="Select Date"
-                                  value={startDate}
-                                  onFocus={() => setShow(true)}
-                                  readOnly
-                                />
-                              </div>
-                            </Datepicker> */}
                           </div>
                           <div className="relative w-full">
                             <EndDateTimePicker
@@ -313,27 +292,6 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                               onDateChange={handleChange}
                               defaultDate={endDate}
                             />
-                            {/* <Datepicker
-                              options={options2}
-                              onChange={handleChange}
-                              show={endShow}
-                              setShow={handleClose}
-                            >
-                              <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
-                                <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                                  <HiOutlineCalendarDays className="text-xl" />
-                                </div>
-                                <input
-                                  {...register("endDate")}
-                                  type="text"
-                                  className="w-full h-full rounded  outline-none bg-transparent focus:border-primary active:border-primary font-normal transition pl-4 pr-9"
-                                  placeholder="Select Date"
-                                  value={endDate}
-                                  onFocus={() => setEndShow(true)}
-                                  readOnly
-                                />
-                              </div>
-                            </Datepicker> */}
                           </div>
                         </div>
                       </td>
