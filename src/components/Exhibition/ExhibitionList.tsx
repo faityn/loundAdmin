@@ -26,13 +26,14 @@ import {
 } from "@/hooks/useEvents";
 import Link from "next/link";
 import { FiEdit } from "react-icons/fi";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import getToken from "@/helper/getToken";
 import DeleteConfirm from "../Modal/DeleteConfirm";
 import SearchFields from "../common/SearchFields";
 import Loader from "../common/Loader";
 import { FaChevronDown } from "react-icons/fa";
 import ExhibitionDetailModal from "./ExhibitionDetailModal";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface Props {
   url?: string;
@@ -451,11 +452,19 @@ const ExhibitionList = ({ url }: Props) => {
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium  dark:text-white">
                     {item?.startDate
-                      ? format(item?.startDate as string, "yyyy-MM-dd")
+                      ? formatInTimeZone(
+                          parseISO(item?.startDate),
+                          "UTC",
+                          "yyyy-MM-dd"
+                        )
                       : ""}{" "}
                     ~{" "}
                     {item?.endDate
-                      ? format(item?.endDate as string, "yyyy-MM-dd")
+                      ? formatInTimeZone(
+                          parseISO(item?.endDate),
+                          "UTC",
+                          "yyyy-MM-dd "
+                        )
                       : ""}
                   </h5>
                 </td>
