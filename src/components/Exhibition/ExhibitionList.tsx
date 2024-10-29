@@ -1,6 +1,7 @@
 "use client";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  ActiveRoleAtom,
   checkedListAtom,
   dataSavedAtom,
   detailOpenAtom,
@@ -42,7 +43,7 @@ const ExhibitionList = ({ url }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-
+  const userActiveRole = useRecoilValue(ActiveRoleAtom);
   const [newUrl, setNewUrl] = useState("");
   const [pageLimit, setPageLimit] = useState("10");
 
@@ -501,7 +502,11 @@ const ExhibitionList = ({ url }: Props) => {
           </tbody>
         </table>
 
-        <div className="mt-4 flex justify-end gap-3">
+        <div
+          className={`mt-4 flex justify-end gap-3 ${
+            userActiveRole === "Super Admin" ? "" : "hidden"
+          }`}
+        >
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
