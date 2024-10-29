@@ -281,3 +281,8 @@ export const organizerDetailAtom = atom<ExhibitionOrganizerListType[]>({
   key: "organizerDetailAtom",
   default: [],
 });
+
+export const ActiveRoleAtom = atom({
+  key: "ActiveRoleAtom",
+  default: "",
+});

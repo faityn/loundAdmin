@@ -23,8 +23,10 @@ const StartDatePicker: React.FC<DateTimePickerProps> = ({
   };
 
   useEffect(() => {
-    const parsedDate = parse(defaultDate as string, "yyyy-MM-dd", new Date());
-    setSelectedDate(parsedDate);
+    if (defaultDate) {
+      const parsedDate = parse(defaultDate as string, "yyyy-MM-dd", new Date());
+      setSelectedDate(parsedDate);
+    }
   }, [defaultDate]);
   return (
     <div className="flex flex-col space-y-2 w-full">

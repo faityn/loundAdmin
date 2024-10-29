@@ -11,9 +11,10 @@ import AlertModal from "../Modal/AlertModal";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuAlertCircle } from "react-icons/lu";
 import TextEditor from "../Editor/TextEditor";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { format } from "date-fns";
 import {
+  ActiveRoleAtom,
   checkedInterestsListAtom,
   checkedPurposesListAtom,
   endDateAtom,
@@ -21,10 +22,10 @@ import {
   fileAtom,
   startDateAtom,
 } from "@/atom";
-import Datepicker from "tailwind-datepicker-react";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
-import { datePickerOption1, datePickerOption2 } from "@/helper/utility";
+
 import { createExhibition } from "@/hooks/useEvents";
+import StartDatePicker from "../common/StartDatePicker";
+import EndDatePicker from "../common/EndDatePicker";
 interface Props {
   url?: string;
 }
@@ -57,9 +58,7 @@ const ExhibitionCreate = ({ url }: Props) => {
   const [checkedPurposes, setChechedPurposes] = useRecoilState(
     checkedPurposesListAtom
   );
-  const [show, setShow] = useState(false);
-  const [endShow, setEndShow] = useState(false);
-
+  const userActiveRole = useRecoilValue(ActiveRoleAtom);
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const {
@@ -78,13 +77,7 @@ const ExhibitionCreate = ({ url }: Props) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
   }, []);
-  const options = datePickerOption1(startDate);
 
-  const options2 = datePickerOption2(endDate);
-
-  // useEffect(() => {
-  //   console.log(lecturesArray);
-  // }, [lecturesArray]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFileChange1 = (e: any) => {
     const newFile = e.target.files[0];
@@ -131,21 +124,14 @@ const ExhibitionCreate = ({ url }: Props) => {
     setCreateError(false);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const startDateChange = (date: any) => {
+  const startDateChange = (date: Date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setStartDate(formattedDate);
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (date: any) => {
+
+  const handleChange = (date: Date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setEndDate(formattedDate);
-  };
-  const handleStartClose = (state: boolean) => {
-    setShow(state);
-  };
-  const handleClose = (state: boolean) => {
-    setEndShow(state);
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -206,7 +192,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                     <input
                       type="text"
-                      value={"Super Admin"}
+                      value={userActiveRole}
                       className=" w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-slate-100 dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       disabled
                     />
@@ -265,50 +251,18 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                     <div className="flex w-full gap-4 max-sm:flex-col ">
                       <div className="relative w-full">
-                        <Datepicker
-                          options={options}
-                          onChange={startDateChange}
-                          show={show}
-                          setShow={handleStartClose}
-                        >
-                          <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-stroke bg-transparent px-1 py-2 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                            <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                              <HiOutlineCalendarDays className="text-xl" />
-                            </div>
-                            <input
-                              {...register("startDate")}
-                              type="text"
-                              className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
-                              placeholder="Select Date"
-                              defaultValue={startDate}
-                              onFocus={() => setShow(true)}
-                              readOnly
-                            />
-                          </div>
-                        </Datepicker>
+                        <StartDatePicker
+                          label="Start"
+                          onDateChange={startDateChange}
+                          defaultDate={startDate}
+                        />
                       </div>
                       <div className="relative w-full">
-                        <Datepicker
-                          options={options2}
-                          onChange={handleChange}
-                          show={endShow}
-                          setShow={handleClose}
-                        >
-                          <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-stroke bg-transparent px-1 py-2 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                            <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                              <HiOutlineCalendarDays className="text-xl" />
-                            </div>
-                            <input
-                              {...register("endDate")}
-                              type="text"
-                              className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
-                              placeholder="Select Date"
-                              defaultValue={endDate}
-                              onFocus={() => setEndShow(true)}
-                              readOnly
-                            />
-                          </div>
-                        </Datepicker>
+                        <EndDatePicker
+                          label="End"
+                          onDateChange={handleChange}
+                          defaultDate={endDate}
+                        />
                       </div>
                     </div>
                   </td>
