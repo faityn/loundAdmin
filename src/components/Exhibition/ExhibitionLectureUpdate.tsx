@@ -18,16 +18,17 @@ import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
 import AlertModal from "../Modal/AlertModal";
 import { LuAlertCircle } from "react-icons/lu";
 import NotFound from "../common/NotFound";
-import Datepicker from "tailwind-datepicker-react";
-import { datePickerOption1, datePickerOption2 } from "@/helper/utility";
+
 import {
   getExhibitionAll,
   getExhibitionLectureDetail,
   updateExhibitionLectures,
 } from "@/hooks/useEvents";
-import { format } from "date-fns";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
+import { format, parseISO } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import TextEditor from "../Editor/TextEditor";
+import StartDateTimePicker from "../common/StartDateTimePicker";
+import EndDateTimePicker from "../common/EndDateTimePicker";
 interface Props {
   id: number;
   url?: string;
@@ -50,8 +51,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   const [createError, setCreateError] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [itemsDetail, setItemsDetail] = useRecoilState(exhibitionDetailAtom);
-  const [show, setShow] = useState(false);
-  const [endShow, setEndShow] = useState(false);
+
   const [contentValue, setContentValue] = useState("");
   const [file1, setFile1] = useRecoilState(fileAtom);
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
@@ -81,13 +81,26 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
 
     setExhibitionAllList(response?.rows);
   };
+
   const getData = async () => {
     const userToken = getToken();
     const response = await getExhibitionLectureDetail(String(userToken), id);
 
     if (response?.status) {
-      setStartDate(format(response?.result?.startDate, "yyyy-MM-dd"));
-      setEndDate(format(response?.result?.endDate, "yyyy-MM-dd"));
+      const startDate = formatInTimeZone(
+        parseISO(response?.result?.startDate),
+        "UTC",
+        "yyyy-MM-dd HH:mm:ss"
+      );
+      const endDate = formatInTimeZone(
+        parseISO(response?.result?.endDate),
+        "UTC",
+        "yyyy-MM-dd HH:mm:ss"
+      );
+
+      setStartDate(startDate);
+      setEndDate(endDate);
+
       setContentValue(response?.result?.description);
       setOptionValue(response?.result?.exhibitionId);
       setItemsDetail([response?.result]);
@@ -96,30 +109,21 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
     }
   };
 
-  const options = datePickerOption1(startDate);
-
-  const options2 = datePickerOption2(endDate);
-
   const handleEditorChange = (newContent: string) => {
     setContentValue(newContent);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const startDateChange = (date: any) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
+  const startDateChange = (date: Date) => {
+    const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setStartDate(formattedDate);
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (date: any) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
+    const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setEndDate(formattedDate);
   };
-  const handleStartClose = (state: boolean) => {
-    setShow(state);
-  };
-  const handleClose = (state: boolean) => {
-    setEndShow(state);
-  };
+
   const closeModal = () => {
     setIsOpen(false);
     router.push(`${url}`);
@@ -157,6 +161,9 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
       if (file1 !== null) {
         formdata.append("img", file1);
       }
+
+      //console.log(startDate, endDate);
+
       const res = await updateExhibitionLectures(formdata);
 
       if (res?.status) {
@@ -273,7 +280,12 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <div className="flex max-sm:flex-col w-full gap-4 ">
                           <div className="relative w-full">
-                            <Datepicker
+                            <StartDateTimePicker
+                              label="Start"
+                              onDateChange={startDateChange}
+                              defaultDate={startDate}
+                            />
+                            {/* <Datepicker
                               options={options}
                               onChange={startDateChange}
                               show={show}
@@ -293,10 +305,15 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                                   readOnly
                                 />
                               </div>
-                            </Datepicker>
+                            </Datepicker> */}
                           </div>
                           <div className="relative w-full">
-                            <Datepicker
+                            <EndDateTimePicker
+                              label="End"
+                              onDateChange={handleChange}
+                              defaultDate={endDate}
+                            />
+                            {/* <Datepicker
                               options={options2}
                               onChange={handleChange}
                               show={endShow}
@@ -316,7 +333,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                                   readOnly
                                 />
                               </div>
-                            </Datepicker>
+                            </Datepicker> */}
                           </div>
                         </div>
                       </td>

@@ -39,7 +39,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           automatic_uploads: true,
           file_picker_types: "image",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px } ",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px, z-index:1 } ",
         }}
         value={contentValue}
         onEditorChange={onEditorChange}
