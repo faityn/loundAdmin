@@ -4,16 +4,12 @@ import getToken from "./getToken";
 const getRole = async () => {
   const userToken = getToken();
 
-  if (userToken !== undefined && userToken !== "undefined") {
-    const loginData = await getLoginData(userToken);
+  const loginData = await getLoginData(userToken as string);
 
-    if (loginData?.status) {
-      return loginData?.result?.admin?.isSuper ? "Super Admin" : "Admin";
-    } else {
-      return "expired";
-    }
+  if (loginData?.status) {
+    return loginData?.result?.admin?.isSuper ? "Super Admin" : "Admin";
   } else {
-    return false;
+    return "expired";
   }
 };
 

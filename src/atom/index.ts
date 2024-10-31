@@ -18,6 +18,8 @@ import {
   PurposesType,
   SearchOptionsType,
   UserDetailOptionsType,
+  UserExhibitionConferenceType,
+  UserExhibitionLectureType,
   UserExhibitionListType,
   UserExhibitionRatingType,
   UsersType,
@@ -255,6 +257,25 @@ export const checkedPurposesAtom = atom<string[]>({
 
 export const userExhibitionListAtom = atom<UserExhibitionListType[]>({
   key: "userExhibitionListAtom",
+  default: [],
+});
+
+export const userExhibitionLectureAtom = atom<UserExhibitionLectureType[]>({
+  key: "userExhibitionLectureAtom",
+  default: [],
+});
+
+export const userExhibitionConferenceAtom = atom<
+  UserExhibitionConferenceType[]
+>({
+  key: "userExhibitionConferenceAtom",
+  default: [],
+});
+
+export const userExhibitionConferenceAtomOwn = atom<
+  UserExhibitionConferenceType[]
+>({
+  key: "userExhibitionConferenceAtomOwn",
   default: [],
 });
 

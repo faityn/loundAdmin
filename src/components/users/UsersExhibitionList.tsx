@@ -10,7 +10,7 @@ type Props = {
 };
 const UsersExhibitionList = ({ userId }: Props) => {
   const [userExhibition, setUserExhibition] = useRecoilState(
-    userExhibitionListAtom,
+    userExhibitionListAtom
   );
   const [word, setWord] = useState("");
 
@@ -22,7 +22,7 @@ const UsersExhibitionList = ({ userId }: Props) => {
     const exhibitionList = await userExhibitionList(
       String(userToken),
       Number(userId),
-      word,
+      word
     );
     setUserExhibition(exhibitionList?.rows);
   };
@@ -44,7 +44,7 @@ const UsersExhibitionList = ({ userId }: Props) => {
           onClick={() => handleSearch()}
           className="inline-flex w-25 items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
         >
-          Search
+          찾다
         </button>
       </div>
       <div className="mt-5 max-w-full overflow-x-auto">

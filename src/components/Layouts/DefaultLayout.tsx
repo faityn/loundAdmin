@@ -20,6 +20,7 @@ export default function DefaultLayout({
 
   const getAdminRole = async () => {
     const role = await getRole();
+
     if (role === "expired") {
       router.push("/login");
     } else {
