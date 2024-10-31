@@ -18,7 +18,7 @@ export const adminLogin = async (username: string, password: string) => {
           "Content-Type": "application/json",
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -43,7 +43,7 @@ export const userLogin = async (username: string, password: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-      },
+      }
     );
 
     if (!response.ok) {
@@ -68,7 +68,7 @@ export const getLoginData = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -83,7 +83,7 @@ export const getUsersList = async (
   token: string,
   searchUrl: string,
   page: number,
-  size: number,
+  size: number
 ) => {
   const search = searchUrl;
 
@@ -97,7 +97,7 @@ export const getUsersList = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -119,7 +119,7 @@ export const getUsersDetail = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -140,7 +140,7 @@ export const deleteUser = async (token: string, id: number) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -162,7 +162,7 @@ export const getSearchOptionList = async (token: string) => {
           locale: "mn",
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
     return data;
@@ -182,7 +182,7 @@ export const userDetailOptionList = async (token: string) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -195,7 +195,7 @@ export const userDetailOptionList = async (token: string) => {
 export const userExhibitionList = async (
   token: string,
   id: number,
-  word: string,
+  word: string
 ) => {
   try {
     const response = await fetch(
@@ -207,7 +207,85 @@ export const userExhibitionList = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const userExhibitionLectureList = async (
+  token: string,
+  id: number,
+  exhibition: number,
+  word: string
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/user/exhibition/lecture/${id}/${exhibition}?search=${word}&page=1&pageSize=10`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const userExhibitionConferenceList = async (
+  token: string,
+  id: number,
+  exhibition: number,
+  word: string
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/user/exhibition/conference/${id}/${exhibition}?search=${word}&page=1&pageSize=10`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const userExhibitionConferenceListOwn = async (
+  token: string,
+  id: number,
+  exhibition: number,
+  word: string
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/user/exhibition/conference_own/${id}/${exhibition}?search=${word}&page=1&pageSize=10`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
     );
 
     const data = await response.json();
@@ -220,7 +298,7 @@ export const userExhibitionList = async (
 export const userExhibitionRating = async (
   token: string,
   id: number,
-  exhibition: string,
+  exhibition: string
 ) => {
   try {
     const response = await fetch(
@@ -232,7 +310,7 @@ export const userExhibitionRating = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -263,7 +341,7 @@ export const updateUserInfo = async (token: string, formdata: UserInfoType) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -274,7 +352,7 @@ export const updateUserInfo = async (token: string, formdata: UserInfoType) => {
 };
 
 export const updateUserProfile = async (token: string, formdata: FormData) => {
-  const image: File | null = formdata.get("img") as unknown as File;
+  const image: File | null = (formdata.get("img") as unknown) as File;
   const formData2 = new FormData();
 
   formData2.append("userId", formdata.get("userId") as string);
@@ -300,7 +378,7 @@ export const updateUserProfile = async (token: string, formdata: FormData) => {
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -314,7 +392,7 @@ export const getExhibitionOrganizerList = async (
   token: string,
   searchUrl: string,
   page: number,
-  size: number,
+  size: number
 ) => {
   const search = searchUrl;
 
@@ -328,7 +406,7 @@ export const getExhibitionOrganizerList = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -341,7 +419,7 @@ export const getExhibitionOrganizerList = async (
 
 export const getExhibitionOrganizerDetail = async (
   token: string,
-  id: number,
+  id: number
 ) => {
   try {
     const response = await fetch(
@@ -353,7 +431,7 @@ export const getExhibitionOrganizerDetail = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.json();
@@ -366,7 +444,7 @@ export const getExhibitionOrganizerDetail = async (
 
 export const createExhibitionOrganizer = async (
   token: string,
-  formdata: FormData,
+  formdata: FormData
 ) => {
   const formData2 = new FormData();
 
@@ -388,7 +466,7 @@ export const createExhibitionOrganizer = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -400,7 +478,7 @@ export const createExhibitionOrganizer = async (
 
 export const updateExhibitionOrganizer = async (
   token: string,
-  formdata: FormData,
+  formdata: FormData
 ) => {
   const formData2 = new FormData();
   formData2.append("adminId", formdata.get("adminId") as string);
@@ -424,7 +502,7 @@ export const updateExhibitionOrganizer = async (
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
-      },
+      }
     );
 
     const data = await response.text();
@@ -446,7 +524,7 @@ export const getOrganizerSearchOptionList = async (token: string) => {
           locale: "mn",
         },
         redirect: "follow",
-      },
+      }
     );
     const data = await response.json();
     return data;
@@ -473,7 +551,7 @@ export const deleteOrganizer = async (token: string, ids: string) => {
         },
 
         redirect: "follow",
-      },
+      }
     );
     console.log(response);
 

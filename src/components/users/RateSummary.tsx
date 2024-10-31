@@ -5,16 +5,19 @@ import { useEffect, useState } from "react";
 import { userExhibitionRating } from "@/hooks/useUser";
 import getToken from "@/helper/getToken";
 import { FaChevronDown } from "react-icons/fa";
-
+import getStarRating from "../common/getStarRating";
 type Props = {
   userId: number;
 };
 const RateSummary = ({ userId }: Props) => {
   const userExhibition = useRecoilValue(userExhibitionListAtom);
   const [optionExhibition, setOptionExhibition] = useState("");
-  const [userExhibitionRatingState, setUserExhibitionRatingState] =
-    useRecoilState(userExhibitionRatingAtom);
+  const [
+    userExhibitionRatingState,
+    setUserExhibitionRatingState,
+  ] = useRecoilState(userExhibitionRatingAtom);
 
+  const starRating = getStarRating(Number(userExhibitionRatingState?.rating));
   const handleExhibition = async (val: string) => {
     const userToken = getToken();
     setOptionExhibition(val);
@@ -22,13 +25,13 @@ const RateSummary = ({ userId }: Props) => {
     const exhibitionRating = await userExhibitionRating(
       String(userToken),
       Number(userId),
-      exhibition,
+      exhibition
     );
 
     setUserExhibitionRatingState(exhibitionRating);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {}, [userExhibition]);
   return (
     <div className="pl-5 text-xs">
       <div className=" font-semibold">평가 활동 요약</div>
@@ -39,7 +42,7 @@ const RateSummary = ({ userId }: Props) => {
           className={`text-md relative z-10 w-full appearance-none rounded border border-slate-300 bg-transparent px-5 py-1.5 text-xs text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
         >
           <option value="all" className="text-black dark:text-bodydark">
-            All
+            선택
           </option>
           {userExhibition?.map((e, i) => (
             <option
@@ -57,13 +60,11 @@ const RateSummary = ({ userId }: Props) => {
         </span>
       </div>
       <div className="flex flex-col gap-4 pt-10 text-xl">
-        <div>총 평가 수: {userExhibitionRatingState?.total}개 행사</div>
-
-        <div>평균 평가 점수: {userExhibitionRatingState?.avarage} 점</div>
-
         <div>
-          최고 / 최저 평가 점수: {userExhibitionRatingState?.max}점 /{" "}
-          {userExhibitionRatingState?.min}점
+          <div className="mb-5">{starRating}</div>
+          <div className="w-full border border-slate-300 rounded-lg p-4 min-h-[200px] max-h-[470px]">
+            {userExhibitionRatingState?.comment}
+          </div>
         </div>
       </div>
     </div>

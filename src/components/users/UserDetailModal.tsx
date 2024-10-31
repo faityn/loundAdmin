@@ -17,7 +17,7 @@ import { MdOutlineRateReview } from "react-icons/md";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Datepicker from "tailwind-datepicker-react";
 import TextEditor from "../Editor/TextEditor";
-import { PiUserList } from "react-icons/pi";
+import { PiUserList, PiUserSwitch, PiUsersThreeLight } from "react-icons/pi";
 import UsersExhibitionList from "./UsersExhibitionList";
 import RateSummary from "./RateSummary";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -25,9 +25,10 @@ import getToken from "@/helper/getToken";
 import { updateUserInfo, updateUserProfile } from "@/hooks/useUser";
 import AlertModal from "../Modal/AlertModal";
 import { LuAlertCircle } from "react-icons/lu";
-
 import { FaUserLarge } from "react-icons/fa6";
 import Loader from "../common/Loader";
+import UsersLecturesList from "./UsersLecturesList";
+import UsersConferenceList from "./UsersConferenceList";
 interface FormData {
   name: string;
   username: string;
@@ -65,11 +66,13 @@ const DetailModal: React.FC = () => {
   const [activeButton, setActiveButton] = useState("1");
   const options = datePickerOption1(birthDate);
   const [contentValue, setContentValue] = useState("");
-  const [checkedInterest, setChechedInterest] =
-    useRecoilState(checkedInterestAtom);
+  const [checkedInterest, setChechedInterest] = useRecoilState(
+    checkedInterestAtom
+  );
 
-  const [checkedPurposes, setChechedPurposes] =
-    useRecoilState(checkedPurposesAtom);
+  const [checkedPurposes, setChechedPurposes] = useRecoilState(
+    checkedPurposesAtom
+  );
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
   const {
@@ -132,7 +135,7 @@ const DetailModal: React.FC = () => {
     setChechedInterest((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id),
+        : prevChecked.filter((item: string) => item !== id)
     );
   };
 
@@ -140,7 +143,7 @@ const DetailModal: React.FC = () => {
     setChechedPurposes((prevChecked) =>
       e.target.checked
         ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id),
+        : prevChecked.filter((item: string) => item !== id)
     );
   };
 
@@ -340,7 +343,9 @@ const DetailModal: React.FC = () => {
             </div>
             <div className="overflow-y-auto">
               <div
-                className={`${activeTab !== "info" ? "hidden" : ""} mx-auto h-[650px] max-w-[400px]  pt-5 text-left text-sm`}
+                className={`${
+                  activeTab !== "info" ? "hidden" : ""
+                } mx-auto h-[650px] max-w-[400px]  pt-5 text-left text-sm`}
               >
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-5">
@@ -550,7 +555,9 @@ const DetailModal: React.FC = () => {
                 </form>
               </div>
               <div
-                className={`${activeTab !== "profile" ? "hidden" : ""} mx-auto h-[650px]   pt-5 text-left`}
+                className={`${
+                  activeTab !== "profile" ? "hidden" : ""
+                } mx-auto h-[650px]   pt-5 text-left`}
               >
                 <form onSubmit={handleSubmit2(profileSubmit)}>
                   <div className="grid grid-cols-12">
@@ -776,24 +783,24 @@ const DetailModal: React.FC = () => {
                                           onChange={(e) =>
                                             handleCheck(
                                               e,
-                                              item?.id as unknown as string,
+                                              (item?.id as unknown) as string
                                             )
                                           }
                                           checked={checkedInterest.includes(
-                                            item?.id as unknown as string,
+                                            (item?.id as unknown) as string
                                           )}
                                         />
                                         <div
                                           className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
                                             checkedInterest.includes(
-                                              item?.id as unknown as string,
+                                              (item?.id as unknown) as string
                                             ) && "border-primary "
                                           }`}
                                         >
                                           <span
                                             className={`h-2.5 w-2.5 rounded-full bg-transparent ${
                                               checkedInterest.includes(
-                                                item?.id as unknown as string,
+                                                (item?.id as unknown) as string
                                               ) && "!bg-primary"
                                             }`}
                                           >
@@ -829,24 +836,24 @@ const DetailModal: React.FC = () => {
                                           onChange={(e) =>
                                             handleCheck2(
                                               e,
-                                              item?.id as unknown as string,
+                                              (item?.id as unknown) as string
                                             )
                                           }
                                           checked={checkedPurposes.includes(
-                                            item?.id as unknown as string,
+                                            (item?.id as unknown) as string
                                           )}
                                         />
                                         <div
                                           className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
                                             checkedPurposes.includes(
-                                              item?.id as unknown as string,
+                                              (item?.id as unknown) as string
                                             ) && "border-primary "
                                           }`}
                                         >
                                           <span
                                             className={`h-2.5 w-2.5 rounded-full bg-transparent ${
                                               checkedPurposes.includes(
-                                                item?.id as unknown as string,
+                                                (item?.id as unknown) as string
                                               ) && "!bg-primary"
                                             }`}
                                           >
@@ -885,7 +892,9 @@ const DetailModal: React.FC = () => {
               </div>
 
               <div
-                className={`${activeTab !== "activity" ? "hidden" : ""} mx-auto h-[650px]   pt-5 text-left`}
+                className={`${
+                  activeTab !== "activity" ? "hidden" : ""
+                } mx-auto h-[650px]   pt-5 text-left`}
               >
                 <div className="grid h-full grid-cols-12 gap-5">
                   <div className="col-span-5">
@@ -908,25 +917,23 @@ const DetailModal: React.FC = () => {
                       </div>
                       <div className="text-xs ">
                         <div className="mb-2 font-semibold text-black">
-                          {userDetail[0]?.name}
+                          {userDetail[0]?.name}2
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="mr-4">성별</div>
                           {userDetailOptions?.gender?.map((e, i) => (
-                            <div key={`g${i}`}>
+                            <div key={`d${i}`}>
                               <label
-                                htmlFor={`g${e?.value}`}
+                                htmlFor={`d${e?.value}`}
                                 className="flex cursor-pointer select-none items-center"
                               >
                                 <div className="relative">
                                   <input
                                     type="checkbox"
-                                    id={`g${e?.value}`}
+                                    id={`d${e?.value}`}
                                     value={e?.value}
                                     className="sr-only"
-                                    onChange={(e) => {
-                                      changeGender(e.target.value);
-                                    }}
+                                    readOnly
                                   />
                                   <div
                                     className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
@@ -954,7 +961,11 @@ const DetailModal: React.FC = () => {
                       <div className="flex flex-col gap-5">
                         <button
                           type="button"
-                          className={`flex w-full items-center gap-4 rounded-lg border border-slate-300  px-5 py-1  hover:bg-primary hover:text-white ${activeButton === "1" ? "bg-primary text-white " : "bg-white text-slate-600"}`}
+                          className={`flex w-full items-center gap-4 rounded-lg border border-slate-300  px-5 py-1  hover:bg-primary hover:text-white ${
+                            activeButton === "1"
+                              ? "bg-primary text-white "
+                              : "bg-white text-slate-600"
+                          }`}
                           onClick={() => selectButton("1")}
                         >
                           <div className="w-20 ">
@@ -964,8 +975,40 @@ const DetailModal: React.FC = () => {
                         </button>
                         <button
                           type="button"
-                          className={`flex w-full items-center gap-4 rounded-lg border border-slate-400  px-5 py-1  hover:bg-primary hover:text-white ${activeButton === "2" ? "bg-primary text-white " : "bg-white text-slate-600"}`}
+                          className={`flex w-full items-center gap-4 rounded-lg border border-slate-400  px-5 py-1  hover:bg-primary hover:text-white ${
+                            activeButton === "2"
+                              ? "bg-primary text-white "
+                              : "bg-white text-slate-600"
+                          }`}
                           onClick={() => selectButton("2")}
+                        >
+                          <div className="w-20 text-center">
+                            <PiUserSwitch className="text-[50px]" />
+                          </div>{" "}
+                          <div className="font-semibold">참여한 강연 정보</div>
+                        </button>
+                        <button
+                          type="button"
+                          className={`flex w-full items-center gap-4 rounded-lg border border-slate-400  px-5 py-1  hover:bg-primary hover:text-white ${
+                            activeButton === "3"
+                              ? "bg-primary text-white "
+                              : "bg-white text-slate-600"
+                          }`}
+                          onClick={() => selectButton("3")}
+                        >
+                          <div className="w-20 text-center">
+                            <PiUsersThreeLight className="text-[50px]" />
+                          </div>{" "}
+                          <div className="font-semibold">활동한 회의 정보</div>
+                        </button>
+                        <button
+                          type="button"
+                          className={`flex w-full items-center gap-4 rounded-lg border border-slate-400  px-5 py-1  hover:bg-primary hover:text-white ${
+                            activeButton === "4"
+                              ? "bg-primary text-white "
+                              : "bg-white text-slate-600"
+                          }`}
+                          onClick={() => selectButton("4")}
                         >
                           <div className="w-20 text-center">
                             <MdOutlineRateReview className="text-[50px]" />
@@ -977,12 +1020,20 @@ const DetailModal: React.FC = () => {
                   </div>
 
                   <div className="col-span-7 border-l border-dashed text-black">
-                    {activeButton === "2" ? (
-                      <RateSummary userId={Number(userDetail[0]?.userId)} />
-                    ) : (
+                    {activeButton === "1" ? (
                       <UsersExhibitionList
                         userId={Number(userDetail[0]?.userId)}
                       />
+                    ) : activeButton === "2" ? (
+                      <UsersLecturesList
+                        userId={Number(userDetail[0]?.userId)}
+                      />
+                    ) : activeButton === "3" ? (
+                      <UsersConferenceList
+                        userId={Number(userDetail[0]?.userId)}
+                      />
+                    ) : (
+                      <RateSummary userId={Number(userDetail[0]?.userId)} />
                     )}
                   </div>
                 </div>

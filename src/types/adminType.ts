@@ -78,7 +78,7 @@ export type ExhibitionOptionType = {
     {
       value: string;
       text: string;
-    },
+    }
   ];
   content?: string;
   createdAt?: string;
@@ -212,7 +212,7 @@ export type AdminMenuType = {
       iconClass?: string;
       isAdmin?: boolean;
       menu_name?: string;
-    },
+    }
   ];
 };
 
@@ -226,13 +226,13 @@ export type SearchOptionsType = {
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
   status?: [
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
 };
 
@@ -241,25 +241,25 @@ export type UserDetailOptionsType = {
     {
       roleId?: number;
       role_name?: string;
-    },
+    }
   ];
   profession?: [
     {
       professionId?: number;
       title?: string;
-    },
+    }
   ];
   status?: [
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
   gender?: [
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
 };
 
@@ -270,7 +270,7 @@ export type SearchValueType = [
     startDate: string;
     endDate: string;
     status: string;
-  },
+  }
 ];
 
 export type UserExhibitionListType = {
@@ -285,12 +285,36 @@ export type UserExhibitionListType = {
   exhibition?: ExhibitionType;
 };
 
+export type UserExhibitionLectureType = {
+  lectureId?: number;
+  exhibitionId?: number;
+  title?: string;
+  startDate?: string;
+  endDate?: string;
+};
+
+export type UserExhibitionConferenceType = {
+  conferenceId?: number;
+  exhibitionId?: number;
+  userId?: number;
+  title?: string;
+  startDate?: string;
+  endDate?: string;
+  participationText?: string;
+  user?: {
+    companyName?: string;
+    name?: string;
+    position?: string;
+    userId?: number;
+  };
+};
+
 export type UserExhibitionRatingType = {
-  total?: number;
-  avarage?: number;
-  max?: number;
-  min?: number;
-  rows?: [];
+  ratingId?: number;
+  rating?: number;
+  exhibitionId?: number;
+  userId?: number;
+  comment?: string;
 };
 
 export type UserInfoType = {
