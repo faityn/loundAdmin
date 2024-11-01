@@ -1,13 +1,11 @@
 import {
-  checkedInterestAtom,
-  checkedPurposesAtom,
   dataSavedAtom,
   detailOpenAtom,
   fileAtom,
   userDetailAtom,
   userDetailOptionsAtom,
 } from "@/atom";
-import { datePickerOption1, Interests, Purposes } from "@/helper/utility";
+import { datePickerOption1 } from "@/helper/utility";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
@@ -66,13 +64,7 @@ const DetailModal: React.FC = () => {
   const [activeButton, setActiveButton] = useState("1");
   const options = datePickerOption1(birthDate);
   const [contentValue, setContentValue] = useState("");
-  const [checkedInterest, setChechedInterest] = useRecoilState(
-    checkedInterestAtom
-  );
 
-  const [checkedPurposes, setChechedPurposes] = useRecoilState(
-    checkedPurposesAtom
-  );
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
   const {
@@ -129,22 +121,6 @@ const DetailModal: React.FC = () => {
   };
   const handleEditorChange = (newContent: string) => {
     setContentValue(newContent);
-  };
-
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    setChechedInterest((prevChecked) =>
-      e.target.checked
-        ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id)
-    );
-  };
-
-  const handleCheck2 = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    setChechedPurposes((prevChecked) =>
-      e.target.checked
-        ? [...prevChecked, id]
-        : prevChecked.filter((item: string) => item !== id)
-    );
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -210,10 +186,6 @@ const DetailModal: React.FC = () => {
     setActiveButton(val);
   };
 
-  const InterestsList = Interests();
-
-  const PurposesList = Purposes();
-
   useEffect(() => {
     setOptionRole(String(userDetail[0]?.roleId));
     setOptionProfession(String(userDetail[0]?.professionId));
@@ -221,8 +193,7 @@ const DetailModal: React.FC = () => {
     setGender(userDetail[0]?.gender as string);
     setUseStatus(userDetail[0]?.status as string);
     setBirthDate(format(String(userDetail[0]?.birthday), "yyyy-MM-dd"));
-    setChechedInterest([]);
-    setChechedPurposes([]);
+
     setValue("professionId", Number(userDetail[0]?.professionId));
     setValue("roleId", Number(userDetail[0]?.roleId));
   }, [userDetail]);
@@ -557,11 +528,11 @@ const DetailModal: React.FC = () => {
               <div
                 className={`${
                   activeTab !== "profile" ? "hidden" : ""
-                } mx-auto h-[650px]   pt-5 text-left`}
+                } mx-auto h-[650px] max-w-[400px]  pt-5 text-left`}
               >
                 <form onSubmit={handleSubmit2(profileSubmit)}>
                   <div className="grid grid-cols-12">
-                    <div className="col-span-6">
+                    <div className="col-span-12">
                       <div className="flex w-full items-center text-sm">
                         <div className="w-30 ">
                           <div className="h-20 w-20 rounded-full border bg-slate-400">
@@ -761,115 +732,6 @@ const DetailModal: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-span-6  px-5 pt-20 text-xs">
-                      <div className="flex h-full w-full flex-col items-center gap-4   p-4">
-                        <div className="w-full rounded-md border border-dashed border-slate-400 p-3">
-                          <div className="mb-4">관심 분야</div>
-                          <div>
-                            <div className="grid grid-cols-2 items-center gap-4 ">
-                              {InterestsList &&
-                                InterestsList?.map((item, index) => (
-                                  <div key={index} className="col-span-1">
-                                    <label
-                                      htmlFor={`${item?.id}${index}`}
-                                      className="flex cursor-pointer select-none items-center"
-                                    >
-                                      <div className="relative">
-                                        <input
-                                          type="checkbox"
-                                          id={`${item?.id}${index}`}
-                                          value={item?.id}
-                                          className="sr-only"
-                                          onChange={(e) =>
-                                            handleCheck(
-                                              e,
-                                              (item?.id as unknown) as string
-                                            )
-                                          }
-                                          checked={checkedInterest.includes(
-                                            (item?.id as unknown) as string
-                                          )}
-                                        />
-                                        <div
-                                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                            checkedInterest.includes(
-                                              (item?.id as unknown) as string
-                                            ) && "border-primary "
-                                          }`}
-                                        >
-                                          <span
-                                            className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                              checkedInterest.includes(
-                                                (item?.id as unknown) as string
-                                              ) && "!bg-primary"
-                                            }`}
-                                          >
-                                            {" "}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      {item?.name}
-                                    </label>
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="w-full rounded-md border border-dashed border-slate-400 p-3">
-                          <div className="mb-4">참가 목적</div>
-                          <div>
-                            <div className="grid grid-cols-2 items-center gap-4 ">
-                              {PurposesList &&
-                                PurposesList?.map((item, index) => (
-                                  <div key={index} className="col-span-1">
-                                    <label
-                                      htmlFor={`purpose${item?.id}${index}`}
-                                      className="flex cursor-pointer select-none items-center"
-                                    >
-                                      <div className="relative">
-                                        <input
-                                          type="checkbox"
-                                          id={`purpose${item?.id}${index}`}
-                                          value={item?.id}
-                                          className="sr-only"
-                                          onChange={(e) =>
-                                            handleCheck2(
-                                              e,
-                                              (item?.id as unknown) as string
-                                            )
-                                          }
-                                          checked={checkedPurposes.includes(
-                                            (item?.id as unknown) as string
-                                          )}
-                                        />
-                                        <div
-                                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                            checkedPurposes.includes(
-                                              (item?.id as unknown) as string
-                                            ) && "border-primary "
-                                          }`}
-                                        >
-                                          <span
-                                            className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                              checkedPurposes.includes(
-                                                (item?.id as unknown) as string
-                                              ) && "!bg-primary"
-                                            }`}
-                                          >
-                                            {" "}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      {item?.name}
-                                    </label>
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   <div className="flex justify-center gap-4 pt-5">
@@ -917,7 +779,7 @@ const DetailModal: React.FC = () => {
                       </div>
                       <div className="text-xs ">
                         <div className="mb-2 font-semibold text-black">
-                          {userDetail[0]?.name}2
+                          {userDetail[0]?.name}
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="mr-4">성별</div>
@@ -971,7 +833,7 @@ const DetailModal: React.FC = () => {
                           <div className="w-20 ">
                             <PiUserList className="text-[50px]" />
                           </div>{" "}
-                          <div className="font-semibold">참가한 전시 정보</div>
+                          <div className="font-semibold">참가한 행사 정보</div>
                         </button>
                         <button
                           type="button"
