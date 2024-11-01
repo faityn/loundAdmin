@@ -30,7 +30,9 @@ const UsersLecturesList = ({ userId }: Props) => {
       word
     );
 
-    setUserExhibitionLecture(exhibitionLecture);
+    if (exhibitionLecture) {
+      setUserExhibitionLecture(exhibitionLecture);
+    }
   };
 
   const handleSearchWord = (val: string) => {
@@ -45,10 +47,11 @@ const UsersLecturesList = ({ userId }: Props) => {
       Number(10),
       word
     );
-
-    setUserExhibitionLecture(exhibitionLecture);
+    if (exhibitionLecture) {
+      setUserExhibitionLecture(exhibitionLecture);
+    }
   };
-  useEffect(() => {}, []);
+  useEffect(() => {}, [userExhibitionLecture]);
   return (
     <div className="pl-5 text-xs">
       <div className=" font-semibold"> 참가한 강연 정보 </div>
@@ -59,7 +62,7 @@ const UsersLecturesList = ({ userId }: Props) => {
           onChange={(e) => handleExhibition(e.target.value)}
           className={`text-md relative z-10 w-full appearance-none rounded border border-slate-300 bg-transparent px-5 py-1.5 text-xs text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-slate-700 dark:text-white dark:focus:border-primary`}
         >
-          <option value="all" className="text-black dark:text-bodydark">
+          <option value="0" className="text-black dark:text-bodydark">
             선택
           </option>
           {userExhibition?.map((e, i) => (
@@ -110,31 +113,34 @@ const UsersLecturesList = ({ userId }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {userExhibitionLecture?.map((item, i) => (
-              <tr key={i}>
-                <td className="border-b border-[#eee] px-4 py-3 ">
-                  {item?.title}
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 ">
-                  {item?.startDate
-                    ? formatInTimeZone(
-                        parseISO(item?.startDate),
-                        "UTC",
-                        "yyyy-MM-dd HH:mm"
-                      )
-                    : ""}{" "}
-                  ~{" "}
-                  {item?.endDate
-                    ? formatInTimeZone(
-                        parseISO(item?.endDate),
-                        "UTC",
-                        "yyyy-MM-dd HH:mm"
-                      )
-                    : ""}
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 ">참가 완료</td>
-              </tr>
-            ))}
+            {userExhibitionLecture?.length > 0 &&
+              userExhibitionLecture?.map((item, i) => (
+                <tr key={i}>
+                  <td className="border-b border-[#eee] px-4 py-3 ">
+                    {item?.title}
+                  </td>
+                  <td className="border-b border-[#eee] px-4 py-3 ">
+                    {item?.startDate
+                      ? formatInTimeZone(
+                          parseISO(item?.startDate),
+                          "UTC",
+                          "yyyy-MM-dd HH:mm"
+                        )
+                      : ""}{" "}
+                    ~{" "}
+                    {item?.endDate
+                      ? formatInTimeZone(
+                          parseISO(item?.endDate),
+                          "UTC",
+                          "yyyy-MM-dd HH:mm"
+                        )
+                      : ""}
+                  </td>
+                  <td className="border-b border-[#eee] px-4 py-3 ">
+                    참가 완료
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
