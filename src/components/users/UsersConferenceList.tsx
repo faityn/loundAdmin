@@ -90,7 +90,7 @@ const UsersConferenceList = ({ userId }: Props) => {
           onChange={(e) => handleExhibition(e.target.value)}
           className={`text-md relative z-10 w-full appearance-none rounded border border-slate-300 bg-transparent px-5 py-1.5 text-xs text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-slate-700 dark:text-white dark:focus:border-primary`}
         >
-          <option value="all" className="text-black dark:text-bodydark">
+          <option value="0" className="text-black dark:text-bodydark">
             선택
           </option>
           {userExhibition?.map((e, i) => (
@@ -202,17 +202,18 @@ const UsersConferenceList = ({ userId }: Props) => {
           >
             <div className="w-full flex flex-col gap-4 ">
               {/* {userConferenceLectureOwn?.length > 0 && } */}
-              {userConferenceOwn?.map((item, i) => (
-                <UsersConferenceOneItem
-                  key={i}
-                  title={item?.title}
-                  startDate={item?.startDate}
-                  endDate={item?.endDate}
-                  participationText={item?.participationText}
-                  companyName={item?.user?.companyName}
-                  name={item?.user?.name}
-                />
-              ))}
+              {userConferenceOwn?.length > 0 &&
+                userConferenceOwn?.map((item, i) => (
+                  <UsersConferenceOneItem
+                    key={i}
+                    title={item?.title}
+                    startDate={item?.startDate}
+                    endDate={item?.endDate}
+                    participationText={item?.participationText}
+                    companyName={item?.user?.companyName}
+                    name={item?.user?.name}
+                  />
+                ))}
             </div>
           </div>
 
