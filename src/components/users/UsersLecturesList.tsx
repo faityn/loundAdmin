@@ -132,9 +132,7 @@ const UsersLecturesList = ({ userId }: Props) => {
                       )
                     : ""}
                 </td>
-                <td className="border-b border-[#eee] px-4 py-3 ">
-                  {item?.lectureId}
-                </td>
+                <td className="border-b border-[#eee] px-4 py-3 ">참가 완료</td>
               </tr>
             ))}
           </tbody>
