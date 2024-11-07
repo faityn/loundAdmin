@@ -322,7 +322,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
-                              Exhibition lectures
+                              강연 관리
                             </Link>
                           </li>
                         </ul>
