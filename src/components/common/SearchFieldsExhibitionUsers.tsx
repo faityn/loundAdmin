@@ -1,10 +1,12 @@
 import {
   endDateAtom,
+  optionExhibitionAtom,
   optionStatusAtom,
   optionTypeAtom,
   searchOptionsAtom,
   searchWordAtom,
   startDateAtom,
+  usersAddExhibitionListAtom,
 } from "@/atom";
 import { datePickerOption1, datePickerOption2 } from "@/helper/utility";
 import { format } from "date-fns";
@@ -15,6 +17,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import Datepicker from "tailwind-datepicker-react";
 interface Props {
   handleSubmit?: () => void;
+  exhibitionId?: string;
   searchType?: string;
   search?: string;
   start?: string;
@@ -22,8 +25,9 @@ interface Props {
   status?: string;
   noStatus?: boolean;
 }
-const SearchFields = ({
+const SearchFieldsExhibitionUsers = ({
   handleSubmit,
+  exhibitionId,
   searchType,
   search,
   start,
@@ -37,13 +41,18 @@ const SearchFields = ({
   const [show, setShow] = useState(false);
   const [endShow, setEndShow] = useState(false);
   const [optionType, setOptionType] = useRecoilState(optionTypeAtom);
-
+  const [optionExhibition, setOptionExhibition] = useRecoilState(
+    optionExhibitionAtom
+  );
   const [optionStatus, setOptionStatus] = useRecoilState(optionStatusAtom);
   const [searchWord, setSearchWord] = useRecoilState(searchWordAtom);
+  const usersAddExhibitionList = useRecoilValue(usersAddExhibitionListAtom);
   const options = datePickerOption1(startDate);
 
   const options2 = datePickerOption2(endDate);
+
   useEffect(() => {
+    setOptionExhibition(exhibitionId as string);
     setOptionType(searchType as string);
     setSearchWord(search as string);
     setStartDate(start as string);
@@ -53,6 +62,11 @@ const SearchFields = ({
   const handleTypeOption = (val: string) => {
     setOptionType(val);
   };
+
+  const handleExhibitionOption = (val: string) => {
+    setOptionExhibition(val);
+  };
+
   const handleStatusOption = (val: string) => {
     setOptionStatus(val);
   };
@@ -83,6 +97,40 @@ const SearchFields = ({
     <div>
       <table className=" w-[800px] table-auto text-sm ">
         <tbody>
+          <tr>
+            <td className=" w-20 border-[#eee]  py-3 dark:border-strokedark ">
+              <h5 className=" text-black dark:text-white">날짜</h5>
+            </td>
+            <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+              <div className=" w-full  ">
+                <div className="w-full relative z-20 bg-transparent dark:bg-form-input ">
+                  <select
+                    value={optionExhibition}
+                    onChange={(e) => handleExhibitionOption(e.target.value)}
+                    className={`relative z-20 text-md w-full appearance-none rounded border border-stroke bg-transparent px-5 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
+                  >
+                    <option value="" className="text-black dark:text-bodydark">
+                      전체
+                    </option>
+                    {usersAddExhibitionList?.map((e, i) => (
+                      <option
+                        key={i}
+                        value={String(e?.exhibitionId)}
+                        className="text-black dark:text-bodydark"
+                      >
+                        {e?.title}
+                      </option>
+                    ))}
+                  </select>
+
+                  <span className="absolute right-2 top-1/2 z-30 -translate-y-1/2 text-black dark:text-white">
+                    <FaChevronDown />
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td className=" w-70 border-[#eee]  py-3 dark:border-strokedark "></td>
+          </tr>
           <tr>
             <td className=" w-20 border-[#eee]  py-3 dark:border-strokedark ">
               <h5 className=" text-black dark:text-white">날짜</h5>
@@ -142,7 +190,7 @@ const SearchFields = ({
                 }`}
               >
                 <div className=" ">
-                  <h5 className=" text-black dark:text-white">상태</h5>
+                  <h5 className=" text-black dark:text-white">참석</h5>
                 </div>
                 <div className="w-25 relative z-20 bg-transparent dark:bg-form-input ">
                   <select
@@ -150,15 +198,21 @@ const SearchFields = ({
                     onChange={(e) => handleStatusOption(e.target.value)}
                     className={`relative z-10 text-md w-full appearance-none rounded border border-stroke bg-transparent px-5 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
                   >
-                    {searchOptions?.status?.map((e, i) => (
-                      <option
-                        key={i}
-                        value={String(e?.value)}
-                        className="text-black dark:text-bodydark"
-                      >
-                        {e?.text}
-                      </option>
-                    ))}
+                    <option value="" className="text-black dark:text-bodydark">
+                      전체
+                    </option>
+                    <option
+                      value="true"
+                      className="text-black dark:text-bodydark"
+                    >
+                      확인
+                    </option>
+                    <option
+                      value="false"
+                      className="text-black dark:text-bodydark"
+                    >
+                      미확인
+                    </option>
                   </select>
 
                   <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-black dark:text-white">
@@ -223,4 +277,4 @@ const SearchFields = ({
   );
 };
 
-export default SearchFields;
+export default SearchFieldsExhibitionUsers;

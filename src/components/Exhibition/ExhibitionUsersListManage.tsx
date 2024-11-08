@@ -5,17 +5,19 @@ import {
   dataSavedAtom,
   detailOpenAtom,
   endDateAtom,
+  exhibitionUserListAtom,
+  optionExhibitionAtom,
   optionStatusAtom,
   optionTypeAtom,
   searchOptionsAtom,
   searchWordAtom,
   startDateAtom,
   totalPageAtom,
-  userAllListAtom,
   userDetailAtom,
   userDetailOptionsAtom,
   userExhibitionListAtom,
   userExhibitionRatingAtom,
+  usersAddExhibitionListAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -32,17 +34,20 @@ import {
 import CustomModal from "../Modal/Confirm";
 import getToken from "@/helper/getToken";
 
-import SearchFields from "../common/SearchFields";
 import Loader from "../common/Loader";
 import { format } from "date-fns";
 import { FaChevronDown } from "react-icons/fa";
-
-import DetailModal from "./UserDetailModal";
+import {
+  ConfirmUsersToExhibition,
+  getUsersAddExhibitionList,
+  getUsersListByExhibitions,
+} from "@/hooks/useEvents";
+import SearchFieldsExhibitionUsers from "../common/SearchFieldsExhibitionUsers";
 
 interface Props {
   url?: string;
 }
-const UsersList = ({ url }: Props) => {
+const ExhibitionUsersListManage = ({ url }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -54,7 +59,7 @@ const UsersList = ({ url }: Props) => {
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
   const [isOpen, setIsOpen] = useState(false);
-  const [userAllList, setUserAllList] = useRecoilState(userAllListAtom);
+  const [userAllList, setUserAllList] = useRecoilState(exhibitionUserListAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
   const setUserDetailOptions = useSetRecoilState(userDetailOptionsAtom);
@@ -64,9 +69,14 @@ const UsersList = ({ url }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const optionStatus = useRecoilValue(optionStatusAtom);
   const searchWord = useRecoilValue(searchWordAtom);
+  const optionExhibition = useRecoilValue(optionExhibitionAtom);
   const setUserDetail = useSetRecoilState(userDetailAtom);
-  const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+  const setDetailOpen = useSetRecoilState(detailOpenAtom);
   const setUserExhibition = useSetRecoilState(userExhibitionListAtom);
+
+  const setUsersAddExhibitionList = useSetRecoilState(
+    usersAddExhibitionListAtom
+  );
 
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
 
@@ -89,11 +99,15 @@ const UsersList = ({ url }: Props) => {
   const handleSubmit = async () => {
     setLoading(true);
 
+    const exhibition = optionExhibition
+      ? `&exhibitionId=${optionExhibition}`
+      : "";
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
-    const status = optionStatus ? `&status=${optionStatus}` : "";
-    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const status = optionStatus ? `&isConfirmed=${optionStatus}` : "";
+    const searchUrl = `searchType=${optionType}${exhibition}${search}${start}${end}${status}`;
+
     const newUrl = decodeURIComponent(searchUrl);
     const userToken = getToken();
     router.push(`/${url}?${newUrl}`);
@@ -154,6 +168,12 @@ const UsersList = ({ url }: Props) => {
     setUserExhibitionRatingState(exhibitionRating);
     setDetailOpen(true);
   };
+  const ExhibitionUsers = async () => {
+    const userToken = getToken();
+    const exhibitionList = await getUsersAddExhibitionList(String(userToken));
+
+    setUsersAddExhibitionList(exhibitionList?.exhibitions);
+  };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
@@ -172,6 +192,22 @@ const UsersList = ({ url }: Props) => {
     }
   };
 
+  const ExhibitionUsersConfirm = async (status: boolean) => {
+    const userToken = getToken();
+    const result = checkedElements.join(",");
+
+    const res = await ConfirmUsersToExhibition(
+      String(userToken),
+      result,
+      status
+    );
+
+    if (res?.status) {
+      getData();
+      setChechedElements([]);
+    }
+  };
+
   const getSearchOption = async () => {
     const userToken = getToken();
     const response = await getSearchOptionList(String(userToken));
@@ -179,6 +215,9 @@ const UsersList = ({ url }: Props) => {
     setSearchOptions(response);
   };
   const getData = async () => {
+    const exhibitionId = searchParams.get("exhibitionId")
+      ? `&exhibitionId=${searchParams.get("exhibitionId")}`
+      : "";
     const searchType = searchParams.get("searchType");
 
     const search = searchParams.get("search")
@@ -190,19 +229,21 @@ const UsersList = ({ url }: Props) => {
     const end = searchParams.get("endDate")
       ? `&endDate=${searchParams.get("endDate")}`
       : "";
-    const status = searchParams.get("status")
-      ? `&status=${searchParams.get("status")}`
+    const isConfirmed = searchParams.get("isConfirmed")
+      ? `&isConfirmed=${searchParams.get("isConfirmed")}`
       : "";
     const pageLimitNew = searchParams.get("pageLimit")
       ? searchParams.get("pageLimit")
       : size;
 
     setPageLimit(pageLimitNew as string);
-    const searchUrl = `searchType=${searchType}${search}${start}${end}${status}`;
+    const searchUrl = `searchType=${searchType}${exhibitionId}${search}${start}${end}${isConfirmed}`;
+
     const newUrl = decodeURIComponent(searchUrl);
+
     setNewUrl(newUrl);
     const userToken = getToken();
-    const response = await getUsersList(
+    const response = await getUsersListByExhibitions(
       String(userToken),
       newUrl as string,
       Number(page),
@@ -225,18 +266,21 @@ const UsersList = ({ url }: Props) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getSearchOption();
     //eslint-disable-next-line react-hooks/exhaustive-deps
+    ExhibitionUsers();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
   }, [searchParams, pageLimit]);
   return (
     <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
-        <SearchFields
+        <SearchFieldsExhibitionUsers
           handleSubmit={handleSubmit}
+          exhibitionId={searchParams.get("exhibitionId") as string}
           searchType={searchParams.get("searchType") as string}
           search={searchParams.get("search") as string}
           start={searchParams.get("startDate") as string}
           end={searchParams.get("endDate") as string}
-          status={searchParams.get("status") as string}
+          status={searchParams.get("isConfirmed") as string}
         />
         {loading ? <Loader /> : ""}
       </div>
@@ -305,10 +349,9 @@ const UsersList = ({ url }: Props) => {
           ) : (
             ""
           )}
-
-          {detailOpen ? <DetailModal /> : ""}
         </div>
       </div>
+
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto text-sm">
           <thead>
@@ -369,7 +412,7 @@ const UsersList = ({ url }: Props) => {
                 최근 로그인
               </th>
               <th className="min-w-[130px] px-4 py-2 font-medium text-black dark:text-white">
-                상태
+                참석
               </th>
             </tr>
           </thead>
@@ -435,7 +478,9 @@ const UsersList = ({ url }: Props) => {
                   <p className="text-black dark:text-white">{item?.email}</p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">{item?.gender}</p>
+                  <p className="text-black dark:text-white">
+                    {item?.genderText}
+                  </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   <p className="text-black dark:text-white">
@@ -452,34 +497,50 @@ const UsersList = ({ url }: Props) => {
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  {item?.status === "use" ? (
-                    <p
-                      className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success `}
-                    >
-                      Use
-                    </p>
-                  ) : (
-                    <p
-                      className={`inline-flex rounded-full bg-danger bg-opacity-10 px-3 py-1 text-sm font-medium text-danger `}
-                    >
-                      Disabled
-                    </p>
-                  )}
+                  <p
+                    className={`inline-flex rounded-full ${
+                      item?.exhibition?.[0]?.isConfirmed
+                        ? "bg-success text-success"
+                        : "bg-danger text-danger"
+                    }  bg-opacity-10 px-3 py-1 text-sm font-medium `}
+                  >
+                    {item?.exhibition?.[0]?.isConfirmedText}
+                  </p>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
-        {totalPage > 1 ? (
-          <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
-        ) : (
-          ""
-        )}
+      <div className="my-5 flex justify-between">
+        <div>
+          {totalPage > 1 ? (
+            <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            onClick={() => ExhibitionUsersConfirm(true)}
+            disabled={checkedElements?.length > 0 ? false : true}
+          >
+            확인
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            onClick={() => ExhibitionUsersConfirm(false)}
+            disabled={checkedElements?.length > 0 ? false : true}
+          >
+            미확인
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default UsersList;
+export default ExhibitionUsersListManage;

@@ -10,6 +10,7 @@ import {
   ExhibitionOptionType,
   ExhibitionOrganizerListType,
   ExhibitionType,
+  ExhibitionUsersListType,
   InterestsType,
   LecturesArrayType,
   MenuItem,
@@ -22,6 +23,7 @@ import {
   UserExhibitionLectureType,
   UserExhibitionListType,
   UserExhibitionRatingType,
+  UsersAddExhibitionListType,
   UsersType,
 } from "@/types/adminType";
 
@@ -162,6 +164,11 @@ export const userAllListAtom = atom<UsersType[]>({
   default: [],
 });
 
+export const exhibitionUserListAtom = atom<ExhibitionUsersListType[]>({
+  key: "exhibitionUserListAtom",
+  default: [],
+});
+
 export const userDetailAtom = atom<UsersType[]>({
   key: "userDetailAtom",
   default: [],
@@ -211,6 +218,11 @@ export const optionTypeAtom = atom({
   default: "",
 });
 
+export const optionExhibitionAtom = atom({
+  key: "optionExhibitionAtom",
+  default: "",
+});
+
 export const optionStatusAtom = atom({
   key: "optionStatusAtom",
   default: "",
@@ -222,6 +234,11 @@ export const searchWordAtom = atom({
 
 export const detailOpenAtom = atom({
   key: "detailOpenAtom",
+  default: false,
+});
+
+export const exhibitionUsersAddModalAtom = atom({
+  key: "exhibitionUsersAddModalAtom",
   default: false,
 });
 
@@ -257,6 +274,11 @@ export const checkedPurposesAtom = atom<string[]>({
 
 export const userExhibitionListAtom = atom<UserExhibitionListType[]>({
   key: "userExhibitionListAtom",
+  default: [],
+});
+
+export const usersAddExhibitionListAtom = atom<UsersAddExhibitionListType[]>({
+  key: "usersAddExhibitionListAtom",
   default: [],
 });
 
