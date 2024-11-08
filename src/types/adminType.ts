@@ -122,10 +122,12 @@ export type UsersType = {
   isForeigner?: boolean;
   img?: string;
   gender?: string;
+  genderText?: string;
   roleId?: number;
   companyName?: string;
   position?: string;
   status?: string;
+  statusText?: string;
   recentLogin?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -283,6 +285,38 @@ export type UserExhibitionListType = {
   updatedAt?: string;
 
   exhibition?: ExhibitionType;
+};
+
+export type ExhibitionUsersListType = {
+  genderText?: string;
+  userId?: number;
+  username?: string;
+  name?: string;
+  email?: string;
+
+  gender?: string;
+  recentLogin?: string;
+  createdAt?: string;
+  exhibition?: [
+    {
+      isConfirmedText?: string;
+      id?: number;
+      userId?: number;
+      exhibitionId?: number;
+      request?: string;
+      isConfirmed?: boolean;
+    }
+  ];
+};
+
+export type UsersAddExhibitionListType = {
+  exhibitionId?: number;
+  title?: string;
+  statusText?: string;
+  startDate?: string;
+  endDate?: string;
+
+  imgUrl?: string;
 };
 
 export type UserExhibitionLectureType = {

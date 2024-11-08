@@ -397,15 +397,114 @@ export const getExhibitionAll = async (token: string) => {
     console.error("Error fetching data:", error);
   }
 };
-export const getExhibitionUsersList = async () => {
+export const getUsersAddExhibitionList = async (token: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=10&skip=30`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/search_option`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
     );
 
     const data = await response.json();
 
     return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getUsersListByExhibitions = async (
+  token: string,
+  searchUrl: string,
+  page: number,
+  size: number
+) => {
+  const search = searchUrl;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/list?${search}&page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const AddUsersToExhibition = async (
+  token: string,
+  exhibitionId: number,
+  userIds: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      exhibitionId: Number(exhibitionId),
+      ids: userIds,
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admin_exhibition/delete_multy`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const ConfirmUsersToExhibition = async (
+  token: string,
+  userIds: string,
+  status: boolean
+) => {
+  try {
+    const raw = JSON.stringify({
+      ids: userIds,
+      isConfirmed: status,
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/update/confirm`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);
   }

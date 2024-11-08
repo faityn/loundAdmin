@@ -296,6 +296,22 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
+                              행사 참가자 등록
+                            </Link>
+                          </li>
+                          <li
+                            className={
+                              userRole === "Super Admin" ? "" : "hidden"
+                            }
+                          >
+                            <Link
+                              href="/exhibition/exhibition_users/manage"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname ===
+                                  "/exhibition/exhibition_users/manage" &&
+                                "text-white"
+                              }`}
+                            >
                               행사 참가자 관리
                             </Link>
                           </li>
