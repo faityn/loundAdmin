@@ -78,7 +78,7 @@ export type ExhibitionOptionType = {
     {
       value: string;
       text: string;
-    }
+    },
   ];
   content?: string;
   createdAt?: string;
@@ -214,7 +214,7 @@ export type AdminMenuType = {
       iconClass?: string;
       isAdmin?: boolean;
       menu_name?: string;
-    }
+    },
   ];
 };
 
@@ -228,13 +228,13 @@ export type SearchOptionsType = {
     {
       value?: string;
       text?: string;
-    }
+    },
   ];
   status?: [
     {
       value?: string;
       text?: string;
-    }
+    },
   ];
 };
 
@@ -243,25 +243,25 @@ export type UserDetailOptionsType = {
     {
       roleId?: number;
       role_name?: string;
-    }
+    },
   ];
   profession?: [
     {
       professionId?: number;
       title?: string;
-    }
+    },
   ];
   status?: [
     {
       value?: string;
       text?: string;
-    }
+    },
   ];
   gender?: [
     {
       value?: string;
       text?: string;
-    }
+    },
   ];
 };
 
@@ -272,8 +272,71 @@ export type SearchValueType = [
     startDate: string;
     endDate: string;
     status: string;
-  }
+  },
 ];
+
+export type ExhibitionsApprovedListType = {
+  adminId?: number;
+  exhibitionId?: number;
+  imgUrl?: string;
+  statusText?: string;
+  startDate?: string;
+  endDate?: string;
+
+  status?: string;
+  rating?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  title?: string;
+  ratingCount?: number;
+  admin?: {
+    adminId: number,
+    firstName: string,
+    companyName: string,
+  };
+};
+
+export type FeedbackRatingDetailType = {
+  adminId?: number;
+  exhibitionId?: number;
+  imgUrl?: string;
+  statusText?: string;
+  startDate?: string;
+  endDate?: string;
+
+  status?: string;
+  rating?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  title?: string;
+  userCnt?: number;
+  userConfirmCnt?: number;
+  ratingCnt?: number;
+  ratingMax?: number;
+  ratingMin?: number;
+  admin?: {
+    adminId: number,
+    firstName: string,
+    companyName: string,
+  };
+};
+
+export type ExhibitionRatingListType = {
+  ratingId?: number;
+  exhibitionId?: number;
+  userId?: number;
+  
+  rating?: number;
+  comment?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  
+  user?: {
+    userId: number,
+    imgUrl: string,
+    companyName: string,
+  };
+};
 
 export type UserExhibitionListType = {
   id?: number;
@@ -305,7 +368,7 @@ export type ExhibitionUsersListType = {
       exhibitionId?: number;
       request?: string;
       isConfirmed?: boolean;
-    }
+    },
   ];
 };
 

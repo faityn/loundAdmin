@@ -354,6 +354,53 @@ export const deleteExhibitionLectures = async (token: string, id: number) => {
   }
 };
 
+export const getFeedbackDetail = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibition/rating/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    console.log(response);
+
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getFeedbackExhibitionRatingList = async (
+  token: string,
+  id: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/rating/list/${id}?page=1&pageSize=10`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getExhibitionLectureDetail = async (token: string, id: number) => {
   try {
     const response = await fetch(
@@ -489,6 +536,9 @@ export const ConfirmUsersToExhibition = async (
       ids: userIds,
       isConfirmed: status,
     });
+
+    console.log(raw);
+    
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/update/confirm`,
       {
@@ -510,10 +560,20 @@ export const ConfirmUsersToExhibition = async (
   }
 };
 
-export const getExhibitionFeedbackList = async () => {
+export const getExhibitionFeedbackList = async (token: string, searchUrl: string,
+  page: number,
+  size: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/filter?key=role&value=user&limit=2&skip=50`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/approved/list?${searchUrl}&page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
     );
 
     const data = await response.json();

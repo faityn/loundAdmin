@@ -81,13 +81,13 @@ const ExhibitionUsersAddModal: React.FC = () => {
                         className={`relative z-10 text-md w-full appearance-none rounded border border-stroke bg-transparent px-5 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
                       >
                         <option value="" className="text-black ">
-                          Select
+                          선택
                         </option>
                         {usersAddExhibitionList?.map((e, i) => (
                           <option
                             key={i}
                             value={String(e?.exhibitionId)}
-                            className="text-black "
+                            className="text-black dark:text-white"
                           >
                             {e?.title}
                           </option>

@@ -9,8 +9,11 @@ import {
   ExhibitionLecturesType,
   ExhibitionOptionType,
   ExhibitionOrganizerListType,
+  ExhibitionRatingListType,
+  ExhibitionsApprovedListType,
   ExhibitionType,
   ExhibitionUsersListType,
+  FeedbackRatingDetailType,
   InterestsType,
   LecturesArrayType,
   MenuItem,
@@ -164,6 +167,21 @@ export const userAllListAtom = atom<UsersType[]>({
   default: [],
 });
 
+export const feedBackAllListAtom = atom<ExhibitionsApprovedListType[]>({
+  key: "feedBackAllListAtom",
+  default: [],
+});
+
+export const feedbackDetailAtom = atom<FeedbackRatingDetailType[]>({
+  key: "feedbackDetailAtom",
+  default: [],
+});
+
+export const userExhibitionRatingListAtom = atom<ExhibitionRatingListType[]>({
+  key: "userExhibitionRatingListAtom",
+  default: [],
+});
+
 export const exhibitionUserListAtom = atom<ExhibitionUsersListType[]>({
   key: "exhibitionUserListAtom",
   default: [],
@@ -173,6 +191,7 @@ export const userDetailAtom = atom<UsersType[]>({
   key: "userDetailAtom",
   default: [],
 });
+
 
 export const conferencesListAtom = atom<ConferenceType[]>({
   key: "conferencesListAtom",

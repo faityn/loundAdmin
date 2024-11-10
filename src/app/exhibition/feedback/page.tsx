@@ -17,7 +17,7 @@ const ExhibitionFeedbackPage = () => {
       />
 
       <div className="flex flex-col gap-10">
-        <ExhibitionFeedbackList />
+        <ExhibitionFeedbackList url="exhibition/feedback" />
       </div>
     </DefaultLayout>
   );

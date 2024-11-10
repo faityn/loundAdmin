@@ -35,7 +35,7 @@ const EndDatePicker: React.FC<DateTimePickerProps> = ({
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd"
         className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-        placeholderText=""
+        placeholderText="End"
         popperClassName="custom-datepicker-popper"
       />
     </div>

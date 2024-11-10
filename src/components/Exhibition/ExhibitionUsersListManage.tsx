@@ -178,7 +178,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
       const allIds = userAllList?.map((data) => {
-        return data?.userId;
+        return data?.exhibition?.[0]?.id;
       });
       setChechedElements(() =>
         e.target.checked ? (([...allIds] as unknown) as string[]) : []
@@ -430,23 +430,23 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
                         id={String(item?.userId)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, (item?.userId as unknown) as string)
+                          handleCheck(e, (item?.exhibition?.[0]?.id as unknown) as string)
                         }
                         checked={checkedElements.includes(
-                          (item?.userId as unknown) as string
+                          (item?.exhibition?.[0]?.id as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            (item?.userId as unknown) as string
+                            (item?.exhibition?.[0]?.id as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              (item?.userId as unknown) as string
+                              (item?.exhibition?.[0]?.id as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>
@@ -523,7 +523,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
         <div>
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            className="inline-flex items-center justify-center rounded-md bg-green-400 mr-4 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
             onClick={() => ExhibitionUsersConfirm(true)}
             disabled={checkedElements?.length > 0 ? false : true}
           >
@@ -531,7 +531,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
           </button>
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
             onClick={() => ExhibitionUsersConfirm(false)}
             disabled={checkedElements?.length > 0 ? false : true}
           >
