@@ -29,7 +29,7 @@ const UsersExhibitionList = ({ userId }: Props) => {
   useEffect(() => {}, []);
   return (
     <div className="pl-5 text-xs">
-      <div className=" font-semibold"> 참가한 전시 정보</div>
+      <div className=" font-semibold"> 참가한 행사 정보</div>
 
       <div className="flex gap-3">
         <div className="w-full">
@@ -44,7 +44,7 @@ const UsersExhibitionList = ({ userId }: Props) => {
           onClick={() => handleSearch()}
           className="inline-flex w-25 items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
         >
-          찾다
+          검색
         </button>
       </div>
       <div className="mt-5 max-w-full overflow-x-auto">
