@@ -172,24 +172,10 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (pathname === "/" && "text-white")
                               }`}
                             >
-                              참가자 관리
+                              회원 관리
                             </Link>
                           </li>
-                          {/* <li
-                            className={
-                              userRole === "Super Admin" ? "" : "hidden"
-                            }
-                          >
-                            <Link
-                              href="/users/activity_data"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname.includes("activity_data") &&
-                                "text-white"
-                              }`}
-                            >
-                              활동 데이터 확인
-                            </Link>
-                          </li> */}
+                         
                           <li
                             className={`${
                               userRole === "Super Admin" ? "" : "hidden"
@@ -268,7 +254,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 pathname === "/exhibition" && "text-white"
                               }`}
                             >
-                              등록 전시 승인
+                              등록 행사 승인
                             </Link>
                           </li>
 
@@ -312,7 +298,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
-                              행사 참가자 관리
+                             행가 참가자 등록
                             </Link>
                           </li>
                           <li
@@ -372,7 +358,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }}
                       >
                         <FaAtom />
-                        회의 관리
+                        자세히 보기 아이콘 변경
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && "rotate-180"
@@ -407,66 +393,10 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
-                              목록 확인 및 설정
+                              회의 목록 확인 및 설정
                             </Link>
                           </li>
-                          {/* <li
-                            className={
-                              userRole === "Super Admin" ? "" : "hidden"
-                            }
-                          >
-                            <Link
-                              href="/conferences/apply_list"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                (pathname === "/conferences/apply_list" ||
-                                  pathname.includes(
-                                    "conferences/apply_list"
-                                  )) &&
-                                "text-white"
-                              }`}
-                            >
-                              신청 목록 확인 및 설정
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/conferences/info"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                (pathname === "/conferences/info" ||
-                                  pathname.includes("/conferences/info")) &&
-                                "text-white"
-                              }`}
-                            >
-                              회의 장소 정보 등록
-                            </Link>
-                          </li>
-
-                          <li>
-                            <Link
-                              href="/conferences/order"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                (pathname === "/conferences/order" ||
-                                  pathname.includes("conferences/order")) &&
-                                "text-white"
-                              }`}
-                            >
-                              예약 현황 확인
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/conferences/preparation"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                (pathname === "/conferences/preparation" ||
-                                  pathname.includes(
-                                    "conferences/preparation"
-                                  )) &&
-                                "text-white"
-                              }`}
-                            >
-                              준비물 확인
-                            </Link>
-                          </li> */}
+                       
                         </ul>
                       </div>
                     </React.Fragment>
@@ -590,74 +520,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/privacy" || pathname.includes("/privacy")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <Link
-                        href="#"
-                        className={`${
-                          userRole === "Super Admin" ? "" : "hidden"
-                        } group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/privacy" ||
-                            pathname.includes("privacy")) &&
-                          "bg-graydark dark:bg-meta-4"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <RiListSettingsLine />
-                        개인정보 처리방침 관리
-                        <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && "rotate-180"
-                          }`}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                            fill=""
-                          />
-                        </svg>
-                      </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <Link
-                              href="/privacy"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white  ${
-                                pathname.includes("/privacy") && "text-white"
-                              }`}
-                            >
-                              개인정보 처리방침
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
+              
               <SidebarLinkGroup
                 activeCondition={
                   pathname === "/banner" || pathname.includes("banner")
@@ -716,7 +579,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 pathname === "/banner" && "text-white"
                               }`}
                             >
-                              배너 생성 관리
+                              배너 관리
                             </Link>
                           </li>
                         </ul>

@@ -121,7 +121,7 @@ const UsersConferenceList = ({ userId }: Props) => {
           onClick={() => handleSearch()}
           className="inline-flex w-25 items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
         >
-          찾다
+          검색
         </button>
       </div>
       <div className="mt-5 max-w-full overflow-x-auto">

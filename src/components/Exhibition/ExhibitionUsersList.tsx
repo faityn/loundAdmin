@@ -500,7 +500,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
             onClick={() => ExhibitionUsersAdd()}
             disabled={checkedElements?.length > 0 ? false : true}
           >
-            승인
+            등록하기
           </button>
         </div>
       </div>
