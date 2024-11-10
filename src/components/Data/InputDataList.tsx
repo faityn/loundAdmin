@@ -1,21 +1,16 @@
 "use client";
-import { useRecoilState } from "recoil";
-import { adminAllListAtom, checkedListAtom, totalPageAtom } from "@/atom";
-import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
-import Pagination from "../Pagination/Pagination";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { adminAllListAtom, checkedListAtom,  } from "@/atom";
+import {  useState } from "react";
+
 import CustomModal from "../Modal/Confirm";
-import { getExhibitionFeedbackList } from "@/hooks/useEvents";
 
 import { FiEdit } from "react-icons/fi";
 const InputDataList = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const page = searchParams.get("page");
-  const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
-  const pageUrl = `${pathname}?id=0`;
+  
+  
   const [isOpen, setIsOpen] = useState(false);
-  const [itemsList, setItemsList] = useRecoilState(adminAllListAtom);
+  const itemsList = useRecoilValue(adminAllListAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const openModal = () => {
     setIsOpen(true);
@@ -26,7 +21,6 @@ const InputDataList = () => {
   };
 
   const userDelete = async () => {
-    console.log("delete");
     //getData();
     setChechedElements([]);
     setIsOpen(false);
@@ -49,16 +43,6 @@ const InputDataList = () => {
     }
   };
 
-  const getData = async () => {
-    const response = await getExhibitionFeedbackList();
-
-    setTotalPage(response?.pages);
-    setItemsList(response?.users);
-  };
-  useEffect(() => {
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-    getData();
-  }, []);
   return (
     <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="grid grid-cols-12  pb-4">
@@ -231,11 +215,7 @@ const InputDataList = () => {
         </table>
       </div>
       <div className="my-5 text-right">
-        {totalPage > 1 ? (
-          <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
-        ) : (
-          ""
-        )}
+     
       </div>
     </div>
   );
