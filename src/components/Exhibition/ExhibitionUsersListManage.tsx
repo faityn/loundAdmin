@@ -26,7 +26,6 @@ import {
   deleteUser,
   getSearchOptionList,
   getUsersDetail,
-  getUsersList,
   userDetailOptionList,
   userExhibitionList,
   userExhibitionRating,
@@ -255,12 +254,12 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     setUserAllList(response?.rows);
   };
 
-  // useEffect(() => {
-  //   if (dataSaved === true) {
-  //     //eslint-disable-next-line react-hooks/exhaustive-deps
-  //     getData();
-  //   }
-  // }, [dataSaved]);
+  useEffect(() => {
+    if (dataSaved === true) {
+      //eslint-disable-next-line react-hooks/exhaustive-deps
+      getData();
+    }
+  }, [dataSaved]);
 
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
