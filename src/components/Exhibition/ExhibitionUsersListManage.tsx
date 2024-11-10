@@ -26,7 +26,6 @@ import {
   deleteUser,
   getSearchOptionList,
   getUsersDetail,
-  getUsersList,
   userDetailOptionList,
   userExhibitionList,
   userExhibitionRating,
@@ -53,7 +52,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
   const pathname = usePathname();
 
   const [newUrl, setNewUrl] = useState("");
-  const [pageLimit, setPageLimit] = useState("10");
+  const [pageLimit, setPageLimit] = useState("20");
   const page = searchParams.get("page");
   const size = pageLimit;
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
@@ -112,7 +111,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     const userToken = getToken();
     router.push(`/${url}?${newUrl}`);
 
-    const response = await getUsersList(
+    const response = await getUsersListByExhibitions(
       String(userToken),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       newUrl as string,

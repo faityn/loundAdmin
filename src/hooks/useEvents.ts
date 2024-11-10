@@ -503,10 +503,10 @@ export const AddUsersToExhibition = async (
   try {
     const raw = JSON.stringify({
       exhibitionId: Number(exhibitionId),
-      ids: userIds,
+      users: userIds,
     });
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admin_exhibition/delete_multy`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/create`,
       {
         method: "POST",
         body: raw,

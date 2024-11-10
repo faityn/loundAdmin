@@ -32,12 +32,16 @@ const ExhibitionUsersAddModal: React.FC = () => {
   };
 
   const handleStatusOption = (val: string) => {
+   
+    
     setOptionExhibition(val);
   };
 
   const usersAdd = async () => {
     const userToken = getToken();
     const result = checkedElements.join(",");
+
+    
     const res = await AddUsersToExhibition(
       String(userToken),
       Number(optionExhibition),
