@@ -297,7 +297,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
-                             행가 참가자 등록
+                             행사 참가자 관리
                             </Link>
                           </li>
                           <li
@@ -357,7 +357,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }}
                       >
                         <FaAtom />
-                        자세히 보기 아이콘 변경
+                        회의 관리
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && "rotate-180"
