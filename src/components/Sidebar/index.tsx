@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import { RiListSettingsLine } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
 import { FaUsers, FaIndent, FaAtom } from "react-icons/fa";
 import { SiGotomeeting } from "react-icons/si";
