@@ -23,7 +23,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const storedSidebarExpanded = "true";
 
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
   );
 
   useEffect(() => {
@@ -113,9 +113,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === "/users" ||
-                  pathname === "/" ||
-                  pathname.includes("users")
+                  pathname === "/users" || pathname.includes("users")
                 }
               >
                 {(handleClick, open) => {
@@ -125,7 +123,6 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         href="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out  hover:bg-graydark dark:hover:bg-meta-4 ${
                           (pathname === "/users" ||
-                            pathname === "/" ||
                             pathname.includes("users")) &&
                           "bg-graydark dark:bg-meta-4"
                         }`}
@@ -167,14 +164,13 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <Link
                               href="/users"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium capitalize text-bodydark2 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/users" ||
-                                (pathname === "/" && "text-white")
+                                pathname === "/users" && "text-white"
                               }`}
                             >
                               회원 관리
                             </Link>
                           </li>
-                         
+
                           <li
                             className={`${
                               userRole === "Super Admin" ? "" : "hidden"
@@ -297,7 +293,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 "text-white"
                               }`}
                             >
-                             행사 참가자 관리
+                              행사 참가자 관리
                             </Link>
                           </li>
                           <li
@@ -395,7 +391,6 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               회의 목록 확인 및 설정
                             </Link>
                           </li>
-                       
                         </ul>
                       </div>
                     </React.Fragment>
@@ -519,7 +514,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-              
+
               <SidebarLinkGroup
                 activeCondition={
                   pathname === "/banner" || pathname.includes("banner")

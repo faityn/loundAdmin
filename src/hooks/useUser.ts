@@ -108,6 +108,35 @@ export const getUsersList = async (
   }
 };
 
+export const getOrgUsersList = async (
+  token: string,
+  searchUrl: string,
+  page: number,
+  size: number
+) => {
+  const search = searchUrl;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/exhibition/list?${search}&page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getUsersDetail = async (token: string, id: number) => {
   try {
     const response = await fetch(
