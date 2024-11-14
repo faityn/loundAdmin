@@ -1,6 +1,7 @@
 "use client";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  ActiveRoleAtom,
   checkedListAtom,
   dataSavedAtom,
   detailOpenAtom,
@@ -22,6 +23,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import {
   deleteUser,
+  getOrgUsersList,
   getSearchOptionList,
   getUsersDetail,
   getUsersList,
@@ -51,6 +53,7 @@ const UsersList = ({ url }: Props) => {
   const [pageLimit, setPageLimit] = useState("10");
   const page = searchParams.get("page");
   const size = pageLimit;
+  const userRole = useRecoilValue(ActiveRoleAtom);
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
   const [isOpen, setIsOpen] = useState(false);
@@ -71,7 +74,7 @@ const UsersList = ({ url }: Props) => {
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
 
   const setUserExhibitionRatingState = useSetRecoilState(
-    userExhibitionRatingAtom
+    userExhibitionRatingAtom,
   );
 
   const openModal = () => {
@@ -88,23 +91,30 @@ const UsersList = ({ url }: Props) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
+    const type = optionType === null ? "all" : optionType;
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
     const status = optionStatus ? `&status=${optionStatus}` : "";
-    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const searchUrl = `searchType=${type}${search}${start}${end}${status}`;
     const newUrl = decodeURIComponent(searchUrl);
     const userToken = getToken();
     router.push(`/${url}?${newUrl}`);
 
-    const response = await getUsersList(
-      String(userToken),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      newUrl as string,
-      Number(page),
-      Number(size)
-    );
+    const response =
+      userRole === "Super Admin"
+        ? await getUsersList(
+            String(userToken),
+            newUrl as string,
+            Number(page),
+            Number(size),
+          )
+        : await getOrgUsersList(
+            String(userToken),
+            newUrl as string,
+            Number(page),
+            Number(size),
+          );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
     setTotalPage(totalPage);
@@ -139,7 +149,7 @@ const UsersList = ({ url }: Props) => {
     const exhibitionList = await userExhibitionList(
       String(userToken),
       Number(userId),
-      word
+      word,
     );
 
     if (exhibitionList) {
@@ -149,7 +159,7 @@ const UsersList = ({ url }: Props) => {
     const exhibitionRating = await userExhibitionRating(
       String(userToken),
       Number(userId),
-      exhibition
+      exhibition,
     );
     setUserExhibitionRatingState(exhibitionRating);
     setDetailOpen(true);
@@ -161,13 +171,13 @@ const UsersList = ({ url }: Props) => {
         return data?.userId;
       });
       setChechedElements(() =>
-        e.target.checked ? (([...allIds] as unknown) as string[]) : []
+        e.target.checked ? ([...allIds] as unknown as string[]) : [],
       );
     } else {
       setChechedElements((prevChecked) =>
         e.target.checked
           ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id)
+          : prevChecked.filter((item: string) => item !== id),
       );
     }
   };
@@ -202,12 +212,21 @@ const UsersList = ({ url }: Props) => {
     const newUrl = decodeURIComponent(searchUrl);
     setNewUrl(newUrl);
     const userToken = getToken();
-    const response = await getUsersList(
-      String(userToken),
-      newUrl as string,
-      Number(page),
-      Number(size)
-    );
+
+    const response =
+      userRole === "Super Admin"
+        ? await getUsersList(
+            String(userToken),
+            newUrl as string,
+            Number(page),
+            Number(size),
+          )
+        : await getOrgUsersList(
+            String(userToken),
+            newUrl as string,
+            Number(page),
+            Number(size),
+          );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
     setTotalPage(totalPage);
@@ -387,23 +406,23 @@ const UsersList = ({ url }: Props) => {
                         id={String(item?.userId)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, (item?.userId as unknown) as string)
+                          handleCheck(e, item?.userId as unknown as string)
                         }
                         checked={checkedElements.includes(
-                          (item?.userId as unknown) as string
+                          item?.userId as unknown as string,
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            (item?.userId as unknown) as string
+                            item?.userId as unknown as string,
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              (item?.userId as unknown) as string
+                              item?.userId as unknown as string,
                             ) && "bg-primary"
                           }`}
                         ></span>

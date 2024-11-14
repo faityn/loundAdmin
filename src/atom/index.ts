@@ -234,7 +234,7 @@ export const searchOptionsAtom = atom<SearchOptionsType>({
 });
 export const optionTypeAtom = atom({
   key: "optionTypeAtom",
-  default: "",
+  default: "all",
 });
 
 export const optionExhibitionAtom = atom({

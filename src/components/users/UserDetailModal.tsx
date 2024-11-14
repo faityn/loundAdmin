@@ -1,4 +1,5 @@
 import {
+  ActiveRoleAtom,
   dataSavedAtom,
   detailOpenAtom,
   fileAtom,
@@ -47,6 +48,7 @@ interface FormData2 {
 }
 
 const DetailModal: React.FC = () => {
+  const userRole = useRecoilValue(ActiveRoleAtom);
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
   const userDetail = useRecoilValue(userDetailAtom);
   const [show, setShow] = useState(false);
@@ -507,7 +509,9 @@ const DetailModal: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center gap-4 pt-5">
+                  <div
+                    className={`flex justify-center gap-4 pt-5 ${userRole === "Super Admin" ? "" : "hidden"}`}
+                  >
                     {" "}
                     <button
                       type="button"
@@ -734,7 +738,9 @@ const DetailModal: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center gap-4 pt-5">
+                  <div
+                    className={`flex justify-center gap-4 pt-5 ${userRole === "Super Admin" ? "" : "hidden"}`}
+                  >
                     {" "}
                     <button
                       type="button"
