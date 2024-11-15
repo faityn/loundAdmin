@@ -1,5 +1,8 @@
 git pull
+
+pm2 stop loundAdmin
 npm install -f
 npm run build
-pm2 delete loundAdmin
-pm2 start npm --name loundAdmin -- start
+
+pm2 start loundAdmin
+
