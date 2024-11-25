@@ -105,14 +105,14 @@ const ExhibitionDetailModal: React.FC = () => {
         <AlertModal>
           <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
             <FaRegCheckCircle className="text-xl" />{" "}
-            <div className="">Saved successfully</div>
+            <div className="">저장되었습니다</div>
           </div>
           <div className="flex w-full items-center justify-center gap-4">
             <button
               onClick={closeModal}
               className="rounded-md bg-black px-4 py-1 text-white"
             >
-              Ok
+              확인
             </button>
           </div>
         </AlertModal>

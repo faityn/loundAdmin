@@ -150,12 +150,12 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                       {...register("title", {
                         required: true,
                       })}
-                      placeholder="Enter title"
+                      placeholder="제목 입력해주세요"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                     {errors.title && (
                       <span className="font-medium text-red ">
-                        This field is required
+                        입력해주세요
                       </span>
                     )}
                   </td>
@@ -172,12 +172,12 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                       {...register("subtitle", {
                         required: true,
                       })}
-                      placeholder="Enter subtitle"
+                      placeholder="부제목 입력해주세요"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                     {errors.subtitle && (
                       <span className="font-medium text-red ">
-                        This field is required
+                        입력해주세요
                       </span>
                     )}
                   </td>
@@ -186,7 +186,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                 <tr>
                   <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                     <h5 className="font-medium text-black dark:text-white">
-                      Exhibition select
+                      행사 선택하기
                     </h5>
                   </td>
                   <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -198,7 +198,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                         className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-bodydark`}
                       >
                         <option value="" className="text-black dark:text-white">
-                          Select
+                          선택
                         </option>
                         {exhibitionAllList?.map((item, index) => (
                           <option
@@ -228,13 +228,13 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                     <div className="flex max-sm:flex-col w-full gap-4 ">
                       <div className="relative w-full">
                         <DateTimePicker
-                          label="Start"
+                          label="시작"
                           onDateChange={startDateChange}
                         />
                       </div>
                       <div className="relative w-full">
                         <DateTimePicker
-                          label="End"
+                          label="끝"
                           onDateChange={handleChange}
                         />
                       </div>
@@ -259,7 +259,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                       />
                       {errors.image && (
                         <span className="font-medium text-red">
-                          Image is required
+                          이미지 업로드해주세요
                         </span>
                       )}
                     </div>
@@ -280,7 +280,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
 
                     {contentRequired && (
                       <span className="font-medium text-red ">
-                        This field is required
+                        입력해주세요
                       </span>
                     )}
                   </td>
@@ -292,13 +292,13 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                 href={`${url}`}
                 className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
               >
-                Cancel
+                취소
               </Link>
               <button
                 type="submit"
                 className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
               >
-                Save
+                저장
               </button>
             </div>
           </form>
@@ -309,14 +309,14 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
           <AlertModal>
             <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-green-600">
               <FaRegCheckCircle className="text-xl" />{" "}
-              <div className="">Saved successfully</div>
+              <div className="">저장되었습니다</div>
             </div>
             <div className="flex w-full items-center justify-center gap-4">
               <button
                 onClick={closeModal}
                 className="rounded-md bg-black px-4 py-1 text-white"
               >
-                Ok
+                확인
               </button>
             </div>
           </AlertModal>
@@ -334,7 +334,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                 onClick={closeError}
                 className="rounded-md bg-black px-4 py-1 text-white"
               >
-                Ok
+                확인
               </button>
             </div>
           </AlertModal>

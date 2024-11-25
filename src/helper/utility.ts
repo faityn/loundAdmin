@@ -4,7 +4,7 @@ const encrypt = (text: string) => {
   try {
     const plainText = CryptoJS.AES.encrypt(
       text,
-      String(process.env.NEXT_PUBLIC_ENCRYPT_KEY),
+      String(process.env.NEXT_PUBLIC_ENCRYPT_KEY)
     ).toString();
 
     return plainText;
@@ -21,7 +21,7 @@ const decrypt = (text: string) => {
   try {
     const bytes = CryptoJS.AES.decrypt(
       text,
-      String(process.env.NEXT_PUBLIC_ENCRYPT_KEY),
+      String(process.env.NEXT_PUBLIC_ENCRYPT_KEY)
     );
     const plainText = bytes.toString(CryptoJS.enc.Utf8);
 
@@ -75,7 +75,7 @@ export const datePickerOption1 = (startDateParam: string) => {
       selected: "",
     },
     language: "en",
-    inputPlaceholderProp: "Select start date",
+    inputPlaceholderProp: "선택 start date",
   };
   return options;
 };
@@ -100,7 +100,7 @@ export const datePickerOption2 = (endDateParam: string) => {
     },
     language: "en",
 
-    inputPlaceholderProp: "Select end date",
+    inputPlaceholderProp: "선택 end date",
   };
   return options;
 };

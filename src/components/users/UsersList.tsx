@@ -74,7 +74,7 @@ const UsersList = ({ url }: Props) => {
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
 
   const setUserExhibitionRatingState = useSetRecoilState(
-    userExhibitionRatingAtom,
+    userExhibitionRatingAtom
   );
 
   const openModal = () => {
@@ -107,13 +107,13 @@ const UsersList = ({ url }: Props) => {
             String(userToken),
             newUrl as string,
             Number(page),
-            Number(size),
+            Number(size)
           )
         : await getOrgUsersList(
             String(userToken),
             newUrl as string,
             Number(page),
-            Number(size),
+            Number(size)
           );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -149,7 +149,7 @@ const UsersList = ({ url }: Props) => {
     const exhibitionList = await userExhibitionList(
       String(userToken),
       Number(userId),
-      word,
+      word
     );
 
     if (exhibitionList) {
@@ -159,7 +159,7 @@ const UsersList = ({ url }: Props) => {
     const exhibitionRating = await userExhibitionRating(
       String(userToken),
       Number(userId),
-      exhibition,
+      exhibition
     );
     setUserExhibitionRatingState(exhibitionRating);
     setDetailOpen(true);
@@ -171,13 +171,13 @@ const UsersList = ({ url }: Props) => {
         return data?.userId;
       });
       setChechedElements(() =>
-        e.target.checked ? ([...allIds] as unknown as string[]) : [],
+        e.target.checked ? (([...allIds] as unknown) as string[]) : []
       );
     } else {
       setChechedElements((prevChecked) =>
         e.target.checked
           ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id),
+          : prevChecked.filter((item: string) => item !== id)
       );
     }
   };
@@ -219,13 +219,13 @@ const UsersList = ({ url }: Props) => {
             String(userToken),
             newUrl as string,
             Number(page),
-            Number(size),
+            Number(size)
           )
         : await getOrgUsersList(
             String(userToken),
             newUrl as string,
             Number(page),
-            Number(size),
+            Number(size)
           );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -311,7 +311,7 @@ const UsersList = ({ url }: Props) => {
                   onClick={closeModal}
                   className="rounded-md bg-slate-500 px-3 py-1 text-white"
                 >
-                  Cancel{" "}
+                  취소{" "}
                 </button>
                 <button
                   onClick={userDelete}
@@ -406,23 +406,23 @@ const UsersList = ({ url }: Props) => {
                         id={String(item?.userId)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, item?.userId as unknown as string)
+                          handleCheck(e, (item?.userId as unknown) as string)
                         }
                         checked={checkedElements.includes(
-                          item?.userId as unknown as string,
+                          (item?.userId as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            item?.userId as unknown as string,
+                            (item?.userId as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              item?.userId as unknown as string,
+                              (item?.userId as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>

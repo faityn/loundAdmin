@@ -81,7 +81,7 @@ const AdminRoleCreate = ({ url }: Props) => {
                     />
                     {errors.name && (
                       <span className="font-medium text-red ">
-                        This field is required
+                        입력해주세요
                       </span>
                     )}
                   </td>
@@ -112,13 +112,13 @@ const AdminRoleCreate = ({ url }: Props) => {
                 href={`${url}`}
                 className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
               >
-                Cancel
+                취소
               </Link>
               <button
                 type="submit"
                 className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
               >
-                Save
+                저장
               </button>
             </div>
           </form>
@@ -129,14 +129,14 @@ const AdminRoleCreate = ({ url }: Props) => {
           <AlertModal>
             <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-green-600">
               <FaRegCheckCircle className="text-xl" />{" "}
-              <div className="">Saved successfully</div>
+              <div className="">저장되었습니다</div>
             </div>
             <div className="flex w-full items-center justify-center gap-4">
               <button
                 onClick={closeModal}
                 className="rounded-md bg-black px-4 py-1 text-white"
               >
-                Ok
+                확인
               </button>
             </div>
           </AlertModal>
@@ -154,7 +154,7 @@ const AdminRoleCreate = ({ url }: Props) => {
                 onClick={closeError}
                 className="rounded-md bg-black px-4 py-1 text-white"
               >
-                Ok
+                확인
               </button>
             </div>
           </AlertModal>

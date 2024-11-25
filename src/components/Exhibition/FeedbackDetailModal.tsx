@@ -31,7 +31,6 @@ const FeedbackDetailModal: React.FC = () => {
     setDetailOpen(false);
   };
 
-
   return (
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-35 backdrop-blur-sm">
       <div className="flex w-[700px] flex-col ">
@@ -48,9 +47,7 @@ const FeedbackDetailModal: React.FC = () => {
               </div>
             </div>
             <div className="">
-              <div
-                className={` mx-auto h-[600px]   pt-5 text-left text-sm`}
-              >
+              <div className={` mx-auto h-[600px]   pt-5 text-left text-sm`}>
                 <div>
                   <div className="w-full text-center text-xl font-semibold text-black">
                     행사명: {feedbackDetail[0]?.title}
@@ -59,7 +56,9 @@ const FeedbackDetailModal: React.FC = () => {
                   <div className="mt-5  grid h-full grid-cols-11 gap-5 text-slate-800 ">
                     <div className="col-span-5">
                       <div className="mb-10 flex flex-col gap-2">
-                        <div className="font-semibold text-[16px]">행사 방문자</div>
+                        <div className="font-semibold text-[16px]">
+                          행사 방문자
+                        </div>
                         <div>
                           - 사전 등록자: {feedbackDetail[0]?.userCnt} 명
                         </div>
@@ -69,7 +68,9 @@ const FeedbackDetailModal: React.FC = () => {
                       </div>
 
                       <div className="mb-10 flex flex-col gap-2">
-                        <div className="font-semibold text-[16px]">방문 평가 관리</div>
+                        <div className="font-semibold text-[16px]">
+                          방문 평가 관리
+                        </div>
                         <div>
                           - 총 평가 수: {feedbackDetail[0]?.ratingCnt}개{" "}
                         </div>
@@ -86,32 +87,36 @@ const FeedbackDetailModal: React.FC = () => {
                       </div>
                     </div>
                     <div className="col-span-6  border-l border-dashed pl-5 ">
-                      <div className="mb-4 font-semibold text-[16px]">행사 평가 ({userExhibitionRatingList?.length}건)</div>
-                      <div className="h-[490px] overflow-y-auto ">
-                      <div className="flex flex-col gap-5 pr-1">
-                        {userExhibitionRatingList?.map((item, index) => (
-                          <div key={index}>
-                            <div className="mb-1">{feedbackDetail[0]?.title}</div>
-
-                            <div className="text-[12px]">
-                              {item?.createdAt
-                                ? format(
-                                    item?.createdAt as string,
-                                    "yyyy-MM-dd",
-                                  )
-                                : ""}
-                            </div>
-
-                            <div className="my-1 flex w-full text-2xl">
-                              {getStarRating(Number(item?.rating))}
-                            </div>
-
-                            <div className="h-25 overflow-y-auto rounded-lg border border-slate-500 p-3">
-                              {item?.comment}
-                            </div>
-                          </div>
-                        ))}
+                      <div className="mb-4 font-semibold text-[16px]">
+                        행사 평가 ({userExhibitionRatingList?.length}건)
                       </div>
+                      <div className="h-[490px] overflow-y-auto ">
+                        <div className="flex flex-col gap-5 pr-1">
+                          {userExhibitionRatingList?.map((item, index) => (
+                            <div key={index}>
+                              <div className="mb-1">
+                                {feedbackDetail[0]?.title}
+                              </div>
+
+                              <div className="text-[12px]">
+                                {item?.createdAt
+                                  ? format(
+                                      item?.createdAt as string,
+                                      "yyyy-MM-dd"
+                                    )
+                                  : ""}
+                              </div>
+
+                              <div className="my-1 flex w-full text-2xl">
+                                {getStarRating(Number(item?.rating))}
+                              </div>
+
+                              <div className="h-25 overflow-y-auto rounded-lg border border-slate-500 p-3">
+                                {item?.comment}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -126,14 +131,14 @@ const FeedbackDetailModal: React.FC = () => {
         <AlertModal>
           <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
             <FaRegCheckCircle className="text-xl" />{" "}
-            <div className="">Saved successfully</div>
+            <div className="">저장되었습니다</div>
           </div>
           <div className="flex w-full items-center justify-center gap-4">
             <button
               onClick={closeModal}
               className="rounded-md bg-black px-4 py-1 text-white"
             >
-              Ok
+              확인
             </button>
           </div>
         </AlertModal>
