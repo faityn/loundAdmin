@@ -192,14 +192,14 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                         <div className="flex max-sm:flex-col w-full gap-4 ">
                           <div className="relative w-full">
                             <div className="font-medium text-black dark:text-white">
-                              Start
+                              시작
                             </div>
                             <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
                               <input
                                 {...register("startDate")}
                                 type="text"
                                 className="w-full h-full rounded  outline-none bg-transparent focus:border-primary active:border-primary font-normal transition pl-4 pr-9"
-                                placeholder="Select Date"
+                                placeholder="선택 Date"
                                 value={startDate}
                                 readOnly
                               />
@@ -207,14 +207,14 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                           </div>
                           <div className="relative w-full">
                             <div className="font-medium text-black dark:text-white">
-                              End
+                              끝
                             </div>
                             <div className="relative flex w-full h-[40px] z-20  appearance-none rounded border border-stroke bg-transparent px-1 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white">
                               <input
                                 {...register("endDate")}
                                 type="text"
                                 className="w-full h-full rounded  outline-none bg-transparent focus:border-primary active:border-primary font-normal transition pl-4 pr-9"
-                                placeholder="Select Date"
+                                placeholder="선택 Date"
                                 value={endDate}
                                 readOnly
                               />
@@ -277,7 +277,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                               value={"0"}
                               className="text-black dark:text-bodydark"
                             >
-                              Select
+                              선택
                             </option>
                             {optionsList?.map((e, i) => (
                               <option
@@ -303,13 +303,13 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                     href={`${url}`}
                     className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
                   >
-                    Cancel
+                    취소
                   </Link>
                   <button
                     type="submit"
                     className="flex w-30 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
                   >
-                    Save status
+                    저장 status
                   </button>
                 </div>
               </form>
@@ -320,14 +320,14 @@ const ConferenceUpdate = ({ id, url }: Props) => {
         <AlertModal>
           <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-green-600">
             <FaRegCheckCircle className="text-xl" />{" "}
-            <div className="">Saved successfully</div>
+            <div className="">저장되었습니다</div>
           </div>
           <div className="flex w-full items-center justify-center gap-4">
             <button
               onClick={closeModal}
               className="rounded-md bg-black px-4 py-1 text-white"
             >
-              Ok
+              확인
             </button>
           </div>
         </AlertModal>
@@ -345,7 +345,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
               onClick={closeError}
               className="rounded-md bg-black px-4 py-1 text-white"
             >
-              Ok
+              확인
             </button>
           </div>
         </AlertModal>

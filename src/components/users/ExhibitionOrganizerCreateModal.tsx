@@ -1,7 +1,4 @@
-import {
-  createExOrganizerOpenAtom,
-  dataSavedAtom,
-} from "@/atom";
+import { createExOrganizerOpenAtom, dataSavedAtom } from "@/atom";
 import { encrypt } from "@/helper/utility";
 import React, { useState } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -120,7 +117,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.companyName && (
                         <span className="text-xs font-medium text-red">
-                          This field is required
+                          입력해주세요
                         </span>
                       )}
                     </div>
@@ -137,7 +134,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.firstName && (
                         <span className="text-xs font-medium text-red ">
-                          This field is required
+                          입력해주세요
                         </span>
                       )}
                     </div>
@@ -155,7 +152,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.phone && (
                         <span className="text-xs font-medium text-red ">
-                          This field is required min length 6
+                          입력해주세요 min length 6
                         </span>
                       )}
                     </div>
@@ -172,7 +169,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.email && (
                         <span className="text-xs font-medium text-red ">
-                          This field is required
+                          입력해주세요
                         </span>
                       )}
                     </div>
@@ -190,7 +187,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.username && (
                         <span className="text-xs font-medium text-red ">
-                          This field is required
+                          입력해주세요
                         </span>
                       )}
                     </div>
@@ -209,7 +206,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.pass && (
                         <span className="text-xs font-medium text-red ">
-                          This field is required
+                          입력해주세요
                         </span>
                       )}
                     </div>
@@ -292,7 +289,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       </div>
                       {errors.status && (
                         <span className="text-xs font-medium text-red ">
-                          This field is required
+                          입력해주세요
                         </span>
                       )}
                     </div>
@@ -332,7 +329,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
               onClick={closeError}
               className="rounded-md bg-black px-4 py-1 text-white"
             >
-              Ok
+              확인
             </button>
           </div>
         </AlertModal>
@@ -343,14 +340,14 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
         <AlertModal>
           <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
             <FaRegCheckCircle className="text-xl" />{" "}
-            <div className="">Saved successfully</div>
+            <div className="">저장되었습니다</div>
           </div>
           <div className="flex w-full items-center justify-center gap-4">
             <button
               onClick={closeModal}
               className="rounded-md bg-black px-4 py-1 text-white"
             >
-              Ok
+              확인
             </button>
           </div>
         </AlertModal>

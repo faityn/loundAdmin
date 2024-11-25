@@ -13,16 +13,12 @@ import {
   searchWordAtom,
   startDateAtom,
   totalPageAtom,
-
   userExhibitionRatingListAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
-import {
-  deleteUser,
-  
-} from "@/hooks/useUser";
+import { deleteUser } from "@/hooks/useUser";
 import CustomModal from "../Modal/Confirm";
 import getToken from "@/helper/getToken";
 
@@ -54,8 +50,9 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
   const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
   const [isOpen, setIsOpen] = useState(false);
 
-  const [feedBackAllList, setFeedBackAllList] =
-    useRecoilState(feedBackAllListAtom);
+  const [feedBackAllList, setFeedBackAllList] = useRecoilState(
+    feedBackAllListAtom
+  );
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
   const startDate = useRecoilValue(startDateAtom);
@@ -66,13 +63,11 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
   const searchWord = useRecoilValue(searchWordAtom);
   const setFeedbackDetail = useSetRecoilState(feedbackDetailAtom);
   const setUserExhibitionRatingList = useSetRecoilState(
-    userExhibitionRatingListAtom,
+    userExhibitionRatingListAtom
   );
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
-  
 
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
-
 
   const openModal = () => {
     setIsOpen(true);
@@ -103,7 +98,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       newUrl as string,
       Number(page),
-      Number(size),
+      Number(size)
     );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -132,9 +127,8 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
     // setUserDetailOptions(optionList);
     const response = await getFeedbackDetail(
       String(userToken),
-      Number(exhibitionId),
+      Number(exhibitionId)
     );
-
 
     if (response?.status) {
       setFeedbackDetail([response?.result]);
@@ -142,9 +136,8 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
 
     const exhibitionRatingList = await getFeedbackExhibitionRatingList(
       String(userToken),
-      Number(exhibitionId),
+      Number(exhibitionId)
     );
-
 
     setUserExhibitionRatingList(exhibitionRatingList?.rows);
     setDetailOpen(true);
@@ -156,13 +149,13 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
         return data?.exhibitionId;
       });
       setChechedElements(() =>
-        e.target.checked ? ([...allIds] as unknown as string[]) : [],
+        e.target.checked ? (([...allIds] as unknown) as string[]) : []
       );
     } else {
       setChechedElements((prevChecked) =>
         e.target.checked
           ? [...prevChecked, id]
-          : prevChecked.filter((item: string) => item !== id),
+          : prevChecked.filter((item: string) => item !== id)
       );
     }
   };
@@ -201,7 +194,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
       String(userToken),
       newUrl as string,
       Number(page),
-      Number(size),
+      Number(size)
     );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -288,7 +281,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                   onClick={closeModal}
                   className="rounded-md bg-slate-500 px-3 py-1 text-white"
                 >
-                  Cancel{" "}
+                  취소{" "}
                 </button>
                 <button
                   onClick={userDelete}
@@ -379,24 +372,24 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                         onChange={(e) =>
                           handleCheck(
                             e,
-                            item?.exhibitionId as unknown as string,
+                            (item?.exhibitionId as unknown) as string
                           )
                         }
                         checked={checkedElements.includes(
-                          item?.exhibitionId as unknown as string,
+                          (item?.exhibitionId as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            item?.exhibitionId as unknown as string,
+                            (item?.exhibitionId as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              item?.exhibitionId as unknown as string,
+                              (item?.exhibitionId as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>

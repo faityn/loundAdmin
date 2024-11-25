@@ -1,14 +1,12 @@
 "use client";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { adminAllListAtom, checkedListAtom,  } from "@/atom";
-import {  useState } from "react";
+import { adminAllListAtom, checkedListAtom } from "@/atom";
+import { useState } from "react";
 
 import CustomModal from "../Modal/Confirm";
 
 import { FiEdit } from "react-icons/fi";
 const InputDataList = () => {
-  
-  
   const [isOpen, setIsOpen] = useState(false);
   const itemsList = useRecoilValue(adminAllListAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
@@ -74,7 +72,7 @@ const InputDataList = () => {
                   onClick={closeModal}
                   className="rounded-md bg-slate-500 px-3 py-1 text-white"
                 >
-                  Cancel{" "}
+                  취소{" "}
                 </button>
                 <button
                   onClick={userDelete}
@@ -214,9 +212,7 @@ const InputDataList = () => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
-     
-      </div>
+      <div className="my-5 text-right"></div>
     </div>
   );
 };

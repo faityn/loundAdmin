@@ -23,7 +23,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const storedSidebarExpanded = "true";
 
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
   useEffect(() => {
@@ -235,7 +235,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </svg>
                       </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
+                      {/* <!-- Dropdown Menu 시작 --> */}
                       <div
                         className={`translate transform overflow-hidden ${
                           !open && "hidden"
@@ -324,7 +324,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
+                      {/* <!-- Dropdown Menu 끝 --> */}
                     </React.Fragment>
                   );
                 }}
@@ -441,7 +441,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </svg>
                       </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
+                      {/* <!-- Dropdown Menu 시작 --> */}
                       <div
                         className={`translate transform overflow-hidden ${
                           !open && "hidden"
@@ -509,7 +509,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
+                      {/* <!-- Dropdown Menu 끝 --> */}
                     </React.Fragment>
                   );
                 }}
@@ -559,7 +559,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </svg>
                       </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
+                      {/* <!-- Dropdown Menu 시작 --> */}
                       <div
                         className={`translate transform overflow-hidden ${
                           !open && "hidden"
@@ -578,7 +578,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
+                      {/* <!-- Dropdown Menu 끝 --> */}
                     </React.Fragment>
                   );
                 }}

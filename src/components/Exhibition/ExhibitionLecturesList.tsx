@@ -111,7 +111,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
                   onClick={closeModal}
                   className="rounded-md bg-slate-500 px-3 py-1 text-white"
                 >
-                  Cancel{" "}
+                  취소{" "}
                 </button>
                 <button
                   onClick={userDelete}

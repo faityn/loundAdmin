@@ -335,7 +335,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
                   onClick={closeModal}
                   className="rounded-md bg-slate-500 px-3 py-1 text-white"
                 >
-                  Cancel{" "}
+                  취소{" "}
                 </button>
                 <button
                   onClick={userDelete}
@@ -429,7 +429,10 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
                         id={String(item?.userId)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, (item?.exhibition?.[0]?.id as unknown) as string)
+                          handleCheck(
+                            e,
+                            (item?.exhibition?.[0]?.id as unknown) as string
+                          )
                         }
                         checked={checkedElements.includes(
                           (item?.exhibition?.[0]?.id as unknown) as string
