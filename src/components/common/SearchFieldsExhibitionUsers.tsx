@@ -45,7 +45,6 @@ const SearchFieldsExhibitionUsers = ({
   const [optionStatus, setOptionStatus] = useRecoilState(optionStatusAtom);
   const [searchWord, setSearchWord] = useRecoilState(searchWordAtom);
   const usersAddExhibitionList = useRecoilValue(usersAddExhibitionListAtom);
- 
 
   useEffect(() => {
     setOptionExhibition(exhibitionId as string);
@@ -69,7 +68,6 @@ const SearchFieldsExhibitionUsers = ({
   const handleSearchWord = (val: string) => {
     setSearchWord(val);
   };
-
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const startDateChange = (date: any) => {
@@ -128,19 +126,17 @@ const SearchFieldsExhibitionUsers = ({
               <div className="flex w-full gap-4 ">
                 <div className="relative w-full">
                   <StartDatePicker
-                          label=""
-                          onDateChange={startDateChange}
-                          defaultDate={startDate}
-                        />
-               
+                    label=""
+                    onDateChange={startDateChange}
+                    defaultDate={startDate}
+                  />
                 </div>
                 <div className="relative w-full">
-                                          <EndDatePicker
-                          label=""
-                          onDateChange={endDateChange}
-                          defaultDate={endDate}
-                        />
-              
+                  <EndDatePicker
+                    label=""
+                    onDateChange={endDateChange}
+                    defaultDate={endDate}
+                  />
                 </div>
               </div>
             </td>

@@ -6,15 +6,12 @@ import {
   userDetailAtom,
   userDetailOptionsAtom,
 } from "@/atom";
-import { datePickerOption1 } from "@/helper/utility";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { RiCloseFill } from "react-icons/ri";
 import { MdOutlineRateReview } from "react-icons/md";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import Datepicker from "tailwind-datepicker-react";
 import TextEditor from "../Editor/TextEditor";
 import { PiUserList, PiUserSwitch, PiUsersThreeLight } from "react-icons/pi";
 import UsersExhibitionList from "./UsersExhibitionList";
@@ -28,6 +25,7 @@ import { FaUserLarge } from "react-icons/fa6";
 import Loader from "../common/Loader";
 import UsersLecturesList from "./UsersLecturesList";
 import UsersConferenceList from "./UsersConferenceList";
+import StartDatePicker from "../common/StartDatePicker";
 interface FormData {
   name: string;
   username: string;
@@ -51,7 +49,6 @@ const DetailModal: React.FC = () => {
   const userRole = useRecoilValue(ActiveRoleAtom);
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
   const userDetail = useRecoilValue(userDetailAtom);
-  const [show, setShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [createError, setCreateError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,7 +61,6 @@ const DetailModal: React.FC = () => {
   const [activeTab, setActiveTab] = useState("info");
   const [gender, setGender] = useState("");
   const [activeButton, setActiveButton] = useState("1");
-  const options = datePickerOption1(birthDate);
   const [contentValue, setContentValue] = useState("");
 
   const setDataSaved = useSetRecoilState(dataSavedAtom);
@@ -97,9 +93,6 @@ const DetailModal: React.FC = () => {
   const startDateChange = (date: any) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setBirthDate(formattedDate);
-  };
-  const handleStartClose = (state: boolean) => {
-    setShow(state);
   };
 
   const changeGender = (val: string) => {
@@ -372,27 +365,12 @@ const DetailModal: React.FC = () => {
                     <div>생년월일</div>
                     <div>
                       <div className="relative w-full">
-                        <Datepicker
-                          options={options}
-                          onChange={startDateChange}
-                          show={show}
-                          setShow={handleStartClose}
-                        >
-                          <div className="relative z-20 flex h-[40px] w-full  appearance-none rounded border border-slate-300 bg-transparent px-1 py-1.5 text-black outline-none transition focus:border-primary active:border-primary  ">
-                            <div className="pointer-events-none absolute inset-0 left-auto right-3 flex items-center">
-                              <HiOutlineCalendarDays className="text-xl" />
-                            </div>
-                            <input
-                              type="text"
-                              {...register("birthday")}
-                              className="h-full w-full rounded  bg-transparent pl-4 pr-9 font-normal outline-none transition focus:border-primary active:border-primary"
-                              placeholder="Select Date"
-                              defaultValue={birthDate}
-                              onFocus={() => setShow(true)}
-                              readOnly
-                            />
-                          </div>
-                        </Datepicker>
+                        <StartDatePicker
+                          label=""
+                          onDateChange={startDateChange}
+                          defaultDate={birthDate}
+                        />
+
                         {errors.birthday && (
                           <span className="font-medium text-red ">
                             This field is required
@@ -510,7 +488,9 @@ const DetailModal: React.FC = () => {
                   </div>
 
                   <div
-                    className={`flex justify-center gap-4 pt-5 ${userRole === "Super Admin" ? "" : "hidden"}`}
+                    className={`flex justify-center gap-4 pt-5 ${
+                      userRole === "Super Admin" ? "" : "hidden"
+                    }`}
                   >
                     {" "}
                     <button
@@ -739,7 +719,9 @@ const DetailModal: React.FC = () => {
                   </div>
 
                   <div
-                    className={`flex justify-center gap-4 pt-5 ${userRole === "Super Admin" ? "" : "hidden"}`}
+                    className={`flex justify-center gap-4 pt-5 ${
+                      userRole === "Super Admin" ? "" : "hidden"
+                    }`}
                   >
                     {" "}
                     <button
