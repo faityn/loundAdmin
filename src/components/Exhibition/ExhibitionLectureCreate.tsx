@@ -111,7 +111,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
         data.exhibitionId ? data.exhibitionId : ""
       );
       formdata.append("title", data.title ? data.title : "");
-      formdata.append("short_desc", data.subtitle ? data.subtitle : "");
+      //formdata.append("short_desc", data.subtitle ? data.subtitle : "");
       formdata.append("startDate", startDate);
       formdata.append("endDate", endDate);
       formdata.append("description", contentValue);
@@ -138,51 +138,6 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <table className=" w-full table-auto text-sm">
               <tbody>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Title
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <input
-                      type="text"
-                      {...register("title", {
-                        required: true,
-                      })}
-                      placeholder="제목 입력해주세요"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
-                    {errors.title && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Subtitle
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <input
-                      type="text"
-                      {...register("subtitle", {
-                        required: true,
-                      })}
-                      placeholder="부제목 입력해주세요"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
-                    {errors.subtitle && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-
                 <tr>
                   <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                     <h5 className="font-medium text-black dark:text-white">
@@ -217,6 +172,50 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                     </div>
                   </td>
                 </tr>
+                <tr>
+                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <h5 className="font-medium text-black dark:text-white">
+                      Title
+                    </h5>
+                  </td>
+                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <input
+                      type="text"
+                      {...register("title", {
+                        required: true,
+                      })}
+                      placeholder="제목 입력해주세요"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    />
+                    {errors.title && (
+                      <span className="font-medium text-red ">
+                        입력해주세요
+                      </span>
+                    )}
+                  </td>
+                </tr>
+                {/* <tr>
+                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <h5 className="font-medium text-black dark:text-white">
+                      Subtitle
+                    </h5>
+                  </td>
+                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <input
+                      type="text"
+                      {...register("subtitle", {
+                        required: true,
+                      })}
+                      placeholder="부제목 입력해주세요"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    />
+                    {errors.subtitle && (
+                      <span className="font-medium text-red ">
+                        입력해주세요
+                      </span>
+                    )}
+                  </td>
+                </tr> */}
 
                 <tr>
                   <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">

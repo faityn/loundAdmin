@@ -107,6 +107,8 @@ const DetailModal: React.FC = () => {
     setUseStatus(val);
   };
 
+  //const [value, setValue] = useState("");
+
   const handleRoleOption = (val: string) => {
     setOptionRole(val);
   };
@@ -401,7 +403,7 @@ const DetailModal: React.FC = () => {
                     <div>전화번호</div>
                     <div>
                       <input
-                        type="number"
+                        type="text"
                         {...register("phone", {
                           required: true,
                         })}

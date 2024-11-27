@@ -167,13 +167,13 @@ const ExhibitionLecturesList = ({ url }: Props) => {
                 #
               </th>
 
-              <th className="min-w-[150px] w-full px-4 py-3 font-medium text-black dark:text-white ">
+              <th className="min-w-[300px] w-[400px] px-4 py-3 font-medium text-black dark:text-white ">
                 Title
               </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
                 Exhibition title
               </th>
-              <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
+              <th className="min-w-[300px] w-[320px] px-4 py-3 font-medium text-black dark:text-white ">
                 Duration
               </th>
               <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white ">
