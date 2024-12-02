@@ -540,7 +540,7 @@ const Sidebar = ({ userRole, sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }}
                       >
                         <RiListSettingsLine />
-                        개인정보 처리방침 관리
+                        고객지원
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && "rotate-180"
