@@ -418,14 +418,14 @@ export const createPrivacy = async (
   token: string,
   title: string,
   content: string,
-  useStatus: string
+  typeStatus: string
 ) => {
   try {
     const raw = JSON.stringify({
       title: title,
-      slug: "privacy1",
+      slug: typeStatus,
       content: content,
-      status: useStatus,
+      status: "use",
     });
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/privacy/create`,
@@ -452,15 +452,15 @@ export const updatePrivacy = async (
   id: number,
   title: string,
   content: string,
-  status: string
+  typeStatus: string
 ) => {
   try {
     const raw = JSON.stringify({
       id: Number(id),
       title: title,
-      slug: "privacy1",
+      slug: typeStatus,
       content: content,
-      status: status,
+      status: "use",
     });
 
     const response = await fetch(
@@ -487,6 +487,136 @@ export const deletePrivacy = async (token: string, id: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/privacy/delete/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getFaqList = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/faqs/list`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getFaqDetail = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/faq/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const createFaq = async (
+  token: string,
+  question: string,
+  content: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      question: question,
+
+      answer: content,
+      status: "use",
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/faq/create`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const updateFaq = async (
+  token: string,
+  faqId: number,
+  question: string,
+  content: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      faqId: Number(faqId),
+      question: question,
+      ord: "1",
+      answer: content,
+      status: "use",
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/faq/update`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    console.log(response);
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const deleteFaq = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/faq/delete/${id}`,
       {
         method: "DELETE",
         headers: {

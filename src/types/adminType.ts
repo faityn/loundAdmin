@@ -71,6 +71,15 @@ export type PrivacyType = {
   updatedAt?: string;
 };
 
+export type FaqType = {
+  faqId?: number;
+  answer?: string;
+  question?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type ExhibitionOptionType = {
   interest?: [{ interestId: number; title: string }];
   purpose?: [{ purposeId: number; title: string }];
@@ -78,7 +87,7 @@ export type ExhibitionOptionType = {
     {
       value: string;
       text: string;
-    },
+    }
   ];
   content?: string;
   createdAt?: string;
@@ -214,7 +223,7 @@ export type AdminMenuType = {
       iconClass?: string;
       isAdmin?: boolean;
       menu_name?: string;
-    },
+    }
   ];
 };
 
@@ -228,13 +237,13 @@ export type SearchOptionsType = {
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
   status?: [
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
 };
 
@@ -243,25 +252,25 @@ export type UserDetailOptionsType = {
     {
       roleId?: number;
       role_name?: string;
-    },
+    }
   ];
   profession?: [
     {
       professionId?: number;
       title?: string;
-    },
+    }
   ];
   status?: [
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
   gender?: [
     {
       value?: string;
       text?: string;
-    },
+    }
   ];
 };
 
@@ -272,7 +281,7 @@ export type SearchValueType = [
     startDate: string;
     endDate: string;
     status: string;
-  },
+  }
 ];
 
 export type ExhibitionsApprovedListType = {
@@ -290,9 +299,9 @@ export type ExhibitionsApprovedListType = {
   title?: string;
   ratingCount?: number;
   admin?: {
-    adminId: number,
-    firstName: string,
-    companyName: string,
+    adminId: number;
+    firstName: string;
+    companyName: string;
   };
 };
 
@@ -315,9 +324,9 @@ export type FeedbackRatingDetailType = {
   ratingMax?: number;
   ratingMin?: number;
   admin?: {
-    adminId: number,
-    firstName: string,
-    companyName: string,
+    adminId: number;
+    firstName: string;
+    companyName: string;
   };
 };
 
@@ -325,16 +334,16 @@ export type ExhibitionRatingListType = {
   ratingId?: number;
   exhibitionId?: number;
   userId?: number;
-  
+
   rating?: number;
   comment?: number;
   createdAt?: string;
   updatedAt?: string;
-  
+
   user?: {
-    userId: number,
-    imgUrl: string,
-    companyName: string,
+    userId: number;
+    imgUrl: string;
+    companyName: string;
   };
 };
 
@@ -368,7 +377,7 @@ export type ExhibitionUsersListType = {
       exhibitionId?: number;
       request?: string;
       isConfirmed?: boolean;
-    },
+    }
   ];
 };
 

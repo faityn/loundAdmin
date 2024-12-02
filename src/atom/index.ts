@@ -13,6 +13,7 @@ import {
   ExhibitionsApprovedListType,
   ExhibitionType,
   ExhibitionUsersListType,
+  FaqType,
   FeedbackRatingDetailType,
   InterestsType,
   LecturesArrayType,
@@ -142,6 +143,16 @@ export const privacyDetailAtom = atom<PrivacyType[]>({
   default: [],
 });
 
+export const faqListAtom = atom<FaqType[]>({
+  key: "faqListAtom",
+  default: [],
+});
+
+export const faqDetailAtom = atom<FaqType>({
+  key: "faqDetailAtom",
+  default: {},
+});
+
 export const exhibitionOptionAtom = atom<ExhibitionOptionType[]>({
   key: "exhibitionOptionAtom",
   default: [],
@@ -191,7 +202,6 @@ export const userDetailAtom = atom<UsersType[]>({
   key: "userDetailAtom",
   default: [],
 });
-
 
 export const conferencesListAtom = atom<ConferenceType[]>({
   key: "conferencesListAtom",
