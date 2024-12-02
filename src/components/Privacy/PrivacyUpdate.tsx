@@ -21,7 +21,7 @@ interface Props {
 interface FormData {
   title: string;
   content: string;
-  status: string;
+  type: string;
   image?: string;
 }
 const Update = ({ id, url }: Props) => {
@@ -32,7 +32,7 @@ const Update = ({ id, url }: Props) => {
   const [createError, setCreateError] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [itemsDetail, setItemsDetail] = useRecoilState(privacyDetailAtom);
-  const [useStatus, setUseStatus] = useState("");
+  const [typeStatus, setTypeStatus] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [contentRequired, setContentRequired] = useState(false);
   const {
@@ -51,7 +51,7 @@ const Update = ({ id, url }: Props) => {
     const response = await getPrivacyDetail(String(userToken), id);
 
     if (response?.status) {
-      setUseStatus(response?.result?.status);
+      setTypeStatus(response?.result?.slug);
       setContentValue(response?.result?.content);
       setItemsDetail([response?.result]);
     } else {
@@ -64,7 +64,7 @@ const Update = ({ id, url }: Props) => {
   };
 
   const changeStatus = (val: string) => {
-    setUseStatus(val);
+    setTypeStatus(val);
   };
 
   const closeModal = () => {
@@ -89,7 +89,7 @@ const Update = ({ id, url }: Props) => {
         id,
         title,
         content,
-        useStatus
+        typeStatus
       );
 
       if (res?.status) {
@@ -115,7 +115,7 @@ const Update = ({ id, url }: Props) => {
                     <tr>
                       <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <h5 className="font-medium text-black dark:text-white">
-                          Title
+                          제목
                         </h5>
                       </td>
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -138,7 +138,7 @@ const Update = ({ id, url }: Props) => {
                     <tr>
                       <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <h5 className="font-medium text-black dark:text-white">
-                          Content
+                          콘텐츠
                         </h5>
                       </td>
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -164,22 +164,22 @@ const Update = ({ id, url }: Props) => {
                     <tr>
                       <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <h5 className="font-medium text-black dark:text-white">
-                          Status
+                          유형
                         </h5>
                       </td>
                       <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                         <div className="flex items-center gap-8">
                           <div>
                             <label
-                              htmlFor="use"
+                              htmlFor="privacy"
                               className="flex cursor-pointer select-none items-center"
                             >
                               <div className="relative">
                                 <input
-                                  {...register("status")}
+                                  {...register("type")}
                                   type="checkbox"
-                                  id="use"
-                                  value={"use"}
+                                  id="privacy"
+                                  value={"privacy"}
                                   className="sr-only"
                                   onChange={(e) => {
                                     changeStatus(e.target.value);
@@ -187,32 +187,32 @@ const Update = ({ id, url }: Props) => {
                                 />
                                 <div
                                   className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                    useStatus === "use" && "border-primary"
+                                    typeStatus === "privacy" && "border-primary"
                                   }`}
                                 >
                                   <span
                                     className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                      useStatus === "use" && "!bg-primary"
+                                      typeStatus === "privacy" && "!bg-primary"
                                     }`}
                                   >
                                     {" "}
                                   </span>
                                 </div>
                               </div>
-                              Use
+                              Privacy
                             </label>
                           </div>
                           <div className="flex gap-5">
                             <label
-                              htmlFor="notUse"
+                              htmlFor="terms"
                               className="flex cursor-pointer select-none items-center"
                             >
                               <div className="relative">
                                 <input
-                                  {...register("status")}
+                                  {...register("type")}
                                   type="checkbox"
-                                  id="notUse"
-                                  value={"disabled"}
+                                  id="terms"
+                                  value={"terms"}
                                   className="sr-only"
                                   onChange={(e) => {
                                     changeStatus(e.target.value);
@@ -220,23 +220,23 @@ const Update = ({ id, url }: Props) => {
                                 />
                                 <div
                                   className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                    useStatus === "disabled" && "border-primary"
+                                    typeStatus === "terms" && "border-primary"
                                   }`}
                                 >
                                   <span
                                     className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                      useStatus === "disabled" && "!bg-primary"
+                                      typeStatus === "terms" && "!bg-primary"
                                     }`}
                                   >
                                     {" "}
                                   </span>
                                 </div>
                               </div>
-                              Not use
+                              Terms
                             </label>
                           </div>
                         </div>
-                        {useStatus === "" && (
+                        {typeStatus === "" && (
                           <span className="font-medium text-red ">
                             입력해주세요
                           </span>
@@ -268,7 +268,7 @@ const Update = ({ id, url }: Props) => {
           <AlertModal>
             <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-green-600">
               <FaRegCheckCircle className="text-xl" />{" "}
-              <div className="">저장되었습니다</div>
+              <div className="">수정되었습니다</div>
             </div>
             <div className="flex w-full items-center justify-center gap-4">
               <button
@@ -286,7 +286,7 @@ const Update = ({ id, url }: Props) => {
           <AlertModal>
             <div className="flex items-center justify-center gap-2 mb-3 mt-2 text-xl text-red">
               <LuAlertCircle className="text-xl" />{" "}
-              <div className="">Not saved!!</div>
+              <div className=""> 실패했습니다. 다시 시도해주세요</div>
             </div>
             <div className="flex w-full items-center justify-center gap-4">
               <button

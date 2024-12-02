@@ -1,6 +1,6 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { checkedListAtom, privacyListAtom, totalPageAtom } from "@/atom";
+import { checkedListAtom, faqListAtom, totalPageAtom } from "@/atom";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
@@ -9,7 +9,7 @@ import CustomModal from "../Modal/Confirm";
 import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
 import getToken from "@/helper/getToken";
-import { deletePrivacy, getPrivacyList } from "@/hooks/useData";
+import { deleteFaq, getFaqList } from "@/hooks/useData";
 
 interface Props {
   url?: string;
@@ -23,7 +23,7 @@ const List = ({ url }: Props) => {
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?id=0`;
   const [isOpen, setIsOpen] = useState(false);
-  const [itemsList, setItemsList] = useRecoilState(privacyListAtom);
+  const [itemsList, setItemsList] = useRecoilState(faqListAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const openModal = () => {
     setIsOpen(true);
@@ -36,7 +36,7 @@ const List = ({ url }: Props) => {
   const itemDelete = async () => {
     const userToken = getToken();
     checkedElements.forEach(async (element) => {
-      await deletePrivacy(String(userToken), Number(element));
+      await deleteFaq(String(userToken), Number(element));
     });
     getData();
     setChechedElements([]);
@@ -46,7 +46,7 @@ const List = ({ url }: Props) => {
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
       const allIds = itemsList?.map((data) => {
-        return data?.id;
+        return data?.faqId;
       });
       setChechedElements(() =>
         e.target.checked ? (([...allIds] as unknown) as string[]) : []
@@ -62,11 +62,11 @@ const List = ({ url }: Props) => {
 
   const getData = async () => {
     const userToken = getToken();
-    const response = await getPrivacyList(String(userToken));
+    const response = await getFaqList(String(userToken));
 
     if (response?.status) {
       setTotalPage(response?.result?.page);
-      setItemsList(response?.result?.rows);
+      setItemsList(response?.result);
     }
   };
   useEffect(() => {
@@ -162,11 +162,12 @@ const List = ({ url }: Props) => {
               </th>
 
               <th className=" px-4 py-3 font-medium text-black dark:text-white ">
-                제목
+                질문
               </th>
               <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white">
-                유형
+                답문
               </th>
+
               <th className=" w-[200px]  px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
@@ -175,32 +176,32 @@ const List = ({ url }: Props) => {
               <tr key={index}>
                 <td className="border-b  border-[#eee] px-3 py-4  dark:border-strokedark ">
                   <label
-                    htmlFor={String(item?.id)}
+                    htmlFor={String(item?.faqId)}
                     className="flex cursor-pointer select-none items-center"
                   >
                     <div className="relative">
                       <input
                         type="checkbox"
-                        id={String(item?.id)}
+                        id={String(item?.faqId)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, (item?.id as unknown) as string)
+                          handleCheck(e, (item?.faqId as unknown) as string)
                         }
                         checked={checkedElements.includes(
-                          (item?.id as unknown) as string
+                          (item?.faqId as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            (item?.id as unknown) as string
+                            (item?.faqId as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              (item?.id as unknown) as string
+                              (item?.faqId as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>
@@ -216,21 +217,18 @@ const List = ({ url }: Props) => {
 
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium  dark:text-white">
-                    {item?.title}
+                    {item?.question}
                   </h5>
                 </td>
-                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full capitalize bg-opacity-10 px-3 py-1 text-sm font-medium bg-success text-success`}
-                  >
-                    {item?.slug}
-                  </p>
+                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
+                  {item?.answer}
                 </td>
+
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p
                     className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-xl font-medium bg-success text-primary `}
                   >
-                    <Link href={`${url}/${item?.id}`}>
+                    <Link href={`${url}/${item?.faqId}`}>
                       <FiEdit className="text-[17px]" />
                     </Link>
                   </p>
