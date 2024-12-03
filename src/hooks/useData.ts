@@ -632,3 +632,135 @@ export const deleteFaq = async (token: string, id: number) => {
     console.error("Error fetching data:", error);
   }
 };
+
+export const getNoticeList = async (
+  token: string,
+  page: number,
+  size: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notices/list?page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const createNotice = async (
+  token: string,
+  title: string,
+  content: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      title: title,
+      content: content,
+      status: "use",
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notice/create`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getNoticeDetail = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notice/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const updateNotice = async (
+  token: string,
+  id: number,
+  title: string,
+  content: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      noticeId: Number(id),
+      title: title,
+      content: content,
+      status: "use",
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notice/update`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const deleteNotice = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notice/delete/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};

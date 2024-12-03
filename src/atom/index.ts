@@ -18,6 +18,7 @@ import {
   InterestsType,
   LecturesArrayType,
   MenuItem,
+  NoticeType,
   PrivacyType,
   ProfessionType,
   PurposesType,
@@ -357,4 +358,14 @@ export const organizerDetailAtom = atom<ExhibitionOrganizerListType[]>({
 export const ActiveRoleAtom = atom({
   key: "ActiveRoleAtom",
   default: "",
+});
+
+export const noticeListAtom = atom<NoticeType[]>({
+  key: "noticeListAtom",
+  default: [],
+});
+
+export const noticeDetailAtom = atom<NoticeType[]>({
+  key: "noticeDetailAtom",
+  default: [],
 });

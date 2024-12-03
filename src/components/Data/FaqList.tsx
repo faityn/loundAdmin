@@ -97,8 +97,7 @@ const List = ({ url }: Props) => {
           {isOpen ? (
             <CustomModal>
               <div className="mb-2 mt-2 text-lg text-black">
-                Are you sure you want to <br />
-                delete?
+                정말 삭제하시겠습니까?
               </div>
               <div className="flex w-full items-center justify-center gap-4">
                 <button

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import Loader from "../common/Loader";
-import { createPrivacy } from "@/hooks/useData";
+import { createNotice } from "@/hooks/useData";
 import AlertModal from "../Modal/AlertModal";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuAlertCircle } from "react-icons/lu";
@@ -26,7 +26,6 @@ const Create = ({ url }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const [createError, setCreateError] = useState(false);
-  const [typeStatus, setTypeStatus] = useState("privacy");
   const [contentValue, setContentValue] = useState("");
   const [contentRequired, setContentRequired] = useState(false);
   const {
@@ -47,9 +46,6 @@ const Create = ({ url }: Props) => {
   const closeError = () => {
     setCreateError(false);
   };
-  const changeStatus = (val: string) => {
-    setTypeStatus(val);
-  };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (contentValue === "") {
@@ -60,12 +56,7 @@ const Create = ({ url }: Props) => {
       const token = getToken();
       const title = data.title;
       const content = contentValue;
-      const res = await createPrivacy(
-        String(token),
-        title,
-        content,
-        typeStatus
-      );
+      const res = await createNotice(String(token), title, content);
       if (res?.status) {
         setIsOpen(true);
         setLoading(false);
@@ -119,88 +110,6 @@ const Create = ({ url }: Props) => {
                     />
 
                     {contentRequired && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      유형
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className="flex items-center gap-8">
-                      <div>
-                        <label
-                          htmlFor="privacy"
-                          className="flex cursor-pointer select-none items-center"
-                        >
-                          <div className="relative">
-                            <input
-                              {...register("type")}
-                              type="checkbox"
-                              id="privacy"
-                              value={"privacy"}
-                              className="sr-only"
-                              onChange={(e) => {
-                                changeStatus(e.target.value);
-                              }}
-                            />
-                            <div
-                              className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                typeStatus === "privacy" && "border-primary"
-                              }`}
-                            >
-                              <span
-                                className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                  typeStatus === "privacy" && "!bg-primary"
-                                }`}
-                              >
-                                {" "}
-                              </span>
-                            </div>
-                          </div>
-                          개인 정보 처리 방침
-                        </label>
-                      </div>
-                      <div className="flex gap-5">
-                        <label
-                          htmlFor="terms"
-                          className="flex cursor-pointer select-none items-center"
-                        >
-                          <div className="relative">
-                            <input
-                              {...register("type")}
-                              type="checkbox"
-                              id="terms"
-                              value={"terms"}
-                              className="sr-only"
-                              onChange={(e) => {
-                                changeStatus(e.target.value);
-                              }}
-                            />
-                            <div
-                              className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                typeStatus === "terms" && "border-primary"
-                              }`}
-                            >
-                              <span
-                                className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                  typeStatus === "terms" && "!bg-primary"
-                                }`}
-                              >
-                                {" "}
-                              </span>
-                            </div>
-                          </div>
-                          이용약관
-                        </label>
-                      </div>
-                    </div>
-                    {typeStatus === "" && (
                       <span className="font-medium text-red ">
                         입력해주세요
                       </span>
