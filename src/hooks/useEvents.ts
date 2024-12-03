@@ -414,7 +414,6 @@ export const getExhibitionLectureDetail = async (token: string, id: number) => {
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.json();
 
@@ -537,8 +536,6 @@ export const ConfirmUsersToExhibition = async (
       isConfirmed: status,
     });
 
-    console.log(raw);
-    
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/update/confirm`,
       {
@@ -560,9 +557,12 @@ export const ConfirmUsersToExhibition = async (
   }
 };
 
-export const getExhibitionFeedbackList = async (token: string, searchUrl: string,
+export const getExhibitionFeedbackList = async (
+  token: string,
+  searchUrl: string,
   page: number,
-  size: number) => {
+  size: number
+) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/approved/list?${searchUrl}&page=${page}&pageSize=${size}`,
@@ -800,8 +800,6 @@ export const updateConferenceStatus = async (
   status: string
 ) => {
   try {
-    console.log(id, status);
-
     const raw = JSON.stringify({
       conferenceId: Number(id),
       request: status,
@@ -818,7 +816,6 @@ export const updateConferenceStatus = async (
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.text();
     return { status: response.ok, result: data };

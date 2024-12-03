@@ -444,3 +444,11 @@ export type ExhibitionOrganizerListType = {
   status?: string;
   createdAt?: string;
 };
+
+export type NoticeType = {
+  noticeId?: number;
+  status?: string;
+  title?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
