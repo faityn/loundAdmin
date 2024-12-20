@@ -6,6 +6,7 @@ import {
   dataSavedAtom,
   detailOpenAtom,
   endDateAtom,
+  menuPermissionAtom,
   optionStatusAtom,
   optionTypeAtom,
   organizerAllListAtom,
@@ -70,7 +71,7 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
 
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
-
+  const menuPermission = useRecoilValue(menuPermissionAtom);
   const createModal = () => {
     setCreateModalOpen(true);
   };
@@ -254,22 +255,27 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
                 <FaChevronDown />
               </span>
             </div>
-
-            <button
-              type="button"
-              className="  rounded-md bg-primary px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-              onClick={createModal}
-            >
-              등록
-            </button>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-              onClick={openModal}
-              disabled={checkedElements?.length > 0 ? false : true}
-            >
-              삭제
-            </button>
+            {menuPermission?.status === "write" ? (
+              <>
+                <button
+                  type="button"
+                  className="  rounded-md bg-primary px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                  onClick={createModal}
+                >
+                  등록
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                  onClick={openModal}
+                  disabled={checkedElements?.length > 0 ? false : true}
+                >
+                  삭제
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
           {createModalOpen ? <ExhibitionOrganizerCreateModal /> : ""}
           {detailOpen ? <ExhibitionOrganizerDetailModal /> : ""}
@@ -412,28 +418,52 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
-                  <div onClick={() => OrganizerDetail(Number(item?.adminId))}>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? OrganizerDetail(Number(item?.adminId))
+                        : ""
+                    }
+                  >
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
                       {item?.companyName}
                     </h5>
                   </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
-                  <div onClick={() => OrganizerDetail(Number(item?.adminId))}>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? OrganizerDetail(Number(item?.adminId))
+                        : ""
+                    }
+                  >
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
                       {item?.username}
                     </h5>
                   </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <div onClick={() => OrganizerDetail(Number(item?.adminId))}>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? OrganizerDetail(Number(item?.adminId))
+                        : ""
+                    }
+                  >
                     <p className="text-black dark:text-white">
                       {item?.firstName}
                     </p>
                   </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <div onClick={() => OrganizerDetail(Number(item?.adminId))}>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? OrganizerDetail(Number(item?.adminId))
+                        : ""
+                    }
+                  >
                     <p className="text-black dark:text-white">{item?.phone}</p>
                   </div>
                 </td>

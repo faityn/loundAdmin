@@ -8,6 +8,7 @@ import {
   endDateAtom,
   exhibitionDetailAtom,
   exhibitionListAtom,
+  menuPermissionAtom,
   optionStatusAtom,
   optionTypeAtom,
   searchOptionsAtom,
@@ -66,6 +67,7 @@ const ExhibitionList = ({ url }: Props) => {
   const optionType = useRecoilValue(optionTypeAtom);
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+  const menuPermission = useRecoilValue(menuPermissionAtom);
 
   const openModal = () => {
     setIsOpen(true);
@@ -259,20 +261,27 @@ const ExhibitionList = ({ url }: Props) => {
                 <FaChevronDown />
               </span>
             </div>
-            <Link
-              href={"/exhibition/create"}
-              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
-            >
-              등록
-            </Link>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-              onClick={openModal}
-              disabled={checkedElements?.length > 0 ? false : true}
-            >
-              삭제
-            </button>
+
+            {menuPermission?.status === "write" ? (
+              <>
+                <Link
+                  href={"/exhibition/create"}
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
+                >
+                  등록
+                </Link>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                  onClick={openModal}
+                  disabled={checkedElements?.length > 0 ? false : true}
+                >
+                  삭제
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
 
           {detailOpen ? <ExhibitionDetailModal /> : ""}
@@ -380,9 +389,7 @@ const ExhibitionList = ({ url }: Props) => {
                 상태
               </th>
 
-              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white">
-                Action
-              </th>
+              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>
@@ -489,13 +496,19 @@ const ExhibitionList = ({ url }: Props) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-xl font-medium text-primary `}
-                  >
-                    <Link href={`${url}/${item?.exhibitionId}`}>
-                      <FiEdit className="text-[17px]" />
-                    </Link>
-                  </p>
+                  {menuPermission?.status === "write" ? (
+                    <>
+                      <p
+                        className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-xl font-medium text-primary `}
+                      >
+                        <Link href={`${url}/${item?.exhibitionId}`}>
+                          <FiEdit className="text-[17px]" />
+                        </Link>
+                      </p>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
             ))}

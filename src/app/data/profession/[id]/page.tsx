@@ -16,7 +16,7 @@ interface PageProps {
 
 const ProfessionUpdatePage: React.FC<PageProps> = ({ params }) => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin"]} menuId="43">
       <Breadcrumb parentName="Data Manage" pageName="Profession Update" />
 
       <div className="flex flex-col gap-10">

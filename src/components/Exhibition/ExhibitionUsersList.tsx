@@ -139,6 +139,8 @@ const ExhibitionUsersList = ({ url }: Props) => {
 
     setUserDetailOptions(optionList);
     const response = await getUsersDetail(String(userToken), Number(userId));
+    console.log(response);
+
     if (response) {
       setUserDetail([response]);
     }

@@ -16,7 +16,7 @@ interface PageProps {
 
 const UpdatePage: React.FC<PageProps> = ({ params }) => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin"]} menuId="53">
       <Breadcrumb parentName="Content Manage" pageName="FAQ Update" />
 
       <div className="flex flex-col gap-10">

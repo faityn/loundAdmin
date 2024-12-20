@@ -16,7 +16,7 @@ interface PageProps {
 
 const PurposesUpdatePage: React.FC<PageProps> = ({ params }) => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin"]} menuId="42">
       <Breadcrumb parentName="Data Manage" pageName="Purpose Update" />
 
       <div className="flex flex-col gap-10">

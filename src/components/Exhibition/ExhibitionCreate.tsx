@@ -20,6 +20,7 @@ import {
   endDateAtom,
   exhibitionOptionAtom,
   fileAtom,
+  menuPermissionAtom,
   startDateAtom,
 } from "@/atom";
 
@@ -61,6 +62,8 @@ const ExhibitionCreate = ({ url }: Props) => {
   const userActiveRole = useRecoilValue(ActiveRoleAtom);
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
+  const menuPermission = useRecoilValue(menuPermissionAtom);
+
   const {
     register,
     handleSubmit,
@@ -180,438 +183,351 @@ const ExhibitionCreate = ({ url }: Props) => {
     <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="max-w-203">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <table className=" w-full table-auto text-sm">
-              <tbody>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Company name
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <input
-                      type="text"
-                      value={userActiveRole}
-                      className=" w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-slate-100 dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      disabled
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Exhibition name
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <input
-                      type="text"
-                      {...register("title", {
-                        required: true,
-                      })}
-                      placeholder="Enter name"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
-                    {errors.title && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Subtitle
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <input
-                      type="text"
-                      {...register("subtitle", {
-                        required: true,
-                      })}
-                      placeholder="부제목 입력해주세요"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
-                    {errors.subtitle && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      시작 date
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className="flex w-full gap-4 max-sm:flex-col ">
-                      <div className="relative w-full">
-                        <StartDatePicker
-                          label="시작"
-                          onDateChange={startDateChange}
-                          defaultDate={startDate}
-                        />
-                      </div>
-                      <div className="relative w-full">
-                        <EndDatePicker
-                          label="끝"
-                          onDateChange={handleChange}
-                          defaultDate={endDate}
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Image
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className="rounded-sm  ">
+          {menuPermission?.status === "write" ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <table className=" w-full table-auto text-sm">
+                <tbody>
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Company name
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <input
-                        {...register("image", {
+                        type="text"
+                        value={userActiveRole}
+                        className=" w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-slate-100 dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        disabled
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Exhibition name
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <input
+                        type="text"
+                        {...register("title", {
                           required: true,
                         })}
-                        type="file"
-                        className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-                        onChange={handleFileChange1}
+                        placeholder="Enter name"
+                        className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
-                      {errors.image && (
-                        <span className="font-medium text-red">
-                          이미지 업로드해주세요
+                      {errors.title && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
                         </span>
                       )}
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Subtitle
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <input
+                        type="text"
+                        {...register("subtitle", {
+                          required: true,
+                        })}
+                        placeholder="부제목 입력해주세요"
+                        className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      />
+                      {errors.subtitle && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        시작 date
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className="flex w-full gap-4 max-sm:flex-col ">
+                        <div className="relative w-full">
+                          <StartDatePicker
+                            label="시작"
+                            onDateChange={startDateChange}
+                            defaultDate={startDate}
+                          />
+                        </div>
+                        <div className="relative w-full">
+                          <EndDatePicker
+                            label="끝"
+                            onDateChange={handleChange}
+                            defaultDate={endDate}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Desc
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <TextEditor
-                      initialValue=""
-                      contentValue={contentValue}
-                      onEditorChange={handleEditorChange}
-                    />
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Image
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className="rounded-sm  ">
+                        <input
+                          {...register("image", {
+                            required: true,
+                          })}
+                          type="file"
+                          className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                          onChange={handleFileChange1}
+                        />
+                        {errors.image && (
+                          <span className="font-medium text-red">
+                            이미지 업로드해주세요
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
 
-                    {contentRequired && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
+                  <tr>
+                    <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Desc
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <TextEditor
+                        initialValue=""
+                        contentValue={contentValue}
+                        onEditorChange={handleEditorChange}
+                      />
 
-                <tr>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Interests
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className=" grid grid-cols-12 gap-6">
-                      {optionsList[0]?.interest?.map((item, index) => (
-                        <div key={index} className="col-span-4">
-                          <label
-                            htmlFor={`Interests${item?.interestId}`}
-                            className="flex cursor-pointer select-none items-center"
-                          >
-                            <div className="relative">
-                              <input
-                                type="checkbox"
-                                id={`Interests${item?.interestId}`}
-                                className="sr-only"
-                                onChange={(e) =>
-                                  handleCheckInterests(
-                                    e,
+                      {contentRequired && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Interests
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className=" grid grid-cols-12 gap-6">
+                        {optionsList[0]?.interest?.map((item, index) => (
+                          <div key={index} className="col-span-4">
+                            <label
+                              htmlFor={`Interests${item?.interestId}`}
+                              className="flex cursor-pointer select-none items-center"
+                            >
+                              <div className="relative">
+                                <input
+                                  type="checkbox"
+                                  id={`Interests${item?.interestId}`}
+                                  className="sr-only"
+                                  onChange={(e) =>
+                                    handleCheckInterests(
+                                      e,
+                                      (item?.interestId as unknown) as string
+                                    )
+                                  }
+                                  checked={checkedInterests.includes(
                                     (item?.interestId as unknown) as string
-                                  )
-                                }
-                                checked={checkedInterests.includes(
-                                  (item?.interestId as unknown) as string
-                                )}
-                              />
-                              <div
-                                className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
-                                  checkedInterests.includes(
-                                    (item?.interestId as unknown) as string
-                                  ) &&
-                                  "border-primary bg-gray dark:bg-transparent"
-                                }`}
-                              >
-                                <span
-                                  className={`h-2 w-2 rounded-sm ${
+                                  )}
+                                />
+                                <div
+                                  className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
                                     checkedInterests.includes(
                                       (item?.interestId as unknown) as string
-                                    ) && "bg-primary"
+                                    ) &&
+                                    "border-primary bg-gray dark:bg-transparent"
                                   }`}
-                                ></span>
+                                >
+                                  <span
+                                    className={`h-2 w-2 rounded-sm ${
+                                      checkedInterests.includes(
+                                        (item?.interestId as unknown) as string
+                                      ) && "bg-primary"
+                                    }`}
+                                  ></span>
+                                </div>
                               </div>
-                            </div>
-                            {item?.title}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
+                              {item?.title}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Purposes
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className=" grid grid-cols-12 gap-6">
-                      {optionsList[0]?.purpose?.map((item, index) => (
-                        <div key={index} className="col-span-4">
+                  <tr>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Purposes
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className=" grid grid-cols-12 gap-6">
+                        {optionsList[0]?.purpose?.map((item, index) => (
+                          <div key={index} className="col-span-4">
+                            <label
+                              htmlFor={`Purposes${item?.purposeId}`}
+                              className="flex cursor-pointer select-none items-center"
+                            >
+                              <div className="relative">
+                                <input
+                                  type="checkbox"
+                                  id={`Purposes${item?.purposeId}`}
+                                  className="sr-only"
+                                  onChange={(e) =>
+                                    handleCheckPurposes(
+                                      e,
+                                      (item?.purposeId as unknown) as string
+                                    )
+                                  }
+                                  checked={checkedPurposes.includes(
+                                    (item?.purposeId as unknown) as string
+                                  )}
+                                />
+                                <div
+                                  className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
+                                    checkedPurposes.includes(
+                                      (item?.purposeId as unknown) as string
+                                    ) &&
+                                    "border-primary bg-gray dark:bg-transparent"
+                                  }`}
+                                >
+                                  <span
+                                    className={`h-2 w-2 rounded-sm ${
+                                      checkedPurposes.includes(
+                                        (item?.purposeId as unknown) as string
+                                      ) && "bg-primary"
+                                    }`}
+                                  ></span>
+                                </div>
+                              </div>
+                              {item?.title}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Status
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className="flex items-center gap-8">
+                        <div>
                           <label
-                            htmlFor={`Purposes${item?.purposeId}`}
+                            htmlFor="use"
                             className="flex cursor-pointer select-none items-center"
                           >
                             <div className="relative">
                               <input
+                                {...register("status")}
                                 type="checkbox"
-                                id={`Purposes${item?.purposeId}`}
+                                id="use"
+                                value={"use"}
                                 className="sr-only"
-                                onChange={(e) =>
-                                  handleCheckPurposes(
-                                    e,
-                                    (item?.purposeId as unknown) as string
-                                  )
-                                }
-                                checked={checkedPurposes.includes(
-                                  (item?.purposeId as unknown) as string
-                                )}
+                                onChange={(e) => {
+                                  changeStatus(e.target.value);
+                                }}
                               />
                               <div
-                                className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${
-                                  checkedPurposes.includes(
-                                    (item?.purposeId as unknown) as string
-                                  ) &&
-                                  "border-primary bg-gray dark:bg-transparent"
+                                className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
+                                  useStatus === "use" && "border-primary"
                                 }`}
                               >
                                 <span
-                                  className={`h-2 w-2 rounded-sm ${
-                                    checkedPurposes.includes(
-                                      (item?.purposeId as unknown) as string
-                                    ) && "bg-primary"
+                                  className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                                    useStatus === "use" && "!bg-primary"
                                   }`}
-                                ></span>
+                                >
+                                  {" "}
+                                </span>
                               </div>
                             </div>
-                            {item?.title}
+                            Use
                           </label>
                         </div>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-                {/* <tr>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Lectures
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className="text-right mb-4">
-                      <span
-                        onClick={() => plusLecture()}
-                        className="px-2 py-1 cursor-pointer bg-success text-white rounded-md"
-                      >
-                        +Add
-                      </span>
-                    </div>
-                    {lecturesArray?.map((item, i) => (
-                      <div
-                        key={i}
-                        className="relative border border-slate-300 rounded-xl p-4 mb-3"
-                      >
-                        <button
-                          type="button"
-                          onClick={() => removeLecture(i)}
-                          className="absolute right-0  bg-rose-400 px-3 py-1 mt-[-15px] cursor-pointer text-white rounded-xl"
-                        >
-                          <MdOutlineRemoveCircleOutline
-                            onClick={() => removeLecture(i)}
-                            className="text-xl"
-                          />
-                        </button>
-                        <div className="w-full pr-5 relative">
-                          <div className="mb-2">
-                            <div>
-                              <h5 className="font-medium text-black dark:text-white">
-                                Title
-                              </h5>
-                            </div>
-                            <div>
+                        <div className="flex gap-5">
+                          <label
+                            htmlFor="notUse"
+                            className="flex cursor-pointer select-none items-center"
+                          >
+                            <div className="relative">
                               <input
-                                type="text"
-                                defaultValue={item?.title}
-                                placeholder="제목 입력해주세요"
-                                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-3 py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                {...register("status")}
+                                type="checkbox"
+                                id="notUse"
+                                value={"disabled"}
+                                className="sr-only"
+                                onChange={(e) => {
+                                  changeStatus(e.target.value);
+                                }}
                               />
-                            </div>
-                          </div>
-                          <div className="mb-2">
-                            <div>
-                              <h5 className="font-medium text-black dark:text-white">
-                                Subtitle
-                              </h5>
-                            </div>
-                            <div>
-                              <input
-                                type="text"
-                                defaultValue={item?.short_desc}
-                                placeholder="부제목 입력해주세요"
-                                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-3 py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                              />
-                            </div>
-                          </div>
-                          <div className="mb-2">
-                            <div className="flex w-full items-center gap-3">
-                              <div className="w-full">
-                                <h5 className="font-medium text-black dark:text-white">
-                                  시작 date
-                                </h5>
-                                <input
-                                  type="text"
-                                  defaultValue={item?.startDate}
-                                  placeholder="시작"
-                                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-3 py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                />
-                              </div>
-                              <div className="w-full">
-                                <h5 className="font-medium text-black dark:text-white">
-                                  끝 date
-                                </h5>
-                                <input
-                                  type="text"
-                                  defaultValue={item?.endDate}
-                                  placeholder="끝"
-                                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-3 py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                />
+                              <div
+                                className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
+                                  useStatus === "disabled" && "border-primary"
+                                }`}
+                              >
+                                <span
+                                  className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                                    useStatus === "disabled" && "!bg-primary"
+                                  }`}
+                                >
+                                  {" "}
+                                </span>
                               </div>
                             </div>
-                          </div>
+                            Not use
+                          </label>
                         </div>
                       </div>
-                    ))}
-                  </td>
-                </tr> */}
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      Status
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className="flex items-center gap-8">
-                      <div>
-                        <label
-                          htmlFor="use"
-                          className="flex cursor-pointer select-none items-center"
-                        >
-                          <div className="relative">
-                            <input
-                              {...register("status")}
-                              type="checkbox"
-                              id="use"
-                              value={"use"}
-                              className="sr-only"
-                              onChange={(e) => {
-                                changeStatus(e.target.value);
-                              }}
-                            />
-                            <div
-                              className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                useStatus === "use" && "border-primary"
-                              }`}
-                            >
-                              <span
-                                className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                  useStatus === "use" && "!bg-primary"
-                                }`}
-                              >
-                                {" "}
-                              </span>
-                            </div>
-                          </div>
-                          Use
-                        </label>
-                      </div>
-                      <div className="flex gap-5">
-                        <label
-                          htmlFor="notUse"
-                          className="flex cursor-pointer select-none items-center"
-                        >
-                          <div className="relative">
-                            <input
-                              {...register("status")}
-                              type="checkbox"
-                              id="notUse"
-                              value={"disabled"}
-                              className="sr-only"
-                              onChange={(e) => {
-                                changeStatus(e.target.value);
-                              }}
-                            />
-                            <div
-                              className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                useStatus === "disabled" && "border-primary"
-                              }`}
-                            >
-                              <span
-                                className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                  useStatus === "disabled" && "!bg-primary"
-                                }`}
-                              >
-                                {" "}
-                              </span>
-                            </div>
-                          </div>
-                          Not use
-                        </label>
-                      </div>
-                    </div>
-                    {useStatus === "" && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="flex w-full justify-end gap-4 px-4 text-center">
-              <Link
-                href={`${url}`}
-                className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
-              >
-                취소
-              </Link>
-              <button
-                type="submit"
-                className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
-              >
-                저장
-              </button>
-            </div>
-          </form>
+                      {useStatus === "" && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="flex w-full justify-end gap-4 px-4 text-center">
+                <Link
+                  href={`${url}`}
+                  className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
+                >
+                  취소
+                </Link>
+                <button
+                  type="submit"
+                  className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
+                >
+                  저장
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className=" text-3xl pt-10">Access Denied</div>
+          )}
         </div>
       </div>
       <div className="my-5 text-right">

@@ -7,6 +7,7 @@ import {
   endDateAtom,
   feedBackAllListAtom,
   feedbackDetailAtom,
+  menuPermissionAtom,
   optionStatusAtom,
   optionTypeAtom,
   searchOptionsAtom,
@@ -68,7 +69,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
 
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
-
+  const menuPermission = useRecoilValue(menuPermissionAtom);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -256,14 +257,18 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                 <FaChevronDown />
               </span>
             </div>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-2 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-              onClick={openModal}
-              disabled={checkedElements?.length > 0 ? false : true}
-            >
-              삭제
-            </button>
+            {menuPermission?.status === "write" ? (
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-2 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                onClick={openModal}
+                disabled={checkedElements?.length > 0 ? false : true}
+              >
+                삭제
+              </button>
+            ) : (
+              ""
+            )}
           </div>
           {isOpen ? (
             <CustomModal>
@@ -405,7 +410,11 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
 
                 <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
                   <div
-                    onClick={() => FeedbackDetail(Number(item?.exhibitionId))}
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? FeedbackDetail(Number(item?.exhibitionId))
+                        : ""
+                    }
                   >
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
                       {item?.admin?.companyName}
@@ -414,7 +423,11 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
                   <div
-                    onClick={() => FeedbackDetail(Number(item?.exhibitionId))}
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? FeedbackDetail(Number(item?.exhibitionId))
+                        : ""
+                    }
                   >
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
                       {item?.title}

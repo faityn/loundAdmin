@@ -11,6 +11,8 @@ import AlertModal from "../Modal/AlertModal";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuAlertCircle } from "react-icons/lu";
 import TextEditor from "../Editor/TextEditor";
+import { menuPermissionAtom } from "@/atom";
+import { useRecoilValue } from "recoil";
 
 interface Props {
   url?: string;
@@ -29,6 +31,8 @@ const Create = ({ url }: Props) => {
   const [typeStatus, setTypeStatus] = useState("privacy");
   const [contentValue, setContentValue] = useState("");
   const [contentRequired, setContentRequired] = useState(false);
+  const menuPermission = useRecoilValue(menuPermissionAtom);
+
   const {
     register,
     handleSubmit,
@@ -80,150 +84,154 @@ const Create = ({ url }: Props) => {
     <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="max-w-203">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <table className=" w-full table-auto text-sm">
-              <tbody>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      제목
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <input
-                      type="text"
-                      {...register("title", {
-                        required: true,
-                      })}
-                      placeholder="제목 입력해주세요"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
-                    {errors.title && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      내용
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <TextEditor
-                      initialValue=""
-                      contentValue={contentValue}
-                      onEditorChange={handleEditorChange}
-                    />
+          {menuPermission?.status === "write" ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <table className=" w-full table-auto text-sm">
+                <tbody>
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        제목
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <input
+                        type="text"
+                        {...register("title", {
+                          required: true,
+                        })}
+                        placeholder="제목 입력해주세요"
+                        className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      />
+                      {errors.title && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        내용
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <TextEditor
+                        initialValue=""
+                        contentValue={contentValue}
+                        onEditorChange={handleEditorChange}
+                      />
 
-                    {contentRequired && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <h5 className="font-medium text-black dark:text-white">
-                      유형
-                    </h5>
-                  </td>
-                  <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                    <div className="flex items-center gap-8">
-                      <div>
-                        <label
-                          htmlFor="privacy"
-                          className="flex cursor-pointer select-none items-center"
-                        >
-                          <div className="relative">
-                            <input
-                              {...register("type")}
-                              type="checkbox"
-                              id="privacy"
-                              value={"privacy"}
-                              className="sr-only"
-                              onChange={(e) => {
-                                changeStatus(e.target.value);
-                              }}
-                            />
-                            <div
-                              className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                typeStatus === "privacy" && "border-primary"
-                              }`}
-                            >
-                              <span
-                                className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                  typeStatus === "privacy" && "!bg-primary"
+                      {contentRequired && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        유형
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className="flex items-center gap-8">
+                        <div>
+                          <label
+                            htmlFor="privacy"
+                            className="flex cursor-pointer select-none items-center"
+                          >
+                            <div className="relative">
+                              <input
+                                {...register("type")}
+                                type="checkbox"
+                                id="privacy"
+                                value={"privacy"}
+                                className="sr-only"
+                                onChange={(e) => {
+                                  changeStatus(e.target.value);
+                                }}
+                              />
+                              <div
+                                className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
+                                  typeStatus === "privacy" && "border-primary"
                                 }`}
                               >
-                                {" "}
-                              </span>
+                                <span
+                                  className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                                    typeStatus === "privacy" && "!bg-primary"
+                                  }`}
+                                >
+                                  {" "}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          개인 정보 처리 방침
-                        </label>
-                      </div>
-                      <div className="flex gap-5">
-                        <label
-                          htmlFor="terms"
-                          className="flex cursor-pointer select-none items-center"
-                        >
-                          <div className="relative">
-                            <input
-                              {...register("type")}
-                              type="checkbox"
-                              id="terms"
-                              value={"terms"}
-                              className="sr-only"
-                              onChange={(e) => {
-                                changeStatus(e.target.value);
-                              }}
-                            />
-                            <div
-                              className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                typeStatus === "terms" && "border-primary"
-                              }`}
-                            >
-                              <span
-                                className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                                  typeStatus === "terms" && "!bg-primary"
+                            개인 정보 처리 방침
+                          </label>
+                        </div>
+                        <div className="flex gap-5">
+                          <label
+                            htmlFor="terms"
+                            className="flex cursor-pointer select-none items-center"
+                          >
+                            <div className="relative">
+                              <input
+                                {...register("type")}
+                                type="checkbox"
+                                id="terms"
+                                value={"terms"}
+                                className="sr-only"
+                                onChange={(e) => {
+                                  changeStatus(e.target.value);
+                                }}
+                              />
+                              <div
+                                className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
+                                  typeStatus === "terms" && "border-primary"
                                 }`}
                               >
-                                {" "}
-                              </span>
+                                <span
+                                  className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                                    typeStatus === "terms" && "!bg-primary"
+                                  }`}
+                                >
+                                  {" "}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          이용약관
-                        </label>
+                            이용약관
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    {typeStatus === "" && (
-                      <span className="font-medium text-red ">
-                        입력해주세요
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="flex w-full justify-end gap-4 px-4 text-center">
-              <Link
-                href={`${url}`}
-                className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
-              >
-                취소
-              </Link>
-              <button
-                type="submit"
-                className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
-              >
-                저장
-              </button>
-            </div>
-          </form>
+                      {typeStatus === "" && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="flex w-full justify-end gap-4 px-4 text-center">
+                <Link
+                  href={`${url}`}
+                  className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
+                >
+                  취소
+                </Link>
+                <button
+                  type="submit"
+                  className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
+                >
+                  저장
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className=" text-3xl pt-10">Access Denied</div>
+          )}
         </div>
       </div>
       <div className="my-5 text-right">

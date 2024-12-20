@@ -10,32 +10,55 @@ interface WithRoleProps {
   allowedRoles: string[];
   menuId?: string;
 }
-export default function DefaultLayout({
-  children,
-  allowedRoles,
-}: WithRoleProps) {
+
+type MenuItem = {
+  menuId: number;
+  status?: string;
+  children?: MenuItem[];
+};
+export default function DefaultLayout({ children, menuId }: WithRoleProps) {
   const router = useRouter();
   const [userRole, setUserRole] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [menuList, setMenuList] = useState([]);
   const getAdminRole = async () => {
     const role = await getRole();
 
     if (role === "expired") {
       router.push("/login");
     } else {
-      setUserRole(String(role));
+      setUserRole(String(role?.role));
+      setMenuList(role?.menu);
     }
   };
+  const findByMenuId = (array: MenuItem[], menuId: number): MenuItem | null => {
+    for (const item of array) {
+      if (item.menuId === menuId || menuId === 1) {
+        return item;
+      }
+      if (item.children && item.children.length > 0) {
+        const found = findByMenuId(item.children, menuId);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null; // Return null if not found
+  };
+
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getAdminRole();
   }, []);
-
+  // useEffect(() => {
+  //   findByMenuId(menuList, Number(menuId));
+  // }, [menuList]);
   return (
     <RecoilRoot>
       <div className="flex h-screen overflow-hidden">
         <Sidebar
+          menuList={menuList}
+          menuId={Number(menuId)}
           userRole={userRole}
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
@@ -48,7 +71,7 @@ export default function DefaultLayout({
           />
           <main>
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {!allowedRoles.includes(userRole) ? (
+              {findByMenuId(menuList, Number(menuId)) === null ? (
                 <div className=" text-3xl pt-10">Access Denied</div>
               ) : (
                 children

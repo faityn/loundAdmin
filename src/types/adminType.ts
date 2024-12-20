@@ -1,5 +1,6 @@
 export type AdminType = {
   id?: number;
+  adminId?: number;
   firstName?: string;
   lastName?: string;
   username?: string;
@@ -9,6 +10,12 @@ export type AdminType = {
     name?: string;
     title?: string;
   };
+  menues?: [
+    {
+      menuId?: number;
+      status?: string;
+    }
+  ];
   role?: string;
   image?: string;
   created_at?: string;
@@ -204,6 +211,18 @@ export type AdminRoleType = {
   updatedAt?: string;
 };
 
+export type MenuPermissionType = {
+  menuId?: number;
+  status?: string;
+};
+
+export type MenuRoleType = [
+  {
+    menuId?: number;
+    status?: string;
+  }
+];
+
 export type AdminMenuType = {
   menuId?: number;
   parentId?: number;
@@ -213,6 +232,7 @@ export type AdminMenuType = {
   iconClass?: string;
   isAdmin?: boolean;
   menu_name?: string;
+  status?: string;
   children?: [
     {
       menuId?: number;
@@ -223,9 +243,24 @@ export type AdminMenuType = {
       iconClass?: string;
       isAdmin?: boolean;
       menu_name?: string;
+      status?: string;
     }
   ];
 };
+
+export type AdminChildMenuType = [
+  {
+    menuId?: number;
+    parentId?: number;
+    url?: string;
+    depth?: number;
+    ord?: number;
+    iconClass?: string;
+    isAdmin?: boolean;
+    menu_name?: string;
+    status?: string;
+  }
+];
 
 export type MenuItem = {
   menuId: number;
@@ -421,6 +456,11 @@ export type UserExhibitionRatingType = {
   exhibitionId?: number;
   userId?: number;
   comment?: string;
+};
+
+export type AdminPermittionType = {
+  menuId?: number;
+  status?: string;
 };
 
 export type UserInfoType = {
