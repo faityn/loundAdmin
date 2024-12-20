@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="51">
       <Breadcrumb parentName="개인정보 처리방침 관리" pageName="Notice" />
 
       <div className="flex flex-col gap-10">

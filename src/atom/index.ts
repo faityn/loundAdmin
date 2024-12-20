@@ -1,5 +1,6 @@
 import {
   AdminMenuType,
+  AdminPermittionType,
   AdminRoleType,
   AdminType,
   AdminUsersType,
@@ -18,6 +19,7 @@ import {
   InterestsType,
   LecturesArrayType,
   MenuItem,
+  MenuPermissionType,
   NoticeType,
   PrivacyType,
   ProfessionType,
@@ -37,6 +39,11 @@ import { atom } from "recoil";
 export const adminAllListAtom = atom<AdminType[]>({
   key: "admin_list_atom",
   default: [],
+});
+
+export const adminDetailAtom = atom<AdminType>({
+  key: "adminDetailAtom",
+  default: {},
 });
 
 export const exhibitionListAtom = atom<ExhibitionType[]>({
@@ -234,6 +241,11 @@ export const adminMenuListAtom = atom<AdminMenuType[]>({
   default: [],
 });
 
+export const menuPermissionAtom = atom<MenuPermissionType>({
+  key: "menuPermissionAtom",
+  default: {},
+});
+
 export const adminMenuItemAtom = atom<MenuItem[]>({
   key: "adminMenuItemAtom",
   default: [],
@@ -339,7 +351,10 @@ export const dataSavedAtom = atom({
   key: "dataSavedAtom",
   default: false,
 });
-
+export const adminPermittionAtom = atom<AdminPermittionType[]>({
+  key: "adminPermittionAtom",
+  default: [],
+});
 export const createExOrganizerOpenAtom = atom({
   key: "createExOrganizerOpenAtom",
   default: false,
@@ -352,6 +367,26 @@ export const organizerAllListAtom = atom<ExhibitionOrganizerListType[]>({
 
 export const organizerDetailAtom = atom<ExhibitionOrganizerListType[]>({
   key: "organizerDetailAtom",
+  default: [],
+});
+
+export const createAdminOpenAtom = atom({
+  key: "createAdminOpenAtom",
+  default: false,
+});
+
+export const menuAllListAtom = atom<AdminMenuType[]>({
+  key: "menuAllListAtom",
+  default: [],
+});
+
+export const adminShowMenuAtom = atom<AdminMenuType[]>({
+  key: "adminShowMenuAtom",
+  default: [],
+});
+
+export const subMenuListAtom = atom<AdminMenuType[]>({
+  key: "subMenuListAtom",
   default: [],
 });
 

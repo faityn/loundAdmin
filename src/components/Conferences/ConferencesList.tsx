@@ -3,6 +3,7 @@ import {
   checkedListAtom,
   conferencesListAtom,
   dataSavedAtom,
+  menuPermissionAtom,
   totalPageAtom,
 } from "@/atom";
 import getToken from "@/helper/getToken";
@@ -12,7 +13,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Pagination from "../Pagination/Pagination";
 
 interface Props {
@@ -30,6 +31,7 @@ const ConferencesList = ({ url }: Props) => {
   );
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
+  const menuPermission = useRecoilValue(menuPermissionAtom);
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
@@ -246,35 +248,45 @@ const ConferencesList = ({ url }: Props) => {
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-xl font-medium bg-success text-primary `}
-                  >
-                    <Link href={`${url}/${item?.conferenceId}`}>
-                      <RiSearchLine />
-                    </Link>
-                  </p>
+                  {menuPermission?.status === "write" ? (
+                    <p
+                      className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-xl font-medium bg-success text-primary `}
+                    >
+                      <Link href={`${url}/${item?.conferenceId}`}>
+                        <RiSearchLine />
+                      </Link>
+                    </p>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <div className="mt-4 flex justify-end gap-3">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-            onClick={() => statusChange("register")}
-            disabled={checkedElements?.length > 0 ? false : true}
-          >
-            대기
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
-            onClick={() => statusChange("approved")}
-            disabled={checkedElements?.length > 0 ? false : true}
-          >
-            승인
-          </button>
+          {menuPermission?.status === "write" ? (
+            <>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                onClick={() => statusChange("register")}
+                disabled={checkedElements?.length > 0 ? false : true}
+              >
+                대기
+              </button>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                onClick={() => statusChange("approved")}
+                disabled={checkedElements?.length > 0 ? false : true}
+              >
+                승인
+              </button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="my-5 text-right">

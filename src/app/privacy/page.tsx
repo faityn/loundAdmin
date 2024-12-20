@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const PrivacyPage = () => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="52">
       <Breadcrumb
         parentName="개인정보 처리방침 관리"
         pageName="개인정보 처리방침"

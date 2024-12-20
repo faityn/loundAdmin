@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const ExhibitionFeedbackPage = () => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin", "Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="25">
       <Breadcrumb
         parentName="Exhibition Manage"
         pageName="Exhibition Feedback List"

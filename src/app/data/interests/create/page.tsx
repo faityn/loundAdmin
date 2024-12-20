@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const InterestsCreatePage = () => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin"]} menuId="41">
       <Breadcrumb parentName="Data Manage" pageName="Interests Create" />
 
       <div className="flex flex-col gap-10">

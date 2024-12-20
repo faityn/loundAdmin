@@ -16,7 +16,7 @@ interface BannerPageProps {
 
 const BannerUpdatePage: React.FC<BannerPageProps> = ({ params }) => {
   return (
-    <DefaultLayout allowedRoles={["Super Admin"]}>
+    <DefaultLayout allowedRoles={["Super Admin"]} menuId="61">
       <Breadcrumb parentName="Banner Manage" pageName="Banner Update" />
 
       <div className="flex flex-col gap-10">

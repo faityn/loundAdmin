@@ -1,10 +1,10 @@
 "use client";
-import { interestDetailAtom } from "@/atom";
+import { interestDetailAtom, menuPermissionAtom } from "@/atom";
 import getToken from "@/helper/getToken";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { getInterestsDetail, updateInterests } from "@/hooks/useData";
@@ -29,6 +29,8 @@ const InterestsUpdate = ({ id, url }: Props) => {
   const [createError, setCreateError] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [itemsDetail, setItemsDetail] = useRecoilState(interestDetailAtom);
+  const menuPermission = useRecoilValue(menuPermissionAtom);
+
   const {
     register,
     handleSubmit,
@@ -82,49 +84,53 @@ const InterestsUpdate = ({ id, url }: Props) => {
         {itemsDetail?.length > 0 &&
           itemsDetail?.map((item, index) => (
             <div key={index} className="max-w-203">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <table className=" w-full table-auto text-sm">
-                  <tbody>
-                    <tr>
-                      <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                        <h5 className="font-medium text-black dark:text-white">
-                          Title
-                        </h5>
-                      </td>
-                      <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                        <input
-                          type="text"
-                          {...register("title", {
-                            required: true,
-                          })}
-                          defaultValue={item?.title}
-                          placeholder="제목 입력해주세요"
-                          className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                        />
-                        {errors.title && (
-                          <span className="font-medium text-red ">
-                            입력해주세요
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="flex w-full justify-end gap-4 px-4 text-center">
-                  <Link
-                    href={`${url}`}
-                    className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
-                  >
-                    취소
-                  </Link>
-                  <button
-                    type="submit"
-                    className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
-                  >
-                    저장
-                  </button>
-                </div>
-              </form>
+              {menuPermission?.status === "write" ? (
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <table className=" w-full table-auto text-sm">
+                    <tbody>
+                      <tr>
+                        <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                          <h5 className="font-medium text-black dark:text-white">
+                            Title
+                          </h5>
+                        </td>
+                        <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                          <input
+                            type="text"
+                            {...register("title", {
+                              required: true,
+                            })}
+                            defaultValue={item?.title}
+                            placeholder="제목 입력해주세요"
+                            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          />
+                          {errors.title && (
+                            <span className="font-medium text-red ">
+                              입력해주세요
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="flex w-full justify-end gap-4 px-4 text-center">
+                    <Link
+                      href={`${url}`}
+                      className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "
+                    >
+                      취소
+                    </Link>
+                    <button
+                      type="submit"
+                      className="flex w-26 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
+                    >
+                      저장
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className=" text-3xl pt-10">Access Denied</div>
+              )}
             </div>
           ))}
       </div>

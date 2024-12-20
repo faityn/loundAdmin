@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="">
+      <DefaultLayout allowedRoles={["Super Admin"]} menuId="11">
         <Breadcrumb parentName="Admin manage" pageName="Admin list" />
         <div className="flex flex-col gap-10">
           <AdminList />
