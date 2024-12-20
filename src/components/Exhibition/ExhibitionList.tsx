@@ -441,7 +441,11 @@ const ExhibitionList = ({ url }: Props) => {
 
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <div
-                    onClick={() => ExhibitionDetail(Number(item?.exhibitionId))}
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? ExhibitionDetail(Number(item?.exhibitionId))
+                        : ""
+                    }
                   >
                     <h5 className="cursor-pointer  font-medium  dark:text-white">
                       {item?.admin?.companyName}
@@ -450,7 +454,11 @@ const ExhibitionList = ({ url }: Props) => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <div
-                    onClick={() => ExhibitionDetail(Number(item?.exhibitionId))}
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? ExhibitionDetail(Number(item?.exhibitionId))
+                        : ""
+                    }
                   >
                     <h5 className="cursor-pointer  font-medium  dark:text-white">
                       {item?.title}
