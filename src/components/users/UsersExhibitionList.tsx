@@ -4,6 +4,7 @@ import { userExhibitionListAtom } from "@/atom";
 import { useEffect, useState } from "react";
 import { userExhibitionList } from "@/hooks/useUser";
 import getToken from "@/helper/getToken";
+import { RiSearchLine } from "react-icons/ri";
 
 type Props = {
   userId: number;
@@ -29,56 +30,65 @@ const UsersExhibitionList = ({ userId }: Props) => {
   useEffect(() => {}, []);
   return (
     <div className="pl-5 text-xs">
-      <div className=" font-semibold"> 참가한 행사 정보</div>
+      <div className=" font-semibold text-[#17B0D9] mb-2">
+        {" "}
+        참가한 행사 정보
+      </div>
 
       <div className="flex gap-3">
-        <div className="w-full">
+        <div className="w-full relative flex items-center">
+          <div
+            className="text-black absolute pl-4 cursor-pointer"
+            onClick={() => handleSearch()}
+          >
+            <RiSearchLine className="text-2xl" />
+          </div>
           <input
             type="text"
             onChange={(e) => handleSearchWord(e.target.value)}
-            className="w-full rounded border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter "
+            placeholder="검색어를 입력해 주세요."
+            className="w-full rounded-lg border-[1.5px] border-slate-300 bg-transparent pl-13 pr-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
           />
         </div>
-        <button
-          type="button"
-          onClick={() => handleSearch()}
-          className="inline-flex w-25 items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
-        >
-          검색
-        </button>
       </div>
-      <div className="mt-5 max-w-full overflow-x-auto">
-        <table className="w-full table-auto text-xs">
-          <thead>
-            <tr className="bg-slate-700 text-left ">
-              <th className="min-w-[150px] px-4 py-2 font-medium text-white  ">
-                이름
-              </th>
+      <div className="mt-5 max-w-full overflow-x-auto border border-[#ddd] rounded-xl">
+        <div className="">
+          <table className="w-full table-auto text-sm   ">
+            <thead className="">
+              <tr className="bg-[#F8F8F8] text-center text-[#111111] ">
+                <th className="w-full px-4 py-2 h-[52px] font-medium  ">
+                  이름
+                </th>
 
-              <th className="min-w-[130px] px-4 py-2 font-medium text-white  ">
-                참가 날짜
-              </th>
-              <th className="min-w-[130px] px-4 py-2 font-medium text-white  ">
-                참가 상태
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {userExhibition?.map((item, i) => (
-              <tr key={i}>
-                <td className="border-b border-[#eee] px-4 py-3 ">
-                  {item?.exhibition?.title}
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 ">
-                  {item?.dates}
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 ">
-                  {item?.request}
-                </td>
+                <th className="min-w-[100px] px-4 py-2 font-medium  ">
+                  참가 날짜
+                </th>
+                <th className="min-w-[80px] px-4 py-2 font-medium   ">
+                  참가 상태
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {userExhibition?.map((item, i) => (
+                <tr key={i}>
+                  <td className="border-b border-[#eee] text-center px-4 py-3 h-[52px]">
+                    {item?.exhibition?.title}
+                  </td>
+                  <td className="border-b border-[#eee] text-center px-4 py-3 h-[52px]">
+                    {item?.dates}
+                  </td>
+                  <td className="border-b border-[#eee] text-center px-4 py-3 h-[52px]">
+                    {item?.request === "approved" ? (
+                      <div>참가 완료</div>
+                    ) : (
+                      <div className="text-[#FA423A]">불참</div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

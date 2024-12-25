@@ -11,9 +11,10 @@ import {
   userExhibitionConferenceListOwn,
 } from "@/hooks/useUser";
 import getToken from "@/helper/getToken";
-import { FaChevronDown } from "react-icons/fa";
+import { FaCaretDown } from "react-icons/fa";
 
 import UsersConferenceOneItem from "./UsersConferenceOneItem";
+import { RiSearchLine } from "react-icons/ri";
 
 type Props = {
   userId: number;
@@ -82,51 +83,53 @@ const UsersConferenceList = ({ userId }: Props) => {
   useEffect(() => {}, []);
   return (
     <div className="pl-5 text-xs">
-      <div className=" font-semibold"> 참가한 강연 정보 </div>
+      <div className=" font-semibold text-[#17B0D9] mb-2">
+        {" "}
+        참가한 강연 정보{" "}
+      </div>
 
-      <div className="relative z-20 w-50 mb-5 bg-transparent dark:bg-slate-700 ">
+      <div className="relative z-20 w-full mb-5 bg-transparent  ">
         <select
           value={optionExhibition}
           onChange={(e) => handleExhibition(e.target.value)}
-          className={`text-md relative z-10 w-full appearance-none rounded border border-slate-300 bg-transparent px-5 py-1.5 text-xs text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-slate-700 dark:text-white dark:focus:border-primary`}
+          className={`text-md relative z-10 w-full appearance-none rounded-xl border border-slate-300 bg-transparent px-5 py-1.5 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 `}
         >
-          <option value="0" className="text-black dark:text-bodydark">
+          <option value="0" className="text-black ">
             선택
           </option>
           {userExhibition?.map((e, i) => (
             <option
               key={i}
               value={String(e?.exhibitionId)}
-              className="text-black dark:text-bodydark"
+              className="text-black "
             >
               {e?.exhibition?.title}
             </option>
           ))}
         </select>
 
-        <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-slate-400 dark:text-white">
-          <FaChevronDown />
+        <span className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-black text-lg">
+          <FaCaretDown />
         </span>
       </div>
       <div className="flex gap-3">
-        <div className="w-full">
+        <div className="w-full relative flex items-center">
+          <div
+            className="text-black absolute pl-4 cursor-pointer"
+            onClick={() => handleSearch()}
+          >
+            <RiSearchLine className="text-2xl" />
+          </div>
           <input
             type="text"
             onChange={(e) => handleSearchWord(e.target.value)}
-            className="w-full rounded border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter "
+            className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent pl-13 px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
           />
         </div>
-        <button
-          type="button"
-          onClick={() => handleSearch()}
-          className="inline-flex w-25 items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
-        >
-          검색
-        </button>
       </div>
       <div className="mt-5 max-w-full overflow-x-auto">
-        <div className="flex w-full justify-center">
-          <div className="flex items-center gap-10">
+        <div className="flex w-full ">
+          <div className="flex items-left gap-10 ">
             <div>
               <label
                 htmlFor="type1"
@@ -144,12 +147,12 @@ const UsersConferenceList = ({ userId }: Props) => {
                   />
                   <div
                     className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                      activeType === "1" && "border-primary"
+                      activeType === "1" && "border-[#002453]"
                     }`}
                   >
                     <span
                       className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                        activeType === "1" && "!bg-primary"
+                        activeType === "1" && "!bg-[#002453]"
                       }`}
                     >
                       {" "}
@@ -176,12 +179,12 @@ const UsersConferenceList = ({ userId }: Props) => {
                   />
                   <div
                     className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                      activeType === "2" && "border-primary"
+                      activeType === "2" && "border-[#002453]"
                     }`}
                   >
                     <span
                       className={`h-2.5 w-2.5 rounded-full bg-transparent ${
-                        activeType === "2" && "!bg-primary"
+                        activeType === "2" && "!bg-[#002453]"
                       }`}
                     >
                       {" "}
