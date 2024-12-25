@@ -1,15 +1,14 @@
-import { MdOutlineStarOutline, MdOutlineStarPurple500 } from "react-icons/md";
-
+import { FaStar } from "react-icons/fa6";
 const getStarRating = (number: number) => {
   if (number === 1) {
     return (
       <div className={`flex justify-center text-center `}>
         {" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />
       </div>
     );
   }
@@ -17,11 +16,11 @@ const getStarRating = (number: number) => {
     return (
       <div className={`flex justify-center text-center `}>
         {" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />
       </div>
     );
   }
@@ -29,11 +28,11 @@ const getStarRating = (number: number) => {
     return (
       <div className={`flex justify-center text-center `}>
         {" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />
       </div>
     );
   }
@@ -41,11 +40,11 @@ const getStarRating = (number: number) => {
     return (
       <div className={`flex justify-center text-center `}>
         {" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarOutline className="text-yellow-500" />
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#DBDBDB]" />
       </div>
     );
   }
@@ -53,11 +52,11 @@ const getStarRating = (number: number) => {
     return (
       <div className={`flex justify-center text-center `}>
         {" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />{" "}
-        <MdOutlineStarPurple500 className="text-yellow-500" />
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />{" "}
+        <FaStar className="text-[#FA423A]" />
       </div>
     );
   }

@@ -6,7 +6,8 @@
 
 @layer base {
     body {
-        @apply relative z-1 bg-whiten font-satoshi text-base font-normal text-body;
+        @apply relative z-1 bg-whiten  text-base font-normal text-body;
+        font-family: "Pretendard";
     }
 }
 
@@ -248,4 +249,13 @@ input[type="search"]::-webkit-search-cancel-button {
   .custom-datepicker-popper {
     width: 400px;
     z-index: 1000 !important; /* Ensure this takes priority */
+  }
+
+  .login_bg {
+    background-image: url('/images/cover/bg.jpg');
+    background-size: cover;
+  }
+
+  .pretendardFont{
+    font-family: "Pretendard";
   }
