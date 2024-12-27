@@ -373,9 +373,6 @@ const ExhibitionList = ({ url }: Props) => {
                 #
               </th>
 
-              <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white ">
-                회사 이름
-              </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
                 행사 이름
               </th>
@@ -439,19 +436,6 @@ const ExhibitionList = ({ url }: Props) => {
                   </h5>
                 </td>
 
-                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? ExhibitionDetail(Number(item?.exhibitionId))
-                        : ""
-                    }
-                  >
-                    <h5 className="cursor-pointer  font-medium  dark:text-white">
-                      {item?.admin?.companyName}
-                    </h5>
-                  </div>
-                </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <div
                     onClick={() =>
