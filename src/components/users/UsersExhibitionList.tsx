@@ -60,10 +60,10 @@ const UsersExhibitionList = ({ userId }: Props) => {
                   이름
                 </th>
 
-                <th className="min-w-[100px] px-4 py-2 font-medium  ">
+                <th className="min-w-[130px] px-4 py-2 font-medium  ">
                   참가 날짜
                 </th>
-                <th className="min-w-[80px] px-4 py-2 font-medium   ">
+                <th className="min-w-[100px] px-4 py-2 font-medium   ">
                   참가 상태
                 </th>
               </tr>

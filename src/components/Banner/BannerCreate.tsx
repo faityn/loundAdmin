@@ -12,6 +12,7 @@ import { createBanner } from "@/hooks/useEvents";
 
 interface FormData {
   title: string;
+  link: string;
   image?: string;
 }
 const BannerCreate = () => {
@@ -43,7 +44,7 @@ const BannerCreate = () => {
     const formdata = new FormData();
     formdata.append("token", String(token));
     formdata.append("title", data.title ? data.title : "");
-
+    formdata.append("link", data.link ? data.link : "");
     if (file1 !== null) {
       formdata.append("img", file1);
     }
@@ -94,7 +95,28 @@ const BannerCreate = () => {
                       )}
                     </td>
                   </tr>
-
+                  <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        Link
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <input
+                        type="text"
+                        {...register("link", {
+                          required: true,
+                        })}
+                        placeholder="링크 입력해주세요"
+                        className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      />
+                      {errors.link && (
+                        <span className="font-medium text-red ">
+                          입력해주세요
+                        </span>
+                      )}
+                    </td>
+                  </tr>
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">

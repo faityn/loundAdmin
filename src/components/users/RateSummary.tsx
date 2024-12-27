@@ -59,9 +59,9 @@ const RateSummary = ({ userId }: Props) => {
           <FaCaretDown />
         </span>
       </div>
-      <div className="flex flex-col gap-4 pt-10 text-xl">
+      <div className="flex flex-col gap-4 pt-2  text-xl">
         <div>
-          <div className="mb-5 text-[32px]">{starRating}</div>
+          <div className="mb-7 text-[32px]">{starRating}</div>
           <div className="w-full border border-slate-300 rounded-lg p-4 min-h-[200px] max-h-[470px] text-[16px]">
             {userExhibitionRatingState?.comment}
           </div>

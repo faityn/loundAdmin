@@ -95,20 +95,21 @@ const UsersLecturesList = ({ userId }: Props) => {
           <input
             type="text"
             onChange={(e) => handleSearchWord(e.target.value)}
+            placeholder="검색어를 입력해 주세요."
             className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent pl-13 px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
           />
         </div>
       </div>
       <div className="mt-5 max-w-full overflow-x-auto border border-[#ddd] rounded-xl ">
-        <table className="w-full table-auto text-xs">
+        <table className="w-full table-auto text-sm">
           <thead>
             <tr className="bg-[#F8F8F8] text-center text-[#111111]">
               <th className="w-full px-4 py-2 h-[52px] font-medium   ">이름</th>
 
-              <th className="min-w-[100px] px-4 py-2 h-[52px] font-medium  ">
+              <th className="min-w-[130px] px-4 py-2 h-[52px] font-medium  ">
                 참가 날짜
               </th>
-              <th className="min-w-[80px] px-4 py-2 h-[52px] font-medium  ">
+              <th className="min-w-[100px] px-4 py-2 h-[52px] font-medium  ">
                 참가 상태
               </th>
             </tr>

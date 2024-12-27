@@ -123,6 +123,7 @@ const UsersConferenceList = ({ userId }: Props) => {
           <input
             type="text"
             onChange={(e) => handleSearchWord(e.target.value)}
+            placeholder="검색어를 입력해 주세요."
             className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent pl-13 px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
           />
         </div>
@@ -146,12 +147,14 @@ const UsersConferenceList = ({ userId }: Props) => {
                     }}
                   />
                   <div
-                    className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                      activeType === "1" && "border-[#002453]"
+                    className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                      activeType === "1"
+                        ? "border-[#002453]"
+                        : "border-[#DBDBDB]"
                     }`}
                   >
                     <span
-                      className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                      className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                         activeType === "1" && "!bg-[#002453]"
                       }`}
                     >
@@ -178,12 +181,14 @@ const UsersConferenceList = ({ userId }: Props) => {
                     }}
                   />
                   <div
-                    className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                      activeType === "2" && "border-[#002453]"
+                    className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                      activeType === "2"
+                        ? "border-[#002453]"
+                        : "border-[#DBDBDB]"
                     }`}
                   >
                     <span
-                      className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                      className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                         activeType === "2" && "!bg-[#002453]"
                       }`}
                     >

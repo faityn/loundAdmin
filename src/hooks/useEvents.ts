@@ -631,6 +631,7 @@ export const createBanner = async (formdata: FormData) => {
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
   formData2.append("title", formdata.get("title") as string);
+  formData2.append("link", formdata.get("link") as string);
   if (image !== null) {
     formData2.append("img", image);
   }
@@ -660,6 +661,7 @@ export const updateBanner = async (formdata: FormData) => {
   const token = formdata.get("token") as string;
   formData2.append("id", formdata.get("id") as string);
   formData2.append("title", formdata.get("title") as string);
+  formData2.append("link", formdata.get("link") as string);
   if (image !== null) {
     formData2.append("img", image);
   }
