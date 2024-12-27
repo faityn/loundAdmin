@@ -36,7 +36,6 @@ import getToken from "@/helper/getToken";
 
 import SearchFields from "../common/SearchFields";
 import Loader from "../common/Loader";
-import { format } from "date-fns";
 import { FaChevronDown } from "react-icons/fa";
 import ExhibitionUsersAddModal from "./ExhibitionUsersAddModal";
 import { getUsersAddExhibitionList } from "@/hooks/useEvents";
@@ -139,7 +138,6 @@ const ExhibitionUsersList = ({ url }: Props) => {
 
     setUserDetailOptions(optionList);
     const response = await getUsersDetail(String(userToken), Number(userId));
-    console.log(response);
 
     if (response) {
       setUserDetail([response]);
@@ -372,20 +370,19 @@ const ExhibitionUsersList = ({ url }: Props) => {
                 이름
               </th>
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                아이디
+                소속
+              </th>
+
+              <th className="min-w-[130px] px-4 py-2 font-medium text-black dark:text-white ">
+                직함
+              </th>
+              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
+                핸드폰 번호
               </th>
               <th className="min-w-[120px] px-4 py-2 font-medium text-black dark:text-white">
-                이메일
+                이메일 주소
               </th>
-              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                성별
-              </th>
-              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                가입일
-              </th>
-              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                최근 로그인
-              </th>
+
               <th className="min-w-[130px] px-4 py-2 font-medium text-black dark:text-white">
                 상태
               </th>
@@ -445,31 +442,20 @@ const ExhibitionUsersList = ({ url }: Props) => {
                 <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
                   <div onClick={() => UserDetail(Number(item?.userId))}>
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
-                      {item?.username}
+                      {item?.company_name}
                     </h5>
                   </div>
                 </td>
+
+                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
+                  <p className="text-black dark:text-white">{item?.position}</p>
+                </td>
+                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
+                  <p className="text-black dark:text-white">{item?.phone}</p>
+                </td>
+
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   <p className="text-black dark:text-white">{item?.email}</p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.genderText}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.createdAt
-                      ? format(item?.createdAt as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.recentLogin
-                      ? format(item?.recentLogin as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   <p
