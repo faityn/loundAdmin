@@ -38,11 +38,11 @@ const ExhibitionDetailModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-35 backdrop-blur-sm">
-      <div className="flex w-[600px] flex-col ">
-        <div className=" rounded-lg border border-slate-600 bg-white  p-5 text-center">
+      <div className="flex w-[600px] flex-col text-[#111111]">
+        <div className=" rounded-2xl  bg-white  p-5 px-8 text-center">
           <div className="  w-full  ">
-            <div className="flex justify-between border-b pb-3">
-              <div className="">행사 승인</div>
+            <div className="flex justify-between items-center border-b border-[#EEEEEE] pb-3 h-[55px]">
+              <div className="font-bold">행사 승인</div>
               <div></div>
               <div className="">
                 <RiCloseFill
@@ -53,7 +53,7 @@ const ExhibitionDetailModal: React.FC = () => {
             </div>
             <div className="overflow-y-auto">
               <div
-                className={` mx-auto h-[650px] max-w-[400px]  pt-5 text-left text-sm`}
+                className={` mx-auto h-[650px] max-w-[400px]  pt-10 text-left text-[16px]`}
               >
                 <div>
                   <div className="text-xl font-semibold text-black">
@@ -80,14 +80,14 @@ const ExhibitionDetailModal: React.FC = () => {
                     <div className="mt-4 flex justify-end gap-3">
                       <button
                         type="button"
-                        className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                        className="inline-flex items-center justify-center w-[114px] h-[44px] rounded-3xl bg-[#C6C6C6] px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
                         onClick={() => statusChange("disabled")}
                       >
                         대기
                       </button>
                       <button
                         type="button"
-                        className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                        className="inline-flex items-center justify-center w-[116px] rounded-3xl bg-[#002453] px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
                         onClick={() => statusChange("use")}
                       >
                         승인

@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { FaCaretDown, FaRegCheckCircle } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import TextEditor from "../Editor/TextEditor";
+
 import UsersExhibitionList from "./UsersExhibitionList";
 import RateSummary from "./RateSummary";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -196,7 +196,7 @@ const DetailModal: React.FC = () => {
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-35 backdrop-blur-sm">
       <div className="flex w-[800px] flex-col text-[#111111]">
         {/* <button className="place-self-end text-xl text-white" onClick={onClose}>X</button> */}
-        <div className=" rounded-2xl border border-black bg-white  p-5 px-8 text-center">
+        <div className=" rounded-2xl  bg-white  p-5 px-8 text-center">
           <div className="  w-full  ">
             <div className="flex justify-between items-center border-b border-[#EEEEEE] pb-3 h-[55px]">
               <div className="font-bold  ">회원 정보</div>
@@ -218,12 +218,14 @@ const DetailModal: React.FC = () => {
                           }}
                         />
                         <div
-                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                            activeTab === "info" && "border-[#002453]"
+                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                            activeTab === "info"
+                              ? "border-[#002453]"
+                              : "border-[#DBDBDB]"
                           }`}
                         >
                           <span
-                            className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                            className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                               activeTab === "info" && "!bg-[#002453]"
                             }`}
                           >
@@ -250,12 +252,14 @@ const DetailModal: React.FC = () => {
                           }}
                         />
                         <div
-                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                            activeTab === "profile" && "border-[#002453]"
+                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                            activeTab === "profile"
+                              ? "border-[#002453]"
+                              : "border-[#DBDBDB]"
                           }`}
                         >
                           <span
-                            className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                            className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                               activeTab === "profile" && "!bg-[#002453]"
                             }`}
                           >
@@ -282,12 +286,14 @@ const DetailModal: React.FC = () => {
                           }}
                         />
                         <div
-                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                            activeTab === "activity" && "border-[#002453]"
+                          className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                            activeTab === "activity"
+                              ? "border-[#002453]"
+                              : "border-[#DBDBDB]"
                           }`}
                         >
                           <span
-                            className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                            className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                               activeTab === "activity" && "!bg-[#002453]"
                             }`}
                           >
@@ -573,13 +579,14 @@ const DetailModal: React.FC = () => {
                                       }}
                                     />
                                     <div
-                                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                        gender === e?.value &&
-                                        "border-[#002453]"
+                                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                                        gender === e?.value
+                                          ? "border-[#002453]"
+                                          : "border-[#DBDBDB]"
                                       }`}
                                     >
                                       <span
-                                        className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                                        className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                                           gender === e?.value && "!bg-[#002453]"
                                         }`}
                                       >
@@ -608,7 +615,7 @@ const DetailModal: React.FC = () => {
                                 onChange={(e) =>
                                   handleRoleOption(String(e.target.value))
                                 }
-                                className={`text-md relative z-10 w-full appearance-none rounded border border-slate-300 bg-transparent px-5 py-1.5 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400    `}
+                                className={`text-md relative z-10 w-full appearance-none rounded-xl border border-slate-300 bg-transparent px-5 py-1.5 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400    `}
                               >
                                 <option value="" className="text-[#666666] ">
                                   역할을 선택하세요.
@@ -649,7 +656,7 @@ const DetailModal: React.FC = () => {
                                 onChange={(e) =>
                                   handleProOption(e.target.value)
                                 }
-                                className={`text-md relative z-10 w-full appearance-none rounded border border-slate-300 \ px-5 py-1.5 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400  `}
+                                className={`text-md relative z-10 w-full appearance-none rounded-xl border border-slate-300 \ px-5 py-1.5 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400  `}
                               >
                                 <option value="" className="text-[#666666] ">
                                   직업을 선택하세요.
@@ -687,7 +694,7 @@ const DetailModal: React.FC = () => {
                                 required: true,
                               })}
                               defaultValue={userDetail[0]?.companyName}
-                              className="w-full rounded border-[1.5px] border-slate-300 bg-transparent px-4 py-2 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
+                              className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-2 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
                             />
                             {errors2.companyName && (
                               <span className="font-medium text-red ">
@@ -705,7 +712,7 @@ const DetailModal: React.FC = () => {
                               type="text"
                               {...register2("position")}
                               defaultValue={userDetail[0]?.position}
-                              className="w-full rounded border-[1.5px] border-slate-300 bg-transparent px-4 py-2 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
+                              className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-2 h-[52px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
                             />
                             {errors2.position && (
                               <span className="font-medium text-red ">
@@ -719,11 +726,13 @@ const DetailModal: React.FC = () => {
                             자기 소개
                           </div>
                           <div className="w-full">
-                            <TextEditor
-                              initialValue=""
-                              contentValue={contentValue}
-                              onEditorChange={handleEditorChange}
-                            />
+                            <textarea
+                              defaultValue={contentValue}
+                              onChange={(e) =>
+                                handleEditorChange(e.target.value)
+                              }
+                              className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-2 h-[150px] text-[16px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
+                            ></textarea>
                           </div>
                         </div>
                       </div>
@@ -798,12 +807,14 @@ const DetailModal: React.FC = () => {
                                     readOnly
                                   />
                                   <div
-                                    className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border ${
-                                      gender === e?.value && "border-[#002453]"
+                                    className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                                      gender === e?.value
+                                        ? "border-[#002453]"
+                                        : "border-[#DBDBDB]"
                                     }`}
                                   >
                                     <span
-                                      className={`h-2.5 w-2.5 rounded-full bg-transparent ${
+                                      className={`h-2.5 w-2.5 rounded-full bg-[#DBDBDB] ${
                                         gender === e?.value && "!bg-[#002453]"
                                       }`}
                                     >

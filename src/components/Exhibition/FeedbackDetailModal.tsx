@@ -33,11 +33,11 @@ const FeedbackDetailModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-35 backdrop-blur-sm">
-      <div className="flex w-[700px] flex-col ">
-        <div className=" rounded-lg border border-slate-600 bg-white  p-5 text-center">
+      <div className="flex w-[600px] flex-col text-[#111111]">
+        <div className=" rounded-2xl  bg-white  p-5 px-8 text-center">
           <div className="  w-full  ">
-            <div className="flex justify-between border-b pb-3 text-black">
-              <div className="">행사 평가 상세 보기</div>
+            <div className="flex justify-between items-center border-b border-[#EEEEEE] pb-3 h-[55px]">
+              <div className="font-bold">행사 평가 상세 보기</div>
               <div></div>
               <div className="">
                 <RiCloseFill
@@ -86,7 +86,7 @@ const FeedbackDetailModal: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-span-6  border-l border-dashed pl-5 ">
+                    <div className="col-span-6  border-l border-dashed border-slate-400 pl-5 ">
                       <div className="mb-4 font-semibold text-[16px]">
                         행사 평가 ({userExhibitionRatingList?.length}건)
                       </div>

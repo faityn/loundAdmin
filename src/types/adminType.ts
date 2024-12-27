@@ -48,6 +48,7 @@ export type BannerType = {
   title?: string;
   img?: string;
   imgUrl?: string;
+  link?: string;
   ord?: number;
   createdAt?: string;
   updatedAt?: string;

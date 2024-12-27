@@ -119,6 +119,7 @@ const UsersList = ({ url }: Props) => {
           );
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
+
     setTotalPage(totalPage);
     setUserAllList(response?.rows);
     //window.location.href = `/${url}?${newUrl}`;

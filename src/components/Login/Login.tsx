@@ -74,7 +74,7 @@ const Login: React.FC = () => {
                         id="username"
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="Enter your email"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-white outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none  "
                       />
 
                       <span className="absolute right-4 top-4">
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
                         placeholder="••••••••"
                         onChange={(e) => setPassword(e.target.value)}
                         id="userPassword"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-white outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none  "
                       />
 
                       <span className="absolute right-4 top-4">
