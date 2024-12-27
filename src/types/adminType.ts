@@ -142,6 +142,7 @@ export type UsersType = {
   genderText?: string;
   roleId?: number;
   companyName?: string;
+  company_name?: string;
   position?: string;
   status?: string;
   statusText?: string;
