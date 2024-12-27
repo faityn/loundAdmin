@@ -172,21 +172,22 @@ const BannerList = () => {
               </th>
 
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                Banner
-              </th>
-              <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                Image
+                배너
               </th>
               <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white ">
-                Position
+                이미지
+              </th>
+              <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
+                링크
+              </th>
+              <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white ">
+                위치
               </th>
 
               <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white ">
-                Created date
+                등록 날짜
               </th>
-              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white">
-                Action
-              </th>
+              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>
@@ -247,6 +248,9 @@ const BannerList = () => {
                       className="max-w-[140px] max-h-[40px]  "
                     />
                   )}
+                </td>
+                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
+                  <h5 className="font-medium  dark:text-white">{item?.link}</h5>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium  dark:text-white">Top</h5>
