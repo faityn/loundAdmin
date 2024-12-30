@@ -349,6 +349,31 @@ export const userExhibitionRating = async (
   }
 };
 
+export const userMessageActivity = async (
+  token: string,
+  id: number,
+  exhibition: string
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/report/${id}/${exhibition}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const updateUserInfo = async (token: string, formdata: UserInfoType) => {
   const raw = JSON.stringify({
     userId: formdata?.userId,
