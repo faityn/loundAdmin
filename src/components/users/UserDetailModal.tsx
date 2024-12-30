@@ -24,6 +24,7 @@ import Loader from "../common/Loader";
 import UsersLecturesList from "./UsersLecturesList";
 import UsersConferenceList from "./UsersConferenceList";
 import StartDatePicker from "../common/StartDatePickerByModal";
+import MessageActivity from "./MessageActivity";
 interface FormData {
   name: string;
   username: string;
@@ -867,6 +868,17 @@ const DetailModal: React.FC = () => {
                         </button>
                         <button
                           type="button"
+                          className={`flex w-full items-center justify-center gap-4 rounded-[30px] border border-slate-300  px-5 py-1  h-[60px] hover:bg-[#002453] hover:text-white ${
+                            activeButton === "5"
+                              ? "bg-[#002453] text-white "
+                              : "bg-white text-slate-600"
+                          }`}
+                          onClick={() => selectButton("5")}
+                        >
+                          <div className="font-semibold">메시지 활동 요약</div>
+                        </button>
+                        <button
+                          type="button"
                           className={`flex w-full items-center justify-center gap-4 rounded-[30px] border border-slate-300  px-5 py-1 h-[60px] hover:bg-[#002453] hover:text-white ${
                             activeButton === "4"
                               ? "bg-[#002453] text-white "
@@ -893,8 +905,10 @@ const DetailModal: React.FC = () => {
                       <UsersConferenceList
                         userId={Number(userDetail[0]?.userId)}
                       />
-                    ) : (
+                    ) : activeButton === "4" ? (
                       <RateSummary userId={Number(userDetail[0]?.userId)} />
+                    ) : (
+                      <MessageActivity userId={Number(userDetail[0]?.userId)} />
                     )}
                   </div>
                 </div>

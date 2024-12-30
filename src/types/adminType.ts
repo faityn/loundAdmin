@@ -460,6 +460,15 @@ export type UserExhibitionRatingType = {
   comment?: string;
 };
 
+export type UserMessageActivityType = {
+  userConfInviteCnt?: number;
+  userConfRecieveCnt?: number;
+  userInviteCnt?: number;
+  userMeetInviteCnt?: number;
+  userMeetRecieveCnt?: number;
+  userRecieveCnt?: number;
+};
+
 export type AdminPermittionType = {
   menuId?: number;
   status?: string;

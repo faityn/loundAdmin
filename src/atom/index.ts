@@ -30,6 +30,7 @@ import {
   UserExhibitionLectureType,
   UserExhibitionListType,
   UserExhibitionRatingType,
+  UserMessageActivityType,
   UsersAddExhibitionListType,
   UsersType,
 } from "@/types/adminType";
@@ -347,6 +348,11 @@ export const userExhibitionRatingAtom = atom<UserExhibitionRatingType>({
   key: "userExhibitionRatingAtom",
   default: {},
 });
+export const userMessageActivityAtom = atom<UserMessageActivityType>({
+  key: "userMessageActivityAtom",
+  default: {},
+});
+
 export const dataSavedAtom = atom({
   key: "dataSavedAtom",
   default: false,
