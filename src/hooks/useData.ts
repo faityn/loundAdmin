@@ -1,5 +1,7 @@
 "use server";
 
+import { UserExhibitionTablesType } from "@/types/adminType";
+
 export const getInterestsOptions = async (token: string) => {
   try {
     const response = await fetch(
@@ -15,6 +17,60 @@ export const getInterestsOptions = async (token: string) => {
     );
     const data = await response.json();
 
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getExhibitionTable = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/table/list/${id}`,
+      {
+        method: "GET",
+        //body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const saveExhibitionTable = async (
+  token: string,
+  exhibitionId: number,
+  exhibitionTableArray: UserExhibitionTablesType[]
+) => {
+  try {
+    const raw = JSON.stringify({
+      exhibitionId: Number(exhibitionId),
+      tables: exhibitionTableArray,
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/table/create`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
     return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -604,7 +660,6 @@ export const updateFaq = async (
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.text();
     return { status: response.ok, result: data };

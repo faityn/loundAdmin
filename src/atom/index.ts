@@ -30,6 +30,7 @@ import {
   UserExhibitionLectureType,
   UserExhibitionListType,
   UserExhibitionRatingType,
+  UserExhibitionTablesType,
   UserMessageActivityType,
   UsersAddExhibitionListType,
   UsersType,
@@ -341,6 +342,11 @@ export const userExhibitionConferenceAtomOwn = atom<
   UserExhibitionConferenceType[]
 >({
   key: "userExhibitionConferenceAtomOwn",
+  default: [],
+});
+
+export const userExhibitionTablesAtom = atom<UserExhibitionTablesType[]>({
+  key: "userExhibitionTablesAtom",
   default: [],
 });
 
