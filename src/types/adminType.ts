@@ -452,6 +452,11 @@ export type UserExhibitionConferenceType = {
   };
 };
 
+export type UserExhibitionTablesType = {
+  tableNo?: number;
+  personCnt?: number;
+};
+
 export type UserExhibitionRatingType = {
   ratingId?: number;
   rating?: number;
