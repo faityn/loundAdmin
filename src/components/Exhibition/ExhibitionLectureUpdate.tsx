@@ -192,7 +192,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Title
+                            제목
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -212,29 +212,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                           )}
                         </td>
                       </tr>
-                      <tr>
-                        <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                          <h5 className="font-medium text-black dark:text-white">
-                            Subtitle
-                          </h5>
-                        </td>
-                        <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                          <input
-                            type="text"
-                            {...register("subtitle", {
-                              required: true,
-                            })}
-                            defaultValue={item?.short_desc}
-                            placeholder="부제목 입력해주세요"
-                            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                          />
-                          {errors.subtitle && (
-                            <span className="font-medium text-red ">
-                              입력해주세요
-                            </span>
-                          )}
-                        </td>
-                      </tr>
+
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
@@ -277,7 +255,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Duration
+                            강연 날짜
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -291,7 +269,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                             </div>
                             <div className="relative w-full">
                               <EndDateTimePicker
-                                label="끝"
+                                label="종료"
                                 onDateChange={handleChange}
                                 defaultDate={endDate}
                               />
@@ -302,7 +280,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Image
+                            이미지
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -335,7 +313,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Desc
+                            내용
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">

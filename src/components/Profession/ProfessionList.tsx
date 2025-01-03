@@ -173,12 +173,10 @@ const ProfessionList = ({ url }: Props) => {
               </th>
 
               <th className=" px-4 py-3 font-medium text-black dark:text-white ">
-                Title
+                제목
               </th>
 
-              <th className=" w-[200px]  px-4 py-3 font-medium text-black dark:text-white">
-                Action
-              </th>
+              <th className=" w-[200px]  px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>

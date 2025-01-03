@@ -129,7 +129,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Title
+                            제목
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -144,7 +144,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            User
+                            회의 개최자
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -159,7 +159,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Exhibition
+                            행사명
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -174,7 +174,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Person count
+                            회의 참가자
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -189,7 +189,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Date
+                            회의 날짜
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -231,7 +231,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Image
+                            이미지
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -252,7 +252,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Description
+                            내용
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -267,7 +267,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            Status
+                            상태
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -313,7 +313,7 @@ const ConferenceUpdate = ({ id, url }: Props) => {
                       type="submit"
                       className="flex w-30 justify-center rounded bg-primary p-2 font-medium text-gray hover:bg-opacity-90"
                     >
-                      저장 status
+                      저장
                     </button>
                   </div>
                 </form>

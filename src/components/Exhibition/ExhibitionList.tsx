@@ -123,6 +123,7 @@ const ExhibitionList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
+    console.log(response);
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
     setTotalPage(totalPage);

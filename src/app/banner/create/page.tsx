@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const BannerCreatePage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin"]} menuId="61">
-      <Breadcrumb parentName="Banner Manage" pageName="Banner Create" />
+      <Breadcrumb parentName="배너 관리" pageName="배너 등록" />
 
       <div className="flex flex-col gap-10">
         <BannerCreate />

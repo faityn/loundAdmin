@@ -494,13 +494,13 @@ const UsersList = ({ url }: Props) => {
                     <p
                       className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success `}
                     >
-                      Use
+                      활성
                     </p>
                   ) : (
                     <p
                       className={`inline-flex rounded-full bg-danger bg-opacity-10 px-3 py-1 text-sm font-medium text-danger `}
                     >
-                      Disabled
+                      비활성
                     </p>
                   )}
                 </td>

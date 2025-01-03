@@ -14,7 +14,6 @@ import TextEditor from "../Editor/TextEditor";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { format } from "date-fns";
 import {
-  ActiveRoleAtom,
   checkedInterestsListAtom,
   checkedPurposesListAtom,
   endDateAtom,
@@ -59,7 +58,6 @@ const ExhibitionCreate = ({ url }: Props) => {
   const [checkedPurposes, setChechedPurposes] = useRecoilState(
     checkedPurposesListAtom
   );
-  const userActiveRole = useRecoilValue(ActiveRoleAtom);
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
@@ -190,22 +188,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Company name
-                      </h5>
-                    </td>
-                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                      <input
-                        type="text"
-                        value={userActiveRole}
-                        className=" w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-slate-100 dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                      <h5 className="font-medium text-black dark:text-white">
-                        Exhibition name
+                        행사명
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -224,32 +207,11 @@ const ExhibitionCreate = ({ url }: Props) => {
                       )}
                     </td>
                   </tr>
+
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Subtitle
-                      </h5>
-                    </td>
-                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                      <input
-                        type="text"
-                        {...register("subtitle", {
-                          required: true,
-                        })}
-                        placeholder="부제목 입력해주세요"
-                        className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
-                      {errors.subtitle && (
-                        <span className="font-medium text-red ">
-                          입력해주세요
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
-                      <h5 className="font-medium text-black dark:text-white">
-                        시작 date
+                        시작 날짜
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -263,7 +225,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                         </div>
                         <div className="relative w-full">
                           <EndDatePicker
-                            label="끝"
+                            label="종료일"
                             onDateChange={handleChange}
                             defaultDate={endDate}
                           />
@@ -275,7 +237,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Image
+                        이미지
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -300,7 +262,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Desc
+                        내용
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -321,7 +283,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Interests
+                        관심 분야
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -375,7 +337,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Purposes
+                        참가 목적
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -429,7 +391,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Status
+                        행사 상태
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -464,7 +426,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 </span>
                               </div>
                             </div>
-                            Use
+                            사용
                           </label>
                         </div>
                         <div className="flex gap-5">
@@ -497,7 +459,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 </span>
                               </div>
                             </div>
-                            Not use
+                            비사용
                           </label>
                         </div>
                       </div>
