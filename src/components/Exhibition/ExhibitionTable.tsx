@@ -59,8 +59,11 @@ const ExhibitionTable = ({ id, url }: Props) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       response?.result?.map((item: UserExhibitionTablesType) => {
         const newObject = {
+          tableId: item?.tableId,
           tableNo: item?.tableNo,
           personCnt: item?.personCnt,
+          tableAction: "none",
+          action: item?.action,
         };
         nArray.push(newObject);
       });
@@ -85,7 +88,13 @@ const ExhibitionTable = ({ id, url }: Props) => {
   };
 
   const handleTablePlus = () => {
-    const newObject = { tableNo: 0, personCnt: 0 };
+    const newObject = {
+      tableNo: 0,
+      personCnt: 0,
+      tableId: 0,
+      tableAction: "create",
+      action: true,
+    };
 
     setExhibitionTableArray([...exhibitionTableArray, newObject]);
   };
@@ -95,10 +104,17 @@ const ExhibitionTable = ({ id, url }: Props) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updatedArray = exhibitionTableArray?.map((item: any, i: number) =>
         i === index
-          ? {
-              ...item,
-              tableNo: Number(val),
-            }
+          ? item?.tableId > 0
+            ? {
+                ...item,
+                tableNo: Number(val),
+                tableAction: "update",
+              }
+            : {
+                ...item,
+                tableNo: Number(val),
+                tableAction: "create",
+              }
           : item
       );
       setExhibitionTableArray(updatedArray);
@@ -110,10 +126,17 @@ const ExhibitionTable = ({ id, url }: Props) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updatedArray = exhibitionTableArray?.map((item: any, i: number) =>
         i === index
-          ? {
-              ...item,
-              personCnt: Number(val),
-            }
+          ? item?.tableId > 0
+            ? {
+                ...item,
+                personCnt: Number(val),
+                tableAction: "update",
+              }
+            : {
+                ...item,
+                personCnt: Number(val),
+                tableAction: "create",
+              }
           : item
       );
       setExhibitionTableArray(updatedArray);
@@ -121,8 +144,16 @@ const ExhibitionTable = ({ id, url }: Props) => {
   };
 
   const tableRemove = (index: number) => {
-    const updatedItems = exhibitionTableArray?.filter((_, i) => i !== index);
-    setExhibitionTableArray(updatedItems);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updatedArray = exhibitionTableArray?.map((item: any, i: number) =>
+      i === index
+        ? {
+            ...item,
+            tableAction: "delete",
+          }
+        : item
+    );
+    setExhibitionTableArray(updatedArray);
   };
 
   const onSubmit: SubmitHandler<FormData> = async () => {
@@ -144,7 +175,7 @@ const ExhibitionTable = ({ id, url }: Props) => {
       setLoading(false);
     }
   };
-
+  useEffect(() => {}, [exhibitionTableArray]);
   return (
     <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-8 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
@@ -152,61 +183,67 @@ const ExhibitionTable = ({ id, url }: Props) => {
           {menuPermission?.status === "write" ? (
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="text-sm px-4">
-                {exhibitionTableArray?.map((val, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex items-center w-full h-[62px] gap-4 text-[#222222] px-5 bg-[#ECECEC] rounded-lg mb-8"
-                    >
-                      <div className="flex items-center gap-1 w-[300px] ">
-                        <div className="px-1 w-[150px]">테이블 번호</div>
-                        <div className="px-1 w-full">
-                          <div className="relative z-20 w-39  ">
-                            <input
-                              type="number"
-                              value={val?.tableNo}
-                              className={`relative z-10 w-full appearance-none rounded-lg bg-white px-5 py-1.5 h-10 text-sm text-black outline-none transition focus:border-primary active:border-primary  `}
-                              onChange={(e) =>
-                                handleTableNumber(e.target.value, index)
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 w-[300px] ">
-                        <div className="px-1 w-[150px]">인원 수</div>
-                        <div className="px-1 w-full">
-                          <div className="relative z-20 w-39  ">
+                {exhibitionTableArray
+                  ?.filter((val) => val.tableAction !== "delete")
+                  .map((val, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center w-full h-[62px] gap-4 text-[#222222] px-5 bg-[#ECECEC] rounded-lg mb-8"
+                      >
+                        <div className="flex items-center gap-1 w-[300px] ">
+                          <div className="px-1 w-[150px]">테이블 번호</div>
+                          <div className="px-1 w-full">
                             <div className="relative z-20 w-39  ">
                               <input
                                 type="number"
-                                value={val?.personCnt}
-                                className={`relative z-10 w-full appearance-none rounded-lg bg-white px-5 py-1.5 h-10 text-sm text-black outline-none transition focus:border-primary active:border-primary  `}
+                                value={val?.tableNo}
+                                className={`relative z-10 w-full appearance-none rounded-lg bg-white px-5 py-1.5 h-10 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:bg-gray `}
+                                disabled={val?.action ? false : true}
                                 onChange={(e) =>
-                                  handlePersonCount(e.target.value, index)
+                                  handleTableNumber(e.target.value, index)
                                 }
                               />
                             </div>
-                            <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-sm text-black dark:text-white">
-                              <FaCaretDown />
-                            </span>
                           </div>
-                          {errors.title && (
-                            <span className="font-medium text-red ">
-                              입력해주세요
-                            </span>
-                          )}
+                        </div>
+                        <div className="flex items-center gap-1 w-[300px] ">
+                          <div className="px-1 w-[150px]">인원 수</div>
+                          <div className="px-1 w-full">
+                            <div className="relative z-20 w-39  ">
+                              <div className="relative z-20 w-39  ">
+                                <input
+                                  type="number"
+                                  value={val?.personCnt}
+                                  className={`relative z-10 w-full appearance-none rounded-lg bg-white px-5 py-1.5 h-10 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:bg-gray `}
+                                  disabled={val?.action ? false : true}
+                                  onChange={(e) =>
+                                    handlePersonCount(e.target.value, index)
+                                  }
+                                />
+                              </div>
+                              <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-sm text-black dark:text-white">
+                                <FaCaretDown />
+                              </span>
+                            </div>
+                            {errors.title && (
+                              <span className="font-medium text-red ">
+                                입력해주세요
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="w-full ">
+                          <RiDeleteBinLine
+                            className={`text-xl cursor-pointer ${
+                              val?.action ? "" : "hidden"
+                            }`}
+                            onClick={() => tableRemove(index)}
+                          />
                         </div>
                       </div>
-                      <div className="w-full ">
-                        <RiDeleteBinLine
-                          className="text-xl cursor-pointer"
-                          onClick={() => tableRemove(index)}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
               <div className="px-4 mt-5">
                 <button

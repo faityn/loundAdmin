@@ -34,7 +34,6 @@ import DeleteConfirm from "../Modal/DeleteConfirm";
 import SearchFields from "../common/SearchFields";
 import Loader from "../common/Loader";
 import { FaChevronDown } from "react-icons/fa";
-import { GiRoundTable } from "react-icons/gi";
 import ExhibitionDetailModal from "./ExhibitionDetailModal";
 import { formatInTimeZone } from "date-fns-tz";
 
@@ -493,7 +492,7 @@ const ExhibitionList = ({ url }: Props) => {
                   {menuPermission?.status === "write" ? (
                     <>
                       <p
-                        className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-xl font-medium text-primary `}
+                        className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-xl mr-2 font-medium text-primary `}
                       >
                         <Link href={`${url}/${item?.exhibitionId}`}>
                           <FiEdit className="text-[17px]" />
@@ -510,7 +509,12 @@ const ExhibitionList = ({ url }: Props) => {
                         className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-xl font-medium text-primary `}
                       >
                         <Link href={`${url}/table/${item?.exhibitionId}`}>
-                          <GiRoundTable className="text-[17px]" />
+                          <img
+                            src={`/images/icon/icon-community.svg`}
+                            contextMenu="false"
+                            alt={item?.title}
+                            className="w-[15px] h-[15px]  "
+                          />
                         </Link>
                       </p>
                     </>

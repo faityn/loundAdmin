@@ -466,8 +466,11 @@ export type UserExhibitionConferenceType = {
 };
 
 export type UserExhibitionTablesType = {
+  tableId?: number;
   tableNo?: number;
   personCnt?: number;
+  tableAction?: string;
+  action?: boolean;
 };
 
 export type UserExhibitionRatingType = {
