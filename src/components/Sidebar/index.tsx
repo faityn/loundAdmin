@@ -59,7 +59,6 @@ const Sidebar = ({
   useEffect(() => {
     const foundItem = findByMenuId(menuList, Number(menuId));
     setMenuPermission({ menuId: foundItem?.menuId, status: foundItem?.status });
-    console.log(menuList);
   }, [menuList]);
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
