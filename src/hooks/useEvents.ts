@@ -728,6 +728,63 @@ export const uploadImage = async (formdata: FormData) => {
   }
 };
 
+export const getConferenceCommunityList = async (
+  token: string,
+  page: number,
+  size: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community/list?page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const changeCommunityStatus = async (
+  token: string,
+  id: number,
+  status: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      communityId: Number(id),
+      request: String(status),
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community/update`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getConferencesList = async (
   token: string,
   page: number,

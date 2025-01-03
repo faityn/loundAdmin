@@ -176,12 +176,10 @@ const AdminList = () => {
               </th>
 
               <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white ">
-                Username
+                아이디
               </th>
 
-              <th className="w-[130px] px-4 py-3 font-medium text-black dark:text-white">
-                Action
-              </th>
+              <th className="w-[130px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>

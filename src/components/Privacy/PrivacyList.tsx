@@ -233,7 +233,11 @@ const List = ({ url }: Props) => {
                   <p
                     className={`inline-flex rounded-full capitalize bg-opacity-10 px-3 py-1 text-sm font-medium bg-success text-success`}
                   >
-                    {item?.slug}
+                    {item?.slug === "privacy"
+                      ? "개인정보 처리방침"
+                      : item?.slug === "terms"
+                      ? "이용약관"
+                      : ""}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">

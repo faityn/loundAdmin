@@ -8,6 +8,7 @@ import { VscFeedback } from "react-icons/vsc";
 import { FaUsers, FaIndent, FaAtom } from "react-icons/fa";
 import { SiGotomeeting } from "react-icons/si";
 import { RiListSettingsLine } from "react-icons/ri";
+import { LiaUsersSolid } from "react-icons/lia";
 import { menuPermissionAtom } from "@/atom";
 import { useSetRecoilState } from "recoil";
 import { AdminChildMenuType, AdminMenuType } from "@/types/adminType";
@@ -58,6 +59,7 @@ const Sidebar = ({
   useEffect(() => {
     const foundItem = findByMenuId(menuList, Number(menuId));
     setMenuPermission({ menuId: foundItem?.menuId, status: foundItem?.status });
+    console.log(menuList);
   }, [menuList]);
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -146,9 +148,7 @@ const Sidebar = ({
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="mt-5 px-4 py-4 lg:mt-1 lg:px-6">
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              MENU
-            </h3>
+            {/* <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2"></h3> */}
             <ul className="mb-6 flex flex-col gap-1.5">
               {menuList?.map((item, index) => (
                 <SidebarLinkGroup
@@ -184,7 +184,7 @@ const Sidebar = ({
                           ) : item?.menuId === 60 ? (
                             <FaIndent />
                           ) : (
-                            ""
+                            <LiaUsersSolid />
                           )}
                           {item?.menu_name}
                           <svg

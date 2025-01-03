@@ -5,6 +5,7 @@ import {
   AdminType,
   AdminUsersType,
   BannerType,
+  CommunityListType,
   ConferenceOptionType,
   ConferenceType,
   ExhibitionLecturesType,
@@ -210,6 +211,11 @@ export const exhibitionUserListAtom = atom<ExhibitionUsersListType[]>({
 
 export const userDetailAtom = atom<UsersType[]>({
   key: "userDetailAtom",
+  default: [],
+});
+
+export const communityListAtom = atom<CommunityListType[]>({
+  key: "communityListAtom",
   default: [],
 });
 

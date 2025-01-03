@@ -17,10 +17,7 @@ interface PageProps {
 const UpdatePage: React.FC<PageProps> = ({ params }) => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="26">
-      <Breadcrumb
-        parentName="Exhibition Manage"
-        pageName="Exhibition Lecture Update"
-      />
+      <Breadcrumb parentName="강연 관리" pageName="강연 수정" />
 
       <div className="flex flex-col gap-10">
         <ExhibitionLectureUpdate id={params.id} url="/exhibition/lectures" />

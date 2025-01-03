@@ -142,23 +142,21 @@ const ConferencesList = ({ url }: Props) => {
               </th>
 
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                Conference name
+                회의 제목
               </th>
               <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white">
-                Exhibition
+                행사명
               </th>
               <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white">
-                User
+                회의 개최자
               </th>
               <th className="min-w-[150px] max-w-[200px] px-4 py-3 font-medium text-black dark:text-white">
-                Date
+                날짜
               </th>
               <th className="max-w-[130px] px-4 py-3 font-medium text-black dark:text-white">
-                Status
+                상태
               </th>
-              <th className="max-w-[130px] px-4 py-3 font-medium text-black dark:text-white">
-                Action
-              </th>
+              <th className="max-w-[130px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>
@@ -244,7 +242,11 @@ const ConferencesList = ({ url }: Props) => {
                         : "bg-danger text-danger"
                     }  `}
                   >
-                    {item?.request}
+                    {item?.request === "approved"
+                      ? "승인"
+                      : item?.request === "register"
+                      ? "대기"
+                      : "생성 불가"}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">

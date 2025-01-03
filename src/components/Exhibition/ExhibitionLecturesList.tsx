@@ -179,20 +179,18 @@ const ExhibitionLecturesList = ({ url }: Props) => {
               </th>
 
               <th className="min-w-[300px] w-[400px] px-4 py-3 font-medium text-black dark:text-white ">
-                Title
+                제목
               </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                Exhibition title
+                행사명
               </th>
               <th className="min-w-[300px] w-[320px] px-4 py-3 font-medium text-black dark:text-white ">
-                Duration
+                날짜
               </th>
               <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white ">
-                Created date
+                등록 날짜
               </th>
-              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white">
-                Action
-              </th>
+              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>

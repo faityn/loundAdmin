@@ -191,6 +191,19 @@ export type ConferenceOptionType = {
   text: string;
 };
 
+export type CommunityListType = {
+  communityId?: number;
+  conferenceId?: number;
+  title?: string;
+  request?: string;
+  userId?: number;
+  conference?: {
+    participationText?: string;
+    personCnt?: number;
+    participation?: string;
+  };
+};
+
 export type AdminUsersType = {
   adminId?: number;
   roleId?: number;

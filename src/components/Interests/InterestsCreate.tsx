@@ -67,7 +67,7 @@ const InterestsCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        Title
+                        제목
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
