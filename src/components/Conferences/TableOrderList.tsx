@@ -90,9 +90,6 @@ const TableOrderList = ({ url }: Props) => {
 
     setTableOrderDetail(response?.result);
 
-    //setExhibitionTableArray(response?.result);
-    //setExhibitionAllList(response?.rows);
-    console.log(val);
     setDetailOpen(true);
   };
 
