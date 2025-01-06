@@ -16,7 +16,8 @@ const TableOrderDetailModal: React.FC = () => {
 
   const tableOrderDetail = useRecoilValue(tableOrderDetailAtom);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [tableOrderId, setTableOrderId] = useState(0);
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
   const closeModal = () => {
@@ -25,13 +26,22 @@ const TableOrderDetailModal: React.FC = () => {
     setDetailOpen(false);
   };
 
-  const tableOrderDelete = async (val: number) => {
+  const tableOrderDeleteConfirm = async (val: number) => {
+    setTableOrderId(val);
+    setConfirmModal(true);
+  };
+
+  const tableOrderDelete = async () => {
     const userToken = getToken();
 
-    const response = await tableOrderCancel(String(userToken), Number(val));
+    const response = await tableOrderCancel(
+      String(userToken),
+      Number(tableOrderId)
+    );
 
     if (response?.status) {
       setIsOpen(true);
+      setConfirmModal(false);
     }
   };
 
@@ -82,7 +92,9 @@ const TableOrderDetailModal: React.FC = () => {
                     </div>
                     <div className="min-w-[80px] px-2 text-center">
                       <button
-                        onClick={() => tableOrderDelete(Number(item?.tableId))}
+                        onClick={() =>
+                          tableOrderDeleteConfirm(Number(item?.tableId))
+                        }
                         className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
                       >
                         취소
@@ -105,6 +117,31 @@ const TableOrderDetailModal: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {confirmModal ? (
+        <AlertModal>
+          <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-[16px] text-red">
+            <div className="">예약을 정말 취소하시겠습니까?</div>
+          </div>
+          <div className="flex w-full items-center justify-center gap-4">
+            <button
+              onClick={() => setConfirmModal(false)}
+              className="rounded-md bg-slate-400 px-4 py-1 text-white"
+            >
+              취소
+            </button>
+
+            <button
+              onClick={() => tableOrderDelete()}
+              className="rounded-md bg-black px-4 py-1 text-white"
+            >
+              삭제
+            </button>
+          </div>
+        </AlertModal>
+      ) : (
+        ""
+      )}
 
       {isOpen ? (
         <AlertModal>
