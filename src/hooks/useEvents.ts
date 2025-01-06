@@ -61,6 +61,7 @@ export const createExhibition = async (
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
 
+  formData2.append("company_name", formdata.get("company_name") as string);
   formData2.append("title", formdata.get("title") as string);
   formData2.append("short_desc", formdata.get("short_desc") as string);
   formData2.append("startDate", formdata.get("startDate") as string);
@@ -105,6 +106,7 @@ export const updateExhibition = async (
   const token = formdata.get("token") as string;
 
   formData2.append("exhibitionId", formdata.get("exhibitionId") as string);
+  formData2.append("company_name", formdata.get("company_name") as string);
   formData2.append("title", formdata.get("title") as string);
   formData2.append("short_desc", formdata.get("short_desc") as string);
   formData2.append("startDate", formdata.get("startDate") as string);
@@ -443,6 +445,7 @@ export const getExhibitionAll = async (token: string) => {
     console.error("Error fetching data:", error);
   }
 };
+
 export const getUsersAddExhibitionList = async (token: string) => {
   try {
     const response = await fetch(

@@ -122,7 +122,6 @@ const ExhibitionList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-    console.log(response);
 
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
     setTotalPage(totalPage);
@@ -204,6 +203,8 @@ const ExhibitionList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
+    console.log(response);
+
     if (response) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
       setTotalPage(totalPage);
@@ -373,7 +374,12 @@ const ExhibitionList = ({ url }: Props) => {
               <th className="min-w-50px] px-4 py-3 font-medium text-black dark:text-white ">
                 #
               </th>
-
+              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white ">
+                체크인 번호
+              </th>
+              <th className="min-w-[120px] px-4 py-3 font-medium text-black dark:text-white ">
+                회사 이름
+              </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
                 행사 이름
               </th>
@@ -387,7 +393,7 @@ const ExhibitionList = ({ url }: Props) => {
                 상태
               </th>
 
-              <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white"></th>
+              <th className="min-w-[120px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>
@@ -436,7 +442,16 @@ const ExhibitionList = ({ url }: Props) => {
                     {index + 1}
                   </h5>
                 </td>
-
+                <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
+                  <h5 className="font-medium text-black dark:text-white">
+                    {item?.verifyCode}
+                  </h5>
+                </td>
+                <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
+                  <h5 className="font-medium text-black dark:text-white">
+                    {item?.company_name}
+                  </h5>
+                </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <div
                     onClick={() =>

@@ -26,6 +26,7 @@ import {
   ProfessionType,
   PurposesType,
   SearchOptionsType,
+  TableOrderDetailType,
   UserDetailOptionsType,
   UserExhibitionConferenceType,
   UserExhibitionLectureType,
@@ -181,6 +182,11 @@ export const exhibitionLecturesAtom = atom<ExhibitionLecturesType[]>({
 
 export const exhibitionAllAtom = atom<ExhibitionType[]>({
   key: "exhibitionAllAtom",
+  default: [],
+});
+
+export const tableOrderDetailAtom = atom<TableOrderDetailType[]>({
+  key: "tableOrderDetailAtom",
   default: [],
 });
 

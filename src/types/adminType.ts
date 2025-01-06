@@ -24,6 +24,7 @@ export type AdminType = {
 export type ExhibitionType = {
   exhibitionId?: number;
   adminId?: string;
+  company_name?: string;
   title?: string;
   statusText?: string;
   short_desc?: string;
@@ -34,6 +35,7 @@ export type ExhibitionType = {
   endDate?: string;
   status?: string;
   rating?: number;
+  verifyCode?: number;
   createdAt?: string;
   updatedAt?: string;
   admin?: {
@@ -43,6 +45,22 @@ export type ExhibitionType = {
   };
 };
 
+export type TableOrderDetailType = {
+  conferenceId?: number;
+  exhibitionTableId?: number;
+  exhibition_table_id?: number;
+  tableId?: number;
+  userId?: number;
+  exhibitionConference?: {
+    title?: string;
+    start?: string;
+    startDate?: string;
+    endDate?: string;
+    user?: {
+      username?: string;
+    };
+  };
+};
 export type BannerType = {
   id?: number;
   title?: string;

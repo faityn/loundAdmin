@@ -34,6 +34,7 @@ interface Props {
 }
 
 interface FormData {
+  company_name: string;
   title: string;
   subtitle: string;
   startDate: string;
@@ -197,6 +198,10 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       const formdata = new FormData();
       formdata.append("token", String(token));
       formdata.append("exhibitionId", String(id));
+      formdata.append(
+        "company_name",
+        data.company_name ? data.company_name : ""
+      );
       formdata.append("title", data.title ? data.title : "");
       formdata.append("short_desc", data.subtitle ? data.subtitle : "");
       formdata.append("startDate", startDate);
@@ -234,6 +239,29 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <table className=" w-full table-auto text-sm">
                     <tbody>
+                      <tr>
+                        <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                          <h5 className="font-medium text-black dark:text-white">
+                            회사 이름
+                          </h5>
+                        </td>
+                        <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                          <input
+                            type="text"
+                            {...register("company_name", {
+                              required: true,
+                            })}
+                            defaultValue={item?.company_name}
+                            placeholder="제목 입력해주세요"
+                            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          />
+                          {errors.company_name && (
+                            <span className="font-medium text-red ">
+                              입력해주세요
+                            </span>
+                          )}
+                        </td>
+                      </tr>
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
