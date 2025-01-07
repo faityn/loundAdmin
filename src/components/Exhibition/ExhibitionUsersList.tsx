@@ -102,7 +102,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
     const status = optionStatus ? `&status=${optionStatus}` : "";
     const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
     const newUrl = decodeURIComponent(searchUrl);
-    const userToken = getToken();
+
     router.push(`/${url}?${newUrl}`);
 
     // const response = await getUsersList(
