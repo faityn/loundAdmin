@@ -11,10 +11,7 @@ export const metadata: Metadata = {
 const ExhibitionFeedbackPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="25">
-      <Breadcrumb
-        parentName="Exhibition Manage"
-        pageName="Exhibition Feedback List"
-      />
+      <Breadcrumb parentName="행사 관리" pageName="행사 피드백 관리" />
 
       <div className="flex flex-col gap-10">
         <ExhibitionFeedbackList url="exhibition/feedback" />

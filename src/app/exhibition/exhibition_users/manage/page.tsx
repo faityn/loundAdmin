@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const ExhibitionUsersManagePage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin"]} menuId="24">
-      <Breadcrumb parentName="참가자 관리" pageName="통합 관리자" />
+      <Breadcrumb parentName="참가자 관리" pageName="행사 참가자 관리" />
 
       <div className="flex flex-col gap-10">
         <ExhibitionUsersListManage url="exhibition/exhibition_users/manage" />
