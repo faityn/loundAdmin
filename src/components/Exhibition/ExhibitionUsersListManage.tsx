@@ -120,12 +120,11 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-    console.log(response);
 
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
-    //window.location.href = `/${url}?${newUrl}`;
+    // const totalPage = Math.ceil(Number(response?.count) / Number(size));
+    // setTotalPage(totalPage);
+    // setUserAllList(response?.rows);
+    // //window.location.href = `/${url}?${newUrl}`;
     setLoading(false);
   };
 
@@ -252,9 +251,14 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(size)
     );
 
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
+    if (response?.rows?.length) {
+      const totalPage = Math.ceil(Number(response?.count) / Number(size));
+      setTotalPage(totalPage);
+      setUserAllList(response?.rows);
+    } else {
+      setTotalPage(0);
+      setUserAllList([]);
+    }
   };
 
   useEffect(() => {
