@@ -488,8 +488,10 @@ export const getUsersListByExhibitions = async (
         redirect: "follow",
       }
     );
+    console.log(response);
 
     const data = await response.json();
+    console.log(data);
 
     return data;
   } catch (error) {

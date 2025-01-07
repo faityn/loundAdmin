@@ -110,22 +110,9 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     const searchUrl = `searchType=${optionType}${exhibition}${search}${start}${end}${status}`;
 
     const newUrl = decodeURIComponent(searchUrl);
-    const userToken = getToken();
+
     router.push(`/${url}?${newUrl}`);
 
-    const response = await getUsersListByExhibitions(
-      String(userToken),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      newUrl as string,
-      Number(page),
-      Number(size)
-    );
-    console.log(response);
-
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
-    //window.location.href = `/${url}?${newUrl}`;
     setLoading(false);
   };
 
@@ -252,9 +239,14 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(size)
     );
 
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
+    if (response?.rows?.length) {
+      const totalPage = Math.ceil(Number(response?.count) / Number(size));
+      setTotalPage(totalPage);
+      setUserAllList(response?.rows);
+    } else {
+      setTotalPage(0);
+      setUserAllList([]);
+    }
   };
 
   useEffect(() => {
