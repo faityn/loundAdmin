@@ -212,12 +212,13 @@ export const changeExhibitionStatus = async (
 
 export const getExhibitionLecturesList = async (
   token: string,
+  searchUrl: string,
   page: number,
   size: number
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lectures/list?page=${page}&pageSize=${size}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lectures/list?${searchUrl}&page=${page}&pageSize=${size}`,
       {
         method: "GET",
         headers: {
@@ -792,12 +793,13 @@ export const changeCommunityStatus = async (
 
 export const getConferencesList = async (
   token: string,
+  searchUrl: string,
   page: number,
   size: number
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/conferences/list?page=${page}&pageSize=${size}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/conferences/list?${searchUrl}&page=${page}&pageSize=${size}`,
       {
         method: "GET",
         headers: {

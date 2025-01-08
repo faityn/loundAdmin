@@ -6,7 +6,6 @@ import {
   dataSavedAtom,
   detailOpenAtom,
   endDateAtom,
-  exhibitionDetailAtom,
   exhibitionListAtom,
   menuPermissionAtom,
   optionStatusAtom,
@@ -22,7 +21,6 @@ import Pagination from "../Pagination/Pagination";
 import {
   changeExhibitionStatus,
   deleteExhibition,
-  getExhibitionDetail,
   getExhibitionList,
   getExhibitionSearchOptionList,
 } from "@/hooks/useEvents";
@@ -58,15 +56,14 @@ const ExhibitionList = ({ url }: Props) => {
     exhibitionListAtom
   );
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
-  const setExhibitionDetail = useSetRecoilState(exhibitionDetailAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const optionStatus = useRecoilValue(optionStatusAtom);
   const searchWord = useRecoilValue(searchWordAtom);
   const startDate = useRecoilValue(startDateAtom);
   const endDate = useRecoilValue(endDateAtom);
   const optionType = useRecoilValue(optionTypeAtom);
-  const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
-  const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+  const dataSaved = useRecoilValue(dataSavedAtom);
+  const detailOpen = useRecoilValue(detailOpenAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
 
   const openModal = () => {
@@ -150,22 +147,6 @@ const ExhibitionList = ({ url }: Props) => {
     setPageLimit(value);
   };
 
-  const ExhibitionDetail = async (exhibitionId: number) => {
-    setDataSaved(false);
-    const userToken = getToken();
-
-    const response = await getExhibitionDetail(
-      String(userToken),
-      Number(exhibitionId)
-    );
-
-    if (response?.status) {
-      setExhibitionDetail([response.result]);
-    }
-
-    setDetailOpen(true);
-  };
-
   const getSearchOption = async () => {
     const userToken = getToken();
     const response = await getExhibitionSearchOptionList(String(userToken));
@@ -203,7 +184,6 @@ const ExhibitionList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-    console.log(response);
 
     if (response) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -224,7 +204,7 @@ const ExhibitionList = ({ url }: Props) => {
     getData();
   }, [searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
         <SearchFields
           handleSubmit={handleSubmit}
@@ -233,6 +213,7 @@ const ExhibitionList = ({ url }: Props) => {
           start={searchParams.get("startDate") as string}
           end={searchParams.get("endDate") as string}
           status={searchParams.get("status") as string}
+          dateStatus={true}
         />
         {loading ? <Loader /> : ""}
       </div>
@@ -372,7 +353,7 @@ const ExhibitionList = ({ url }: Props) => {
                 </label>
               </th>
               <th className="min-w-50px] px-4 py-3 font-medium text-black dark:text-white ">
-                #
+                번호
               </th>
               <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white ">
                 체크인 번호
@@ -387,13 +368,18 @@ const ExhibitionList = ({ url }: Props) => {
                 행사 일정
               </th>
               <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white ">
-                등록일
+                행사 등록일
               </th>
-              <th className="min-w-[100px] px-4 py-4 font-medium text-black dark:text-white ">
+              <th className="min-w-[90px] px-4 py-4 font-medium text-black dark:text-white ">
                 상태
               </th>
 
-              <th className="min-w-[120px] px-4 py-3 font-medium text-black dark:text-white"></th>
+              <th className="w-[60px]  px-4 py-3 font-medium text-black dark:text-white">
+                수정
+              </th>
+              <th className="min-w-[90px]  px-4 py-3 font-medium text-black dark:text-white">
+                회의 장소 등록
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -453,13 +439,7 @@ const ExhibitionList = ({ url }: Props) => {
                   </h5>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? ExhibitionDetail(Number(item?.exhibitionId))
-                        : ""
-                    }
-                  >
+                  <div>
                     <h5 className="cursor-pointer  font-medium  dark:text-white">
                       {item?.title}
                     </h5>
@@ -517,7 +497,8 @@ const ExhibitionList = ({ url }: Props) => {
                   ) : (
                     ""
                   )}
-
+                </td>
+                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   {menuPermission?.status === "write" ? (
                     <>
                       <p
@@ -525,10 +506,10 @@ const ExhibitionList = ({ url }: Props) => {
                       >
                         <Link href={`${url}/table/${item?.exhibitionId}`}>
                           <img
-                            src={`/images/icon/icon-community.svg`}
+                            src={`/images/icon/conference_table.svg`}
                             contextMenu="false"
                             alt={item?.title}
-                            className="w-[15px] h-[15px]  "
+                            className="w-[17px] h-[17px] text-primary "
                           />
                         </Link>
                       </p>
@@ -566,7 +547,7 @@ const ExhibitionList = ({ url }: Props) => {
         </div>
       </div>
 
-      <div className="my-5 text-right">
+      <div className="my-5 flex w-full justify-center">
         {totalPage > 1 ? (
           <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
         ) : (

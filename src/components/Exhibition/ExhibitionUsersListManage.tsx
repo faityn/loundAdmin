@@ -35,7 +35,6 @@ import CustomModal from "../Modal/Confirm";
 import getToken from "@/helper/getToken";
 
 import Loader from "../common/Loader";
-import { format } from "date-fns";
 import { FaChevronDown } from "react-icons/fa";
 import {
   ConfirmUsersToExhibition,
@@ -238,6 +237,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
+    console.log(response);
 
     if (response?.rows?.length) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -265,7 +265,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     getData();
   }, [searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
         <SearchFieldsExhibitionUsers
           handleSubmit={handleSubmit}
@@ -397,21 +397,18 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
                 이름
               </th>
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                아이디
+                소속
               </th>
               <th className="min-w-[120px] px-4 py-2 font-medium text-black dark:text-white">
-                이메일
+                직함
               </th>
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                성별
+                핸드폰 번호
               </th>
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                가입일
+                이메일 주소
               </th>
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                최근 로그인
-              </th>
-              <th className="min-w-[130px] px-4 py-2 font-medium text-black dark:text-white">
                 참석
               </th>
             </tr>
@@ -473,31 +470,18 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
                 <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
                   <div onClick={() => UserDetail(Number(item?.userId))}>
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
-                      {item?.username}
+                      {item?.companyName}
                     </h5>
                   </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
+                  <p className="text-black dark:text-white">{item?.position}</p>
+                </td>
+                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
+                  <p className="text-black dark:text-white">{item?.phone}</p>
+                </td>
+                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   <p className="text-black dark:text-white">{item?.email}</p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.genderText}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.createdAt
-                      ? format(item?.createdAt as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.recentLogin
-                      ? format(item?.recentLogin as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   <p

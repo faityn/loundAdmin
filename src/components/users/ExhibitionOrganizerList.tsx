@@ -216,7 +216,7 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
     getData();
   }, [searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
         <SearchFields
           handleSubmit={handleSubmit}
@@ -225,6 +225,7 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
           start={searchParams.get("startDate") as string}
           end={searchParams.get("endDate") as string}
           status={searchParams.get("status") as string}
+          dateStatus={true}
         />
         {loading ? <Loader /> : ""}
       </div>
@@ -495,7 +496,7 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
+      <div className="my-5 flex w-full justify-center">
         {totalPage > 1 ? (
           <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
         ) : (

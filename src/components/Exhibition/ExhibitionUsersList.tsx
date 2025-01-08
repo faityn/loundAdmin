@@ -105,18 +105,6 @@ const ExhibitionUsersList = ({ url }: Props) => {
 
     router.push(`/${url}?${newUrl}`);
 
-    // const response = await getUsersList(
-    //   String(userToken),
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   newUrl as string,
-    //   Number(page),
-    //   Number(size)
-    // );
-
-    // const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    // setTotalPage(totalPage);
-    // setUserAllList(response?.rows);
-    //window.location.href = `/${url}?${newUrl}`;
     setLoading(false);
   };
 
@@ -248,7 +236,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
     getData();
   }, [searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
         <SearchFields
           handleSubmit={handleSubmit}
@@ -258,6 +246,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
           end={searchParams.get("endDate") as string}
           status={searchParams.get("status") as string}
           noStatus={true}
+          dateStatus={false}
         />
         {loading ? <Loader /> : ""}
       </div>

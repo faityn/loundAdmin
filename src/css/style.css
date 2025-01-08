@@ -259,3 +259,17 @@ input[type="search"]::-webkit-search-cancel-button {
   .pretendardFont{
     font-family: "Pretendard";
   }
+
+  .tox-statusbar{
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    height: 1px !important;
+  }
+
+  .tox-statusbar__text-container{
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    height: 1px !important;
+  }

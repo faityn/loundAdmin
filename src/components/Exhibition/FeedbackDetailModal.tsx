@@ -50,7 +50,7 @@ const FeedbackDetailModal: React.FC = () => {
               <div className={` mx-auto h-[600px]   pt-5 text-left text-sm`}>
                 <div>
                   <div className="w-full text-center text-xl font-semibold text-black">
-                    행사명: {feedbackDetail[0]?.title}
+                    행사 이름: {feedbackDetail[0]?.title}
                   </div>
 
                   <div className="mt-5  grid h-full grid-cols-11 gap-5 text-slate-800 ">

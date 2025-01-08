@@ -54,7 +54,7 @@ const UsersList = ({ url }: Props) => {
   const [pageLimit, setPageLimit] = useState("10");
   const page = searchParams.get("page");
   const size = pageLimit;
-  const userRole = useRecoilValue(ActiveRoleAtom);
+
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
   const [isOpen, setIsOpen] = useState(false);
@@ -71,7 +71,7 @@ const UsersList = ({ url }: Props) => {
   const setUserDetail = useSetRecoilState(userDetailAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
   const setUserExhibition = useSetRecoilState(userExhibitionListAtom);
-
+  const userRole = useRecoilValue(ActiveRoleAtom);
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
 
   const setUserExhibitionRatingState = useSetRecoilState(
@@ -100,29 +100,8 @@ const UsersList = ({ url }: Props) => {
     const status = optionStatus ? `&status=${optionStatus}` : "";
     const searchUrl = `searchType=${type}${search}${start}${end}${status}`;
     const newUrl = decodeURIComponent(searchUrl);
-    const userToken = getToken();
     router.push(`/${url}?${newUrl}`);
 
-    const response =
-      userRole === "Super Admin"
-        ? await getUsersList(
-            String(userToken),
-            newUrl as string,
-            Number(page),
-            Number(size)
-          )
-        : await getOrgUsersList(
-            String(userToken),
-            newUrl as string,
-            Number(page),
-            Number(size)
-          );
-
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
-    //window.location.href = `/${url}?${newUrl}`;
     setLoading(false);
   };
 
@@ -187,9 +166,21 @@ const UsersList = ({ url }: Props) => {
 
   const getSearchOption = async () => {
     const userToken = getToken();
+
     const response = await getSearchOptionList(String(userToken));
 
-    setSearchOptions(response);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const search: any = [
+      { value: "all", text: "전체" },
+      { value: "name", text: "이름" },
+      { value: "email", text: "이메일" },
+      { value: "username", text: "아이디" },
+    ];
+    const searchOption = {
+      search: search,
+      status: response?.status,
+    };
+    setSearchOptions(searchOption);
   };
   const getData = async () => {
     const searchType = searchParams.get("searchType");
@@ -231,9 +222,13 @@ const UsersList = ({ url }: Props) => {
             Number(size)
           );
 
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setUserAllList(response?.rows);
+    if (response) {
+      const totalPage = Math.ceil(Number(response?.count) / Number(size));
+      setTotalPage(totalPage);
+      setUserAllList(response?.rows);
+    } else {
+      setUserAllList([]);
+    }
   };
 
   useEffect(() => {
@@ -248,9 +243,9 @@ const UsersList = ({ url }: Props) => {
     getSearchOption();
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
-  }, [searchParams, pageLimit]);
+  }, [userRole, searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
         <SearchFields
           handleSubmit={handleSubmit}
@@ -259,6 +254,7 @@ const UsersList = ({ url }: Props) => {
           start={searchParams.get("startDate") as string}
           end={searchParams.get("endDate") as string}
           status={searchParams.get("status") as string}
+          dateStatus={true}
         />
         {loading ? <Loader /> : ""}
       </div>
@@ -470,24 +466,60 @@ const UsersList = ({ url }: Props) => {
                   </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">{item?.email}</p>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? UserDetail(Number(item?.userId))
+                        : ""
+                    }
+                  >
+                    <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
+                      {item?.email}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">{item?.gender}</p>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? UserDetail(Number(item?.userId))
+                        : ""
+                    }
+                  >
+                    <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
+                      {item?.gender === "female" ? "여성" : "남성"}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.createdAt
-                      ? format(item?.createdAt as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? UserDetail(Number(item?.userId))
+                        : ""
+                    }
+                  >
+                    <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
+                      {item?.createdAt
+                        ? format(item?.createdAt as string, "yyyy-MM-dd")
+                        : ""}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.recentLogin
-                      ? format(item?.recentLogin as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? UserDetail(Number(item?.userId))
+                        : ""
+                    }
+                  >
+                    <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
+                      {item?.recentLogin
+                        ? format(item?.recentLogin as string, "yyyy-MM-dd")
+                        : ""}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   {item?.status === "use" ? (
@@ -509,7 +541,7 @@ const UsersList = ({ url }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
+      <div className="my-5 flex w-full justify-center">
         {totalPage > 1 ? (
           <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
         ) : (

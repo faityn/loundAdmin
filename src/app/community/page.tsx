@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const CommunityPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="71">
-      <Breadcrumb parentName="커뮤니티 관리" pageName="커뮤니티 리스트" />
+      <Breadcrumb parentName="커뮤니티 관리" pageName="커뮤니티" />
 
       <div className="flex flex-col gap-10">
         <CommunityList url="/community" />

@@ -433,7 +433,9 @@ export type ExhibitionUsersListType = {
   username?: string;
   name?: string;
   email?: string;
-
+  companyName?: string;
+  position?: string;
+  phone?: string;
   gender?: string;
   recentLogin?: string;
   createdAt?: string;

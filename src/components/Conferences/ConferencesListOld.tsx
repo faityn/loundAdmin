@@ -43,7 +43,7 @@ const ConferencesList = ({ url }: Props) => {
     getData();
   }, []);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="grid grid-cols-12  pb-4">
         <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
@@ -140,7 +140,7 @@ const ConferencesList = ({ url }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
+      <div className="my-5 flex w-full justify-center">
         {totalPage > 1 ? (
           <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
         ) : (

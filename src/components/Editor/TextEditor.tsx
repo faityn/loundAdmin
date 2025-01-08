@@ -30,7 +30,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
         apiKey={process.env.NEXT_PUBLIC_EDITOR_API_KEY}
         init={{
           height: 350,
-          menubar: true,
+          menubar: false,
           plugins:
             "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
           toolbar:
