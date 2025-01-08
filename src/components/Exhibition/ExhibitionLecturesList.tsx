@@ -1,13 +1,19 @@
 "use client";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   checkedListAtom,
+  endDateAtom,
   exhibitionLecturesAtom,
   menuPermissionAtom,
+  optionStatusAtom,
+  optionTypeAtom,
+  searchOptionsAtom,
+  searchWordAtom,
+  startDateAtom,
   totalPageAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import CustomModal from "../Modal/Confirm";
 import {
@@ -19,21 +25,35 @@ import getToken from "@/helper/getToken";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
+import SearchFields from "../common/SearchFields";
+import { getSearchOptionList } from "@/hooks/useUser";
+import Loader from "../common/Loader";
 
 interface Props {
   url?: string;
 }
 const ExhibitionLecturesList = ({ url }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
-  const size = 20;
+  const [pageLimit, setPageLimit] = useState("10");
+  const [newUrl, setNewUrl] = useState("");
+  const size = pageLimit;
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
-  const pageUrl = `${pathname}?id=0`;
+  const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [itemsList, setItemsList] = useRecoilState(exhibitionLecturesAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
+
   const menuPermission = useRecoilValue(menuPermissionAtom);
+  const searchWord = useRecoilValue(searchWordAtom);
+  const startDate = useRecoilValue(startDateAtom);
+  const endDate = useRecoilValue(endDateAtom);
+  const optionStatus = useRecoilValue(optionStatusAtom);
+  const optionType = useRecoilValue(optionTypeAtom);
+  const setSearchOptions = useSetRecoilState(searchOptionsAtom);
 
   const openModal = () => {
     setIsOpen(true);
@@ -71,10 +91,67 @@ const ExhibitionLecturesList = ({ url }: Props) => {
     }
   };
 
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    const search = searchWord ? `&search=${searchWord}` : "";
+    const start = startDate ? `&startDate=${startDate}` : "";
+    const end = endDate ? `&endDate=${endDate}` : "";
+    const status = optionStatus ? `&status=${optionStatus}` : "";
+    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const newUrl = decodeURIComponent(searchUrl);
+
+    router.push(`/${url}?${newUrl}`);
+
+    setLoading(false);
+  };
+
+  const getSearchOption = async () => {
+    const userToken = getToken();
+
+    const response = await getSearchOptionList(String(userToken));
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const search: any = [
+      { value: "all", text: "전체" },
+      { value: "exhibitionName", text: "행사 이름" },
+      { value: "lectureName", text: "강연 제목" },
+      { value: "companyName", text: "소속" },
+    ];
+    const searchOption = {
+      search: search,
+      status: response?.status,
+    };
+    setSearchOptions(searchOption);
+  };
+
   const getData = async () => {
+    const searchType = searchParams.get("searchType");
+
+    const search = searchParams.get("search")
+      ? `&search=${searchParams.get("search")}`
+      : "";
+    const start = searchParams.get("startDate")
+      ? `&startDate=${searchParams.get("startDate")}`
+      : "";
+    const end = searchParams.get("endDate")
+      ? `&endDate=${searchParams.get("endDate")}`
+      : "";
+    const status = searchParams.get("status")
+      ? `&status=${searchParams.get("status")}`
+      : "";
+    const pageLimitNew = searchParams.get("pageLimit")
+      ? searchParams.get("pageLimit")
+      : size;
+
+    setPageLimit(pageLimitNew as string);
+    const searchUrl = `searchType=${searchType}${search}${start}${end}${status}`;
+    const newUrl = decodeURIComponent(searchUrl);
+    setNewUrl(newUrl);
     const userToken = getToken();
     const response = await getExhibitionLecturesList(
       String(userToken),
+      newUrl as string,
       Number(page),
       Number(size)
     );
@@ -83,11 +160,28 @@ const ExhibitionLecturesList = ({ url }: Props) => {
     setItemsList(response?.rows);
   };
   useEffect(() => {
-    //eslint-disable-next-line react-hooks/exhaustive-deps
+    getSearchOption();
+
     getData();
-  }, []);
+  }, [searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+      <div>
+        <SearchFields
+          handleSubmit={handleSubmit}
+          searchType={searchParams.get("searchType") as string}
+          search={searchParams.get("search") as string}
+          start={searchParams.get("startDate") as string}
+          end={searchParams.get("endDate") as string}
+          startLabel="강연 시작일"
+          endLabel="강연 종료일"
+          status={searchParams.get("status") as string}
+          noStatus={true}
+          dateStatus={true}
+          dateLabel={"강연 날짜"}
+        />
+        {loading ? <Loader /> : ""}
+      </div>
       <div className="grid grid-cols-12  pb-4">
         <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
@@ -174,18 +268,18 @@ const ExhibitionLecturesList = ({ url }: Props) => {
                   </div>
                 </label>
               </th>
-              <th className="min-w-50px] px-4 py-3 font-medium text-black dark:text-white ">
-                #
+              <th className="min-w-[60px] px-4 py-3 font-medium text-black dark:text-white ">
+                번호
               </th>
 
               <th className="min-w-[300px] w-[400px] px-4 py-3 font-medium text-black dark:text-white ">
-                제목
+                강연 제목
               </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                행사명
+                행사 이름
               </th>
               <th className="min-w-[300px] w-[320px] px-4 py-3 font-medium text-black dark:text-white ">
-                날짜
+                강연 일정
               </th>
               <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white ">
                 등록 날짜
@@ -289,7 +383,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 text-right">
+      <div className="my-5 flex w-full justify-center">
         {totalPage > 1 ? (
           <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
         ) : (

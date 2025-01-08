@@ -183,7 +183,7 @@ const ExhibitionCreate = ({ url }: Props) => {
   };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="max-w-203">
           {menuPermission?.status === "write" ? (
@@ -202,7 +202,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                         {...register("company_name", {
                           required: true,
                         })}
-                        placeholder="Enter name"
+                        placeholder="회사 이름을 입력하세요"
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
                       {errors.company_name && (
@@ -215,7 +215,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        행사명
+                        행사 이름
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -224,7 +224,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                         {...register("title", {
                           required: true,
                         })}
-                        placeholder="Enter name"
+                        placeholder="진행하는 행사 이름을 입력하세요."
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
                       {errors.title && (
@@ -238,14 +238,14 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        시작 날짜
+                        행사 일정
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <div className="flex w-full gap-4 max-sm:flex-col ">
                         <div className="relative w-full">
                           <StartDatePicker
-                            label="시작"
+                            label="시작일"
                             onDateChange={startDateChange}
                             defaultDate={startDate}
                           />
@@ -264,7 +264,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        이미지
+                        대표 이미지 등록
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -282,6 +282,10 @@ const ExhibitionCreate = ({ url }: Props) => {
                             이미지 업로드해주세요
                           </span>
                         )}
+                        <span className="font-medium text-red text-[13px]">
+                          행사를 잘 보여줄 대표 이미지를 등록해주세요. (권장
+                          사이즈: 201x94px 이상, 최대 20MB까지)
+                        </span>
                       </div>
                     </td>
                   </tr>
@@ -289,7 +293,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   <tr>
                     <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
-                        내용
+                        행사 소개
                       </h5>
                     </td>
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -307,13 +311,13 @@ const ExhibitionCreate = ({ url }: Props) => {
                     </td>
                   </tr>
 
-                  <tr>
+                  <tr className="">
                     <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
                         관심 분야
                       </h5>
                     </td>
-                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <td className="border-b border-[#eee] px-4 py-6 dark:border-strokedark ">
                       <div className=" grid grid-cols-12 gap-6">
                         {optionsList[0]?.interest?.map((item, index) => (
                           <div key={index} className="col-span-4">
@@ -367,7 +371,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                         참가 목적
                       </h5>
                     </td>
-                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <td className=" border-[#eee] px-4 py-6 dark:border-strokedark ">
                       <div className=" grid grid-cols-12 gap-6">
                         {optionsList[0]?.purpose?.map((item, index) => (
                           <div key={index} className="col-span-4">
@@ -453,7 +457,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 </span>
                               </div>
                             </div>
-                            사용
+                            참여 가능
                           </label>
                         </div>
                         <div className="flex gap-5">
@@ -486,7 +490,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                                 </span>
                               </div>
                             </div>
-                            비사용
+                            참여 불가능
                           </label>
                         </div>
                       </div>
@@ -499,7 +503,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                   </tr>
                 </tbody>
               </table>
-              <div className="flex w-full justify-end gap-4 px-4 text-center">
+              <div className="flex w-full justify-end gap-4 px-4 mt-10 text-center ">
                 <Link
                   href={`${url}`}
                   className="inline-flex w-26 items-center justify-center rounded-md border border-primary p-2 text-center font-medium text-primary hover:bg-opacity-90 "

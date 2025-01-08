@@ -123,7 +123,7 @@ const TableOrderList = ({ url }: Props) => {
   };
   useEffect(() => {}, [exhibitionTableArray]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-8 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-8 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="max-w-180">
           <div className="flex items-center gap-2 w-full px-4 mb-6">

@@ -179,7 +179,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         {notFound && <NotFound />}
         {itemsDetail?.length > 0 &&
@@ -192,7 +192,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            제목
+                            강연 제목
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -202,7 +202,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                               required: true,
                             })}
                             defaultValue={item?.title}
-                            placeholder="제목 입력해주세요"
+                            placeholder="강연 제목을 입력해주세요."
                             className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                           />
                           {errors.title && (
@@ -255,7 +255,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            강연 날짜
+                            강연 일정
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -280,7 +280,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            이미지
+                            대표 이미지 등록
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -307,13 +307,17 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                                 이미지 업로드해주세요
                               </span>
                             )}
+                            <span className="font-medium text-red text-[13px]">
+                              강연정보를 잘 보여줄 대표 이미지를 등록해주세요.
+                              (권장 사이즈: 201x94px 이상, 최대 20MB까지)
+                            </span>
                           </div>
                         </td>
                       </tr>
                       <tr>
                         <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            내용
+                            강연 소개
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const ContentPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin"]} menuId="61">
-      <Breadcrumb parentName="배너 관리" pageName="배너 리스트" />
+      <Breadcrumb parentName="배너 관리" pageName="배너 관리" />
 
       <div className="flex flex-col gap-10">
         <BannerList />

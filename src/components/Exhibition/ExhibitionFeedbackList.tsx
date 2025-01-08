@@ -25,7 +25,7 @@ import getToken from "@/helper/getToken";
 
 import SearchFields from "../common/SearchFields";
 import Loader from "../common/Loader";
-import { format } from "date-fns";
+import { parseISO } from "date-fns";
 import { FaChevronDown } from "react-icons/fa";
 import {
   getExhibitionFeedbackList,
@@ -34,6 +34,7 @@ import {
   getFeedbackExhibitionRatingList,
 } from "@/hooks/useEvents";
 import FeedbackDetailModal from "./FeedbackDetailModal";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface Props {
   url?: string;
@@ -217,7 +218,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
     getData();
   }, [searchParams, pageLimit]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div>
         <SearchFields
           handleSubmit={handleSubmit}
@@ -227,6 +228,8 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
           end={searchParams.get("endDate") as string}
           status={searchParams.get("status") as string}
           noStatus={true}
+          dateStatus={true}
+          dateLabel={"행사 일정"}
         />
         {loading ? <Loader /> : ""}
       </div>
@@ -349,7 +352,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                 회사 이름
               </th>
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                행사 제목
+                행사 이름
               </th>
 
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
@@ -438,16 +441,36 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {item?.startDate
-                      ? format(item?.startDate as string, "yyyy-MM-dd")
+                      ? formatInTimeZone(
+                          parseISO(item?.startDate),
+                          "UTC",
+                          "yyyy-MM-dd"
+                        )
+                      : ""}{" "}
+                    ~{" "}
+                    {item?.endDate
+                      ? formatInTimeZone(
+                          parseISO(item?.endDate),
+                          "UTC",
+                          "yyyy-MM-dd "
+                        )
                       : ""}
                   </p>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {Number(Number(item?.rating).toFixed(1))} / 5 (
-                    {item?.ratingCount})
-                  </p>
+                  <div
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? FeedbackDetail(Number(item?.exhibitionId))
+                        : ""
+                    }
+                  >
+                    <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
+                      {Number(Number(item?.rating).toFixed(1))} / 5 (
+                      {item?.ratingCount})
+                    </h5>
+                  </div>
                 </td>
               </tr>
             ))}

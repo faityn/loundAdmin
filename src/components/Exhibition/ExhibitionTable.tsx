@@ -13,9 +13,16 @@ import { LuAlertCircle } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { BsPlusCircle } from "react-icons/bs";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { menuPermissionAtom, userExhibitionTablesAtom } from "@/atom";
+import {
+  exhibitionDetailAtom,
+  menuPermissionAtom,
+  userExhibitionTablesAtom,
+} from "@/atom";
 
 import { UserExhibitionTablesType } from "@/types/adminType";
+import { getExhibitionDetail } from "@/hooks/useEvents";
+import { formatInTimeZone } from "date-fns-tz";
+import { parseISO } from "date-fns";
 interface Props {
   url?: string;
   id: number;
@@ -38,7 +45,7 @@ const ExhibitionTable = ({ id, url }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const [createError, setCreateError] = useState(false);
-
+  const [itemsDetail, setItemsDetail] = useRecoilState(exhibitionDetailAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
   const [exhibitionTableArray, setExhibitionTableArray] = useRecoilState(
     userExhibitionTablesAtom
@@ -70,7 +77,9 @@ const ExhibitionTable = ({ id, url }: Props) => {
 
       setExhibitionTableArray(nArray);
     }
-
+    const res = await getExhibitionDetail(String(userToken), id);
+    console.log(res);
+    setItemsDetail(res?.result);
     //setOptionsList([response?.result]);
   };
   useEffect(() => {
@@ -177,9 +186,29 @@ const ExhibitionTable = ({ id, url }: Props) => {
   };
   useEffect(() => {}, [exhibitionTableArray]);
   return (
-    <div className="rounded-sm border border-stroke bg-white  pb-2.5 pt-8 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
+    <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-8 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="max-w-180">
+          <div className="px-4 mb-5 text-xl text-[#111111]">
+            {itemsDetail[0]?.title} /
+            <span className="text-[16px] pl-1 text-primary">
+              {itemsDetail[0]?.startDate
+                ? formatInTimeZone(
+                    parseISO(itemsDetail[0]?.startDate),
+                    "UTC",
+                    "yyyy-MM-dd"
+                  )
+                : ""}{" "}
+              ~{" "}
+              {itemsDetail[0]?.endDate
+                ? formatInTimeZone(
+                    parseISO(itemsDetail[0]?.endDate),
+                    "UTC",
+                    "yyyy-MM-dd "
+                  )
+                : ""}
+            </span>
+          </div>
           {menuPermission?.status === "write" ? (
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="text-sm px-4">

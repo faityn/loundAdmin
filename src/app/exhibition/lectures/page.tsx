@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 const ExhibitionLecturesPage = () => {
   return (
     <DefaultLayout allowedRoles={["Super Admin", "Admin"]} menuId="26">
-      <Breadcrumb parentName="강연 관리" pageName="강연 리스트" />
+      <Breadcrumb parentName="강연 관리" pageName="강연 관리" />
 
       <div className="flex flex-col gap-10">
-        <ExhibitionLecturesList url="/exhibition/lectures" />
+        <ExhibitionLecturesList url="exhibition/lectures" />
       </div>
     </DefaultLayout>
   );

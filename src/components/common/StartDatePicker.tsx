@@ -30,13 +30,13 @@ const StartDatePicker: React.FC<DateTimePickerProps> = ({
   }, [defaultDate]);
   return (
     <div className="flex flex-col space-y-2 w-full">
-      {label && <label className="text-gray-700 font-medium">{label}</label>}
+      {label && <label className="text-gray-700 font-medium"></label>}
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd "
         className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary "
-        placeholderText="시작"
+        placeholderText={label}
         popperClassName="custom-datepicker-popper"
       />
     </div>
