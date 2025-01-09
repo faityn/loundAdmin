@@ -90,7 +90,7 @@ const FeedbackDetailModal: React.FC = () => {
                       <div className="mb-4 font-semibold text-[16px]">
                         행사 평가 ({userExhibitionRatingList?.length}건)
                       </div>
-                      <div className="h-[490px] overflow-y-auto ">
+                      <div className="h-[450px] overflow-y-auto ">
                         <div className="flex flex-col gap-5 pr-1">
                           {userExhibitionRatingList?.map((item, index) => (
                             <div key={index}>
@@ -117,6 +117,14 @@ const FeedbackDetailModal: React.FC = () => {
                             </div>
                           ))}
                         </div>
+                      </div>
+                      <div className="flex w-full justify-end">
+                        <button
+                          type="button"
+                          className=" items-center mt-4 justify-center rounded bg-black px-5 py-2 text-center font-medium text-white hover:bg-opacity-90 "
+                        >
+                          평가 데이터 다운받기
+                        </button>
                       </div>
                     </div>
                   </div>

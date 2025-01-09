@@ -184,7 +184,7 @@ const ConferencesList = ({ url }: Props) => {
           status={searchParams.get("status") as string}
           noStatus={true}
           dateStatus={true}
-          dateLabel={"강연 날짜"}
+          dateLabel={"회의 일정"}
         />
         {loading ? <Loader /> : ""}
       </div>

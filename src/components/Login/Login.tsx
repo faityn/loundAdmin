@@ -73,7 +73,7 @@ const Login: React.FC = () => {
                         name="username"
                         id="username"
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Enter your email"
+                        placeholder="아이디를 입력해주세요"
                         className="w-full rounded-lg border border-stroke bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none  "
                       />
 
