@@ -253,6 +253,8 @@ const UsersList = ({ url }: Props) => {
           search={searchParams.get("search") as string}
           start={searchParams.get("startDate") as string}
           end={searchParams.get("endDate") as string}
+          startLabel="가입 시작일"
+          endLabel="가입 종료일"
           status={searchParams.get("status") as string}
           dateStatus={true}
         />

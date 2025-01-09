@@ -467,15 +467,16 @@ const ExhibitionUsersList = ({ url }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 flex justify-between">
-        <div>
+      <div className="my-5 flex  ">
+        <div className="w-[200px]"></div>
+        <div className="w-full flex justify-center ">
           {totalPage > 1 ? (
             <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
           ) : (
             ""
           )}
         </div>
-        <div>
+        <div className="w-[200px] text-right">
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
