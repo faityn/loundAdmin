@@ -237,23 +237,24 @@ const ExhibitionUsersList = ({ url }: Props) => {
   }, [searchParams, pageLimit]);
   return (
     <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
-      <div>
-        <SearchFields
-          handleSubmit={handleSubmit}
-          searchType={searchParams.get("searchType") as string}
-          search={searchParams.get("search") as string}
-          start={searchParams.get("startDate") as string}
-          end={searchParams.get("endDate") as string}
-          status={searchParams.get("status") as string}
-          noStatus={true}
-          dateStatus={false}
-        />
-        {loading ? <Loader /> : ""}
-      </div>
       <div className="grid grid-cols-12  pb-4">
-        <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
-        <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
-          <div className="flex w-full  justify-end gap-4">
+        <div className="col-span-8 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col ">
+          <div>
+            <SearchFields
+              handleSubmit={handleSubmit}
+              searchType={searchParams.get("searchType") as string}
+              search={searchParams.get("search") as string}
+              start={searchParams.get("startDate") as string}
+              end={searchParams.get("endDate") as string}
+              status={searchParams.get("status") as string}
+              noStatus={true}
+              dateStatus={false}
+            />
+            {loading ? <Loader /> : ""}
+          </div>
+        </div>
+        <div className="col-span-4   text-right max-md:col-span-12 ">
+          <div className="flex w-full  justify-end gap-4 mt-3">
             <div className="relative z-20 w-39 bg-transparent dark:bg-form-input ">
               <select
                 value={pageLimit}
@@ -468,7 +469,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
         </table>
       </div>
       <div className="my-5 flex  ">
-        <div className="w-[200px]"></div>
+        <div className="w-[300px]"></div>
         <div className="w-full flex justify-center ">
           {totalPage > 1 ? (
             <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
@@ -476,10 +477,16 @@ const ExhibitionUsersList = ({ url }: Props) => {
             ""
           )}
         </div>
-        <div className="w-[200px] text-right">
+        <div className="min-w-[300px] flex gap-3  justify-end items-center">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+            className=" items-center  rounded-md bg-black px-5 py-1.5 text-center font-medium text-white hover:bg-opacity-90 "
+          >
+            대량 등록
+          </button>
+          <button
+            type="button"
+            className=" items-center  rounded-md  bg-green-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
             onClick={() => ExhibitionUsersAdd()}
             disabled={checkedElements?.length > 0 ? false : true}
           >
