@@ -214,6 +214,7 @@ const ExhibitionList = ({ url }: Props) => {
           end={searchParams.get("endDate") as string}
           status={searchParams.get("status") as string}
           dateStatus={true}
+          dateLabel={"행사 일정"}
         />
         {loading ? <Loader /> : ""}
       </div>
@@ -377,7 +378,7 @@ const ExhibitionList = ({ url }: Props) => {
               <th className="w-[60px]  px-4 py-3 font-medium text-black dark:text-white">
                 수정
               </th>
-              <th className="min-w-[90px]  px-4 py-3 font-medium text-black dark:text-white">
+              <th className="min-w-[90px]  px-4 py-3 text-center font-medium text-black dark:text-white">
                 회의 장소 등록
               </th>
             </tr>
@@ -498,7 +499,7 @@ const ExhibitionList = ({ url }: Props) => {
                     ""
                   )}
                 </td>
-                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
+                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark text-center">
                   {menuPermission?.status === "write" ? (
                     <>
                       <p

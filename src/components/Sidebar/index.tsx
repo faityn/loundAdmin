@@ -119,7 +119,7 @@ const Sidebar = ({
               />
             </Link>
           </div>
-          <div className="text-xl text-blue-300">Admin Page</div>
+          <div className="text-xl text-blue-300"></div>
         </div>
         <button
           ref={trigger}

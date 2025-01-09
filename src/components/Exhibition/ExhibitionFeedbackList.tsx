@@ -477,7 +477,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="my-5 flex justify-between">
+      <div className="my-5 flex w-full justify-center">
         <div>
           {totalPage > 1 ? (
             <Pagination currentPage={Number(page)} pageUrl={pageUrl} />
@@ -485,7 +485,6 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
             ""
           )}
         </div>
-        <div></div>
       </div>
     </div>
   );
