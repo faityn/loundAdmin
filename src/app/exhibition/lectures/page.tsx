@@ -14,7 +14,7 @@ const ExhibitionLecturesPage = () => {
       <Breadcrumb parentName="강연 관리" pageName="강연 관리" />
 
       <div className="flex flex-col gap-10">
-        <ExhibitionLecturesList url="exhibition/lectures" />
+        <ExhibitionLecturesList url="/exhibition/lectures" />
       </div>
     </DefaultLayout>
   );

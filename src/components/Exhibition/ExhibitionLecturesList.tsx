@@ -101,7 +101,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
     const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
     const newUrl = decodeURIComponent(searchUrl);
 
-    router.push(`/${url}?${newUrl}`);
+    router.push(`${url}?${newUrl}`);
 
     setLoading(false);
   };
