@@ -342,6 +342,10 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                                 이미지 업로드해주세요
                               </span>
                             )}
+                            <span className="font-medium text-red text-[13px]">
+                              행사를 잘 보여줄 대표 이미지를 등록해주세요. (권장
+                              사이즈: 335x160px 이상, 최대 20MB까지)
+                            </span>
                           </div>
                         </td>
                       </tr>
