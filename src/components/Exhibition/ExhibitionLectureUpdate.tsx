@@ -241,7 +241,8 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                                   value={String(e?.exhibitionId)}
                                   className="text-black dark:text-bodydark"
                                 >
-                                  {e?.title}
+                                  {e?.title}{" "}
+                                  {e?.verifyCode ? `- ${e?.verifyCode}` : ""}
                                 </option>
                               ))}
                             </select>
@@ -309,7 +310,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                             )}
                             <span className="font-medium text-red text-[13px]">
                               강연정보를 잘 보여줄 대표 이미지를 등록해주세요.
-                              (권장 사이즈: 201x94px 이상, 최대 20MB까지)
+                              (권장 사이즈: 335x160px 이상, 최대 20MB까지)
                             </span>
                           </div>
                         </td>
