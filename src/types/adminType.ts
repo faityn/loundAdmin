@@ -143,6 +143,7 @@ export type ExhibitionLecturesType = {
   short_desc?: string;
   exhibition?: {
     title: string;
+    verifyCode?: number;
   };
 };
 
