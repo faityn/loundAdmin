@@ -190,6 +190,11 @@ export const tableOrderDetailAtom = atom<TableOrderDetailType[]>({
   default: [],
 });
 
+export const tableNumberAtom = atom({
+  key: "tableNumberAtom",
+  default: 0,
+});
+
 export const userAllListAtom = atom<UsersType[]>({
   key: "userAllListAtom",
   default: [],
