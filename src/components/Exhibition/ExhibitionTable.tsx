@@ -78,8 +78,8 @@ const ExhibitionTable = ({ id, url }: Props) => {
       setExhibitionTableArray(nArray);
     }
     const res = await getExhibitionDetail(String(userToken), id);
-    console.log(res);
-    setItemsDetail(res?.result);
+
+    setItemsDetail([res?.result]);
     //setOptionsList([response?.result]);
   };
   useEffect(() => {

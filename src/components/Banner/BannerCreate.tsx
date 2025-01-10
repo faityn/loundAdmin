@@ -139,8 +139,8 @@ const BannerCreate = () => {
                           </span>
                         )}
                         <span className="font-medium text-red text-[13px]">
-                          강연정보를 잘 보여줄 대표 이미지를 등록해주세요. (권장
-                          사이즈: 335x160px 이상, 최대 20MB까지)
+                          배너 이미지를 등록해주세요. (권장 사이즈: 375x375px
+                          이상, 최대 20MB까지)
                         </span>
                       </div>
                     </td>
