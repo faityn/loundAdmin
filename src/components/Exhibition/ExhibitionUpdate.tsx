@@ -265,7 +265,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            행사명
+                            행사 이름
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -289,7 +289,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            시작 날짜
+                            행사 일정
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -315,7 +315,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            이미지
+                            대표 이미지 등록
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -349,7 +349,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="min-w-[200px] border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            내용
+                            행사 소개
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
@@ -373,7 +373,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                             관심 분야
                           </h5>
                         </td>
-                        <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                        <td className=" border-b border-slate-500 px-4 py-6 dark:border-strokedark ">
                           <div className=" grid grid-cols-12 gap-6">
                             {optionsList[0]?.interest?.map((item, index) => (
                               <div key={index} className="col-span-4">
@@ -427,7 +427,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                             참가 목적
                           </h5>
                         </td>
-                        <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                        <td className=" border-b border-slate-500 px-4 py-6 dark:border-strokedark ">
                           <div className=" grid grid-cols-12 gap-6">
                             {optionsList[0]?.purpose?.map((item, index) => (
                               <div key={index} className="col-span-4">
@@ -476,7 +476,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       </tr>
 
                       <tr>
-                        <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                        <td className="  border-[#eee] px-4 py-6 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
                             행사 상태
                           </h5>
