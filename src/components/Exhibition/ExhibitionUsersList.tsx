@@ -39,6 +39,7 @@ import Loader from "../common/Loader";
 import { FaChevronDown } from "react-icons/fa";
 import ExhibitionUsersAddModal from "./ExhibitionUsersAddModal";
 import { getUsersAddExhibitionList } from "@/hooks/useEvents";
+import DetailModal from "../users/UserDetailModal";
 
 interface Props {
   url?: string;
@@ -66,7 +67,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
   const optionStatus = useRecoilValue(optionStatusAtom);
   const searchWord = useRecoilValue(searchWordAtom);
   const setUserDetail = useSetRecoilState(userDetailAtom);
-  const setDetailOpen = useSetRecoilState(detailOpenAtom);
+  const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
   const setUserExhibition = useSetRecoilState(userExhibitionListAtom);
   const [exhibitionUsersAddModal, setExhibitionUsersAddModal] = useRecoilState(
     exhibitionUsersAddModalAtom
@@ -318,7 +319,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
           )}
         </div>
       </div>
-
+      {detailOpen ? <DetailModal /> : ""}
       {exhibitionUsersAddModal ? <ExhibitionUsersAddModal /> : ""}
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto text-sm">

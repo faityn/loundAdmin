@@ -42,6 +42,7 @@ import {
   getUsersListByExhibitions,
 } from "@/hooks/useEvents";
 import SearchFieldsExhibitionUsers from "../common/SearchFieldsExhibitionUsers";
+import DetailModal from "../users/UserDetailModal";
 
 interface Props {
   url?: string;
@@ -70,7 +71,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
   const searchWord = useRecoilValue(searchWordAtom);
   const optionExhibition = useRecoilValue(optionExhibitionAtom);
   const setUserDetail = useSetRecoilState(userDetailAtom);
-  const setDetailOpen = useSetRecoilState(detailOpenAtom);
+  const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
   const setUserExhibition = useSetRecoilState(userExhibitionListAtom);
 
   const setUsersAddExhibitionList = useSetRecoilState(
@@ -237,7 +238,6 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-    console.log(response);
 
     if (response?.rows?.length) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
@@ -351,7 +351,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
           )}
         </div>
       </div>
-
+      {detailOpen ? <DetailModal /> : ""}
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto text-sm">
           <thead>
