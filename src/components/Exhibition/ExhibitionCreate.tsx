@@ -317,7 +317,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                         관심 분야
                       </h5>
                     </td>
-                    <td className="border-b border-[#eee] px-4 py-6 dark:border-strokedark ">
+                    <td className="border-b border-slate-500 px-4 py-6 dark:border-strokedark ">
                       <div className=" grid grid-cols-12 gap-6">
                         {optionsList[0]?.interest?.map((item, index) => (
                           <div key={index} className="col-span-4">
@@ -371,7 +371,7 @@ const ExhibitionCreate = ({ url }: Props) => {
                         참가 목적
                       </h5>
                     </td>
-                    <td className=" border-[#eee] px-4 py-6 dark:border-strokedark ">
+                    <td className=" border-b border-slate-500 px-4 py-6 dark:border-strokedark ">
                       <div className=" grid grid-cols-12 gap-6">
                         {optionsList[0]?.purpose?.map((item, index) => (
                           <div key={index} className="col-span-4">
@@ -420,12 +420,12 @@ const ExhibitionCreate = ({ url }: Props) => {
                   </tr>
 
                   <tr>
-                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <td className="  border-[#eee] px-4 py-5 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">
                         행사 상태
                       </h5>
                     </td>
-                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                    <td className=" border-[#eee] px-4 py-5 dark:border-strokedark ">
                       <div className="flex items-center gap-8">
                         <div>
                           <label

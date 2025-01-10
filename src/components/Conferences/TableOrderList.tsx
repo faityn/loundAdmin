@@ -18,6 +18,7 @@ import {
   detailOpenAtom,
   exhibitionAllAtom,
   menuPermissionAtom,
+  tableNumberAtom,
   tableOrderDetailAtom,
   userExhibitionTablesAtom,
 } from "@/atom";
@@ -54,6 +55,7 @@ const TableOrderList = ({ url }: Props) => {
     exhibitionAllAtom
   );
   const setTableOrderDetail = useSetRecoilState(tableOrderDetailAtom);
+  const setTableNumber = useSetRecoilState(tableNumberAtom);
 
   const {
     handleSubmit,
@@ -80,7 +82,7 @@ const TableOrderList = ({ url }: Props) => {
     setExhibitionTableArray(response?.result);
   };
 
-  const tableOrderDetail = async (val: number) => {
+  const tableOrderDetail = async (val: number, tableNo: number) => {
     const userToken = getToken();
 
     const response = await getExhibitionTableOrder(
@@ -89,6 +91,7 @@ const TableOrderList = ({ url }: Props) => {
     );
 
     setTableOrderDetail(response?.result);
+    setTableNumber(tableNo);
 
     setDetailOpen(true);
   };
@@ -202,7 +205,10 @@ const TableOrderList = ({ url }: Props) => {
                         <div className="w-full ">
                           <img
                             onClick={() =>
-                              tableOrderDetail(Number(val.tableId))
+                              tableOrderDetail(
+                                Number(val.tableId),
+                                Number(val?.tableNo)
+                              )
                             }
                             src={`/images/icon/menu-board.svg`}
                             contextMenu="false"

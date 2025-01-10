@@ -51,6 +51,7 @@ export type TableOrderDetailType = {
   exhibition_table_id?: number;
   tableId?: number;
   userId?: number;
+  tableNo?: number;
   exhibitionConference?: {
     title?: string;
     start?: string;
@@ -58,6 +59,7 @@ export type TableOrderDetailType = {
     endDate?: string;
     user?: {
       username?: string;
+      name?: string;
     };
   };
 };

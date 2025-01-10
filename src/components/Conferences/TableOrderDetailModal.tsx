@@ -1,4 +1,9 @@
-import { dataSavedAtom, detailOpenAtom, tableOrderDetailAtom } from "@/atom";
+import {
+  dataSavedAtom,
+  detailOpenAtom,
+  tableNumberAtom,
+  tableOrderDetailAtom,
+} from "@/atom";
 import React, { useState } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { formatInTimeZone } from "date-fns-tz";
@@ -15,6 +20,7 @@ const TableOrderDetailModal: React.FC = () => {
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
 
   const tableOrderDetail = useRecoilValue(tableOrderDetailAtom);
+  const tableNumber = useRecoilValue(tableNumberAtom);
   const [isOpen, setIsOpen] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [tableOrderId, setTableOrderId] = useState(0);
@@ -51,7 +57,9 @@ const TableOrderDetailModal: React.FC = () => {
         <div className=" rounded-2xl  bg-white  p-5 px-8 text-center">
           <div className="  w-full  ">
             <div className="flex justify-between items-center border-b border-[#EEEEEE] pb-3 h-[55px]">
-              <div className="font-bold">1번 테이블 예약 현황</div>
+              <div className="font-bold">
+                {Number(tableNumber)} 번 테이블 예약 현황
+              </div>
               <div></div>
               <div className="">
                 <RiCloseFill
@@ -64,31 +72,51 @@ const TableOrderDetailModal: React.FC = () => {
               <div
                 className={` mx-auto h-[500px]  overflow-y-auto pt-5 text-left text-sm`}
               >
-                <div className="mb-5"> 현재 예약팀</div>
+                <div className="mb-5 font-bold">
+                  {" "}
+                  현재 예약팀{" "}
+                  <span className="text-cyan-500 ">
+                    {tableOrderDetail?.length}
+                  </span>
+                </div>
                 {tableOrderDetail?.map((item, index) => (
                   <div
                     key={index}
                     className="flex w-full items-center border border-[#EEEEEE] rounded-xl px-5 h-[60px] text-[16px] mb-3"
                   >
                     <div className="min-w-[150px] px-2">
-                      {item?.exhibitionConference?.user?.username}
+                      {item?.exhibitionConference?.user?.username} /{" "}
+                      {item?.exhibitionConference?.user?.name}
                     </div>
                     <div className="w-full px-2 text-[#666666]">
                       {item?.exhibitionConference?.startDate
                         ? formatInTimeZone(
                             parseISO(item?.exhibitionConference?.startDate),
                             "UTC",
-                            "yyyy-MM-dd"
+                            "yyyy-MM-dd / HH:mm"
                           )
                         : ""}{" "}
-                      ~{" "}
+                      -{" "}
                       {item?.exhibitionConference?.endDate
                         ? formatInTimeZone(
                             parseISO(item?.exhibitionConference?.endDate),
                             "UTC",
-                            "yyyy-MM-dd "
+                            "HH:mm"
                           )
                         : ""}
+                      {/* {item?.exhibitionConference?.startDate
+                        ? format(
+                            item?.exhibitionConference?.startDate as string,
+                            "yyyy-MM-dd HH:mm"
+                          )
+                        : ""}{" "}
+                      ~{" "}
+                      {item?.exhibitionConference?.endDate
+                        ? format(
+                            item?.exhibitionConference?.endDate as string,
+                            "yyyy-MM-dd HH:mm"
+                          )
+                        : ""} */}
                     </div>
                     <div className="min-w-[80px] px-2 text-center">
                       <button
