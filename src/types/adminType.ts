@@ -225,6 +225,22 @@ export type CommunityListType = {
   };
 };
 
+export type CommunityManageListType = {
+  communityId?: number;
+  memberCount?: number;
+  title?: string;
+  request?: string;
+  userId?: number;
+  user?: {
+    name?: string;
+  };
+  communityUsers?: {
+    participationText?: string;
+    personCnt?: number;
+    participation?: string;
+  };
+};
+
 export type AdminUsersType = {
   adminId?: number;
   roleId?: number;
@@ -546,4 +562,18 @@ export type NoticeType = {
   title?: string;
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type CommunityUsersListType = {
+  communityId?: number;
+  id?: number;
+  title?: string;
+  request?: string;
+  userId?: number;
+  member?: {
+    company_name?: string;
+    img?: string;
+    name?: string;
+    position?: string;
+  };
 };
