@@ -893,3 +893,51 @@ export const updateConferenceStatus = async (
     console.error("Error fetching data:", error);
   }
 };
+
+export const getConferenceCommunityManageList = async (
+  token: string,
+  page: number,
+  size: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community_manage/list?page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getCommunityUsersList = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community_manage/${id}/members`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
