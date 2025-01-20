@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import {
-  deleteUser,
+  exhibitionUsersDeleteMulti,
   getSearchOptionList,
   getUsersDetail,
   userDetailOptionList,
@@ -73,7 +73,8 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
   const setUserDetail = useSetRecoilState(userDetailAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
   const setUserExhibition = useSetRecoilState(userExhibitionListAtom);
-
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [deleteAlertMessage, setDeleteAlertMessage] = useState("");
   const setUsersAddExhibitionList = useSetRecoilState(
     usersAddExhibitionListAtom
   );
@@ -91,6 +92,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
 
   const closeModal = () => {
     setIsOpen(false);
+    setDeleteAlert(false);
   };
 
   const handlePageLimit = (value: string) => {
@@ -118,13 +120,23 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
 
   const userDelete = async () => {
     const userToken = getToken();
+    const result = checkedElements.join(",");
+    const exhibitionId = searchParams.get("exhibitionId");
 
-    checkedElements.forEach(async (element) => {
-      await deleteUser(String(userToken), Number(element));
-    });
-    getData();
-    setChechedElements([]);
-    setIsOpen(false);
+    const res = await exhibitionUsersDeleteMulti(
+      String(userToken),
+      Number(exhibitionId),
+      result
+    );
+
+    if (res?.status) {
+      getData();
+      setChechedElements([]);
+      setIsOpen(false);
+    } else {
+      setDeleteAlertMessage(String(res?.result));
+      setDeleteAlert(true);
+    }
   };
 
   const UserDetail = async (userId: number) => {
@@ -343,6 +355,24 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
                   className="rounded-md bg-red px-3 py-1 text-white "
                 >
                   삭제{" "}
+                </button>
+              </div>
+            </CustomModal>
+          ) : (
+            ""
+          )}
+          {deleteAlert ? (
+            <CustomModal>
+              <h2 className="text-xl text-black"></h2>
+              <div className="mb-2 mt-4 text-sm text-rose-400">
+                {deleteAlertMessage}
+              </div>
+              <div className="flex w-full items-center justify-center gap-4">
+                <button
+                  onClick={closeModal}
+                  className="rounded-md bg-slate-500 px-3 py-1 text-white"
+                >
+                  취소{" "}
                 </button>
               </div>
             </CustomModal>

@@ -96,12 +96,12 @@ const ExhibitionUsersList = ({ url }: Props) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
+    const option = optionType ? optionType : "all";
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
     const status = optionStatus ? `&status=${optionStatus}` : "";
-    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const searchUrl = `searchType=${option}${search}${start}${end}${status}`;
     const newUrl = decodeURIComponent(searchUrl);
 
     router.push(`/${url}?${newUrl}`);
