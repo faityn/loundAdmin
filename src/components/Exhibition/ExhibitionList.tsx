@@ -34,6 +34,7 @@ import Loader from "../common/Loader";
 import { FaChevronDown } from "react-icons/fa";
 import ExhibitionDetailModal from "./ExhibitionDetailModal";
 import { formatInTimeZone } from "date-fns-tz";
+import CustomModal from "../Modal/Confirm";
 
 interface Props {
   url?: string;
@@ -65,6 +66,8 @@ const ExhibitionList = ({ url }: Props) => {
   const dataSaved = useRecoilValue(dataSavedAtom);
   const detailOpen = useRecoilValue(detailOpenAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [deleteAlertMessage, setDeleteAlertMessage] = useState("");
 
   const openModal = () => {
     setIsOpen(true);
@@ -72,17 +75,23 @@ const ExhibitionList = ({ url }: Props) => {
 
   const closeModal = () => {
     setIsOpen(false);
+    setDeleteAlert(false);
   };
 
   const userDelete = async () => {
     const userToken = getToken();
 
     checkedElements.forEach(async (element) => {
-      await deleteExhibition(String(userToken), Number(element));
+      const res = await deleteExhibition(String(userToken), Number(element));
+      if (res?.status) {
+        getData();
+        setChechedElements([]);
+        setIsOpen(false);
+      } else {
+        setDeleteAlertMessage(String(res?.result));
+        setDeleteAlert(true);
+      }
     });
-    getData();
-    setChechedElements([]);
-    setIsOpen(false);
   };
 
   const statusChange = async (status: string) => {
@@ -311,6 +320,25 @@ const ExhibitionList = ({ url }: Props) => {
                 </div>
               </div>
             </DeleteConfirm>
+          ) : (
+            ""
+          )}
+
+          {deleteAlert ? (
+            <CustomModal>
+              <h2 className="text-xl text-black"></h2>
+              <div className="mb-2 mt-4 text-sm text-rose-400">
+                {deleteAlertMessage}
+              </div>
+              <div className="flex w-full items-center justify-center gap-4">
+                <button
+                  onClick={closeModal}
+                  className="rounded-md bg-slate-500 px-3 py-1 text-white"
+                >
+                  취소{" "}
+                </button>
+              </div>
+            </CustomModal>
           ) : (
             ""
           )}

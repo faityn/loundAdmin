@@ -55,13 +55,14 @@ const ExhibitionLecturesList = ({ url }: Props) => {
   const optionStatus = useRecoilValue(optionStatusAtom);
   const optionType = useRecoilValue(optionTypeAtom);
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
-
+  const [deleteAlert, setDeleteAlert] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsOpen(false);
+    setDeleteAlert(false);
   };
 
   const handlePageLimit = (value: string) => {
@@ -70,13 +71,16 @@ const ExhibitionLecturesList = ({ url }: Props) => {
 
   const userDelete = async () => {
     const userToken = getToken();
+    const result = checkedElements.join(",");
+    const res = await deleteExhibitionLectures(String(userToken), result);
 
-    checkedElements.forEach(async (element) => {
-      await deleteExhibitionLectures(String(userToken), Number(element));
-    });
-    getData();
-    setChechedElements([]);
-    setIsOpen(false);
+    if (res?.status) {
+      getData();
+      setChechedElements([]);
+      setIsOpen(false);
+    } else {
+      setDeleteAlert(true);
+    }
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
@@ -98,12 +102,12 @@ const ExhibitionLecturesList = ({ url }: Props) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
+    const option = optionType ? optionType : "all";
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
     const status = optionStatus ? `&status=${optionStatus}` : "";
-    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const searchUrl = `searchType=${option}${search}${start}${end}${status}`;
     const newUrl = decodeURIComponent(searchUrl);
 
     router.push(`${url}?${newUrl}`);
@@ -160,8 +164,8 @@ const ExhibitionLecturesList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-    
-if (response) {
+
+    if (response) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
       setTotalPage(totalPage);
       setItemsList(response?.rows);
@@ -217,26 +221,26 @@ if (response) {
                 <FaChevronDown />
               </span>
             </div>
-          {menuPermission?.status === "write" ? (
-            <>
-              <Link
-                href={"/exhibition/lectures/create"}
-                className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
-              >
-                생성
-              </Link>
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-md disabled:bg-slate-300 bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
-                onClick={openModal}
-                disabled={checkedElements?.length > 0 ? false : true}
-              >
-                삭제
-              </button>
-            </>
-          ) : (
-            ""
-          )}
+            {menuPermission?.status === "write" ? (
+              <>
+                <Link
+                  href={"/exhibition/lectures/create"}
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
+                >
+                  생성
+                </Link>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md disabled:bg-slate-300 bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90"
+                  onClick={openModal}
+                  disabled={checkedElements?.length > 0 ? false : true}
+                >
+                  삭제
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
           {isOpen ? (
             <CustomModal>
@@ -256,6 +260,26 @@ if (response) {
                   className="rounded-md bg-red px-3 py-1 text-white "
                 >
                   삭제{" "}
+                </button>
+              </div>
+            </CustomModal>
+          ) : (
+            ""
+          )}
+
+          {deleteAlert ? (
+            <CustomModal>
+              <h2 className="text-xl text-black"></h2>
+              <div className="mb-2 mt-4 text-sm text-rose-400">
+                참가자 일정에 등록된 강연입니다. 참가자 일정 취소 또는 참가자를
+                행사에서 삭제 후 삭제를 시도해주세요.
+              </div>
+              <div className="flex w-full items-center justify-center gap-4">
+                <button
+                  onClick={closeModal}
+                  className="rounded-md bg-slate-500 px-3 py-1 text-white"
+                >
+                  취소{" "}
                 </button>
               </div>
             </CustomModal>

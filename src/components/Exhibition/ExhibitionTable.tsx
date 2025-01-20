@@ -23,6 +23,7 @@ import { UserExhibitionTablesType } from "@/types/adminType";
 import { getExhibitionDetail } from "@/hooks/useEvents";
 import { formatInTimeZone } from "date-fns-tz";
 import { parseISO } from "date-fns";
+import CustomModal from "../Modal/Confirm";
 interface Props {
   url?: string;
   id: number;
@@ -50,6 +51,7 @@ const ExhibitionTable = ({ id, url }: Props) => {
   const [exhibitionTableArray, setExhibitionTableArray] = useRecoilState(
     userExhibitionTablesAtom
   );
+  const [deleteAlert, setDeleteAlert] = useState(false);
 
   const {
     handleSubmit,
@@ -93,6 +95,7 @@ const ExhibitionTable = ({ id, url }: Props) => {
   };
 
   const closeError = () => {
+    setDeleteAlert(false);
     setCreateError(false);
   };
 
@@ -152,17 +155,21 @@ const ExhibitionTable = ({ id, url }: Props) => {
     }
   };
 
-  const tableRemove = (index: number) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updatedArray = exhibitionTableArray?.map((item: any, i: number) =>
-      i === index
-        ? {
-            ...item,
-            tableAction: "delete",
-          }
-        : item
-    );
-    setExhibitionTableArray(updatedArray);
+  const tableRemove = (index: number, status: boolean) => {
+    if (status) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const updatedArray = exhibitionTableArray?.map((item: any, i: number) =>
+        i === index
+          ? {
+              ...item,
+              tableAction: "delete",
+            }
+          : item
+      );
+      setExhibitionTableArray(updatedArray);
+    } else {
+      setDeleteAlert(true);
+    }
   };
 
   const onSubmit: SubmitHandler<FormData> = async () => {
@@ -264,10 +271,10 @@ const ExhibitionTable = ({ id, url }: Props) => {
                         </div>
                         <div className="w-full ">
                           <RiDeleteBinLine
-                            className={`text-xl cursor-pointer ${
-                              val?.action ? "" : "hidden"
-                            }`}
-                            onClick={() => tableRemove(index)}
+                            className={`text-xl cursor-pointer `}
+                            onClick={() =>
+                              tableRemove(index, val?.action ? true : false)
+                            }
                           />
                         </div>
                       </div>
@@ -341,6 +348,26 @@ const ExhibitionTable = ({ id, url }: Props) => {
         ) : (
           ""
         )}
+
+        {deleteAlert ? (
+          <CustomModal>
+            <h2 className="text-xl text-black"> </h2>
+            <div className="mb-2 mt-4 text-sm text-rose-400">
+              회의 예약된 테이블입니다. 예약 확인 후 삭제 시도해주세요.
+            </div>
+            <div className="flex w-full items-center justify-center gap-4">
+              <button
+                onClick={closeError}
+                className="rounded-md bg-slate-500 px-3 py-1 text-white"
+              >
+                취소{" "}
+              </button>
+            </div>
+          </CustomModal>
+        ) : (
+          ""
+        )}
+
         {loading ? <Loader /> : ""}
       </div>
     </div>

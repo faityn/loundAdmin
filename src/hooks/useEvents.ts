@@ -337,12 +337,16 @@ export const updateExhibitionLectures = async (formdata: FormData) => {
   }
 };
 
-export const deleteExhibitionLectures = async (token: string, id: number) => {
+export const deleteExhibitionLectures = async (token: string, ids: string) => {
   try {
+    const raw = JSON.stringify({
+      ids: ids,
+    });
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lecture/delete/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lecture/delete_multy`,
       {
         method: "DELETE",
+        body: raw,
         headers: {
           Authorization: `Bearer ${token}`,
         },

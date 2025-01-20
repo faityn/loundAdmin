@@ -10,10 +10,10 @@ interface Props {
 const Pagination = ({ currentPage, pageUrl }: Props) => {
   const nPages = useRecoilValue(totalPageAtom);
   const currPage = currentPage - 1;
-  const startPage = currentPage - 3;
+  const startPage = currentPage - 2;
 
   const pageNumbers =
-    currPage <= 3
+    currPage <= 1
       ? [...Array.from(Array(nPages).keys())].slice(0, 5)
       : [...Array.from(Array(nPages).keys())].slice(startPage, currentPage + 2);
 

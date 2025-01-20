@@ -179,6 +179,36 @@ export const deleteUser = async (token: string, id: number) => {
   }
 };
 
+export const exhibitionUsersDeleteMulti = async (
+  token: string,
+  exhibitionId: number,
+  userIds: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      exhibitionId: exhibitionId,
+      ids: userIds,
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/users/delete_multy`,
+      {
+        method: "DELETE",
+        body: raw,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getSearchOptionList = async (token: string) => {
   try {
     const response = await fetch(
@@ -589,8 +619,6 @@ export const getOrganizerSearchOptionList = async (token: string) => {
 
 export const deleteOrganizer = async (token: string, ids: string) => {
   try {
-    console.log(ids);
-
     const raw = JSON.stringify({
       ids: ids,
     });
