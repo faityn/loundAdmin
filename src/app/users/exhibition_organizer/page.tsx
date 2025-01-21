@@ -14,7 +14,7 @@ const UsersPage = () => {
       <Breadcrumb parentName="회원 관리" pageName="행사 주최사 관리" />
 
       <div className="flex flex-col gap-10">
-        <ExhibitionOrganizerList url="users/exhibition_organizer" />
+        <ExhibitionOrganizerList />
       </div>
     </DefaultLayout>
   );
