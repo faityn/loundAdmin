@@ -1,5 +1,4 @@
 import { createExOrganizerOpenAtom, dataSavedAtom } from "@/atom";
-import { encrypt } from "@/helper/utility";
 import React, { useState } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
 
@@ -15,13 +14,6 @@ import { LuAlertCircle } from "react-icons/lu";
 import Loader from "../common/Loader";
 interface FormData {
   companyName: string;
-  username: string;
-  firstName: string;
-  pass: string;
-  email: string;
-  phone: string;
-  img: string;
-  status: string;
 }
 
 const ExhibitionOrganizerCreateModal: React.FC = () => {
@@ -30,8 +22,6 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
   const [createError, setCreateError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const [useStatus, setUseStatus] = useState("");
 
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
@@ -51,28 +41,15 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
     setCreateError(false);
   };
 
-  const changeStatus = (val: string) => {
-    setUseStatus(val);
-  };
-
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setLoading(true);
     const userToken = getToken();
+    const name = data.companyName;
 
-    const encryptedPass = encrypt(data.pass);
-    const formdata = new FormData();
-    formdata.append("token", String(userToken));
-
-    formdata.append("username", data.username);
-    formdata.append("password", String(encryptedPass));
-    formdata.append("firstName", data.firstName);
-
-    formdata.append("companyName", data.companyName);
-    formdata.append("email", data.email);
-    formdata.append("phone", data.phone);
-    formdata.append("status", useStatus);
-
-    const res = await createExhibitionOrganizer(String(userToken), formdata);
+    const res = await createExhibitionOrganizer(
+      String(userToken),
+      String(name)
+    );
 
     if (res?.status) {
       setIsOpen(true);
@@ -102,7 +79,7 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
             </div>
             <div className="overflow-y-auto">
               <div
-                className={` mx-auto h-[650px] max-w-[524px] pt-10 text-left text-[16px]`}
+                className={` mx-auto h-[400px] max-w-[524px] pt-10 text-left text-[16px]`}
               >
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-5 flex gap-1 items-center">
@@ -119,192 +96,6 @@ const ExhibitionOrganizerCreateModal: React.FC = () => {
                       />
                       {errors.companyName && (
                         <span className="text-xs font-medium text-red">
-                          입력해주세요
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className=" mb-5 flex gap-1 items-center">
-                    <div className="min-w-[124px] text-[#666666]">대표자명</div>
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        {...register("firstName", {
-                          required: true,
-                        })}
-                        className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
-                      />
-                      {errors.firstName && (
-                        <span className="text-xs font-medium text-red ">
-                          입력해주세요
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className=" mb-5 flex gap-1 items-center">
-                    <div className="min-w-[124px] text-[#666666]">
-                      대표 연락처
-                    </div>
-                    <div className="w-full">
-                      <input
-                        type="number"
-                        {...register("phone", {
-                          required: true,
-                          minLength: 6,
-                        })}
-                        className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
-                      />
-                      {errors.phone && (
-                        <span className="text-xs font-medium text-red ">
-                          입력해주세요 min length 6
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className=" mb-5 flex gap-1 items-center">
-                    <div className="min-w-[124px] text-[#666666]">
-                      대표 이메일
-                    </div>
-                    <div className="w-full">
-                      <input
-                        type="email"
-                        {...register("email", {
-                          required: true,
-                        })}
-                        className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
-                      />
-                      {errors.email && (
-                        <span className="text-xs font-medium text-red ">
-                          입력해주세요
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className=" mb-5 flex gap-1 items-center">
-                    <div className="min-w-[124px] text-[#666666]">아이디</div>
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        {...register("username", {
-                          required: true,
-                        })}
-                        className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
-                      />
-                      {errors.username && (
-                        <span className="text-xs font-medium text-red ">
-                          입력해주세요
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className=" mb-5 flex gap-1 items-center">
-                    <div className="min-w-[124px] text-[#666666]">비밀번호</div>
-                    <div className="w-full">
-                      <input
-                        type="password"
-                        {...register("pass", {
-                          required: true,
-                        })}
-                        autoComplete="new-password"
-                        placeholder="**********"
-                        className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
-                      />
-                      {errors.pass && (
-                        <span className="text-xs font-medium text-red ">
-                          입력해주세요
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mb-3 pt-3">
-                    <div className="">
-                      <div className="flex items-center gap-8">
-                        <div className="mr-18 text-[#666666]">상태</div>
-                        <div className="flex gap-8">
-                          <div>
-                            <label
-                              htmlFor="use"
-                              className="flex cursor-pointer select-none items-center"
-                            >
-                              <div className="relative">
-                                <input
-                                  type="radio"
-                                  id="use"
-                                  {...register("status", {
-                                    required: true,
-                                  })}
-                                  value="use"
-                                  className="sr-only"
-                                  onChange={(e) => {
-                                    changeStatus(e.target.value);
-                                  }}
-                                />
-                                <div
-                                  className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                                    useStatus === "use"
-                                      ? "border-[#002453]"
-                                      : "border-[#DBDBDB]"
-                                  }`}
-                                >
-                                  <span
-                                    className={`h-2.5 w-2.5 rounded-full  ${
-                                      useStatus === "use"
-                                        ? "!bg-[#002453]"
-                                        : "!bg-[#DBDBDB]"
-                                    }`}
-                                  >
-                                    {" "}
-                                  </span>
-                                </div>
-                              </div>
-                              활성
-                            </label>
-                          </div>
-                          <div className="flex gap-5">
-                            <label
-                              htmlFor="notUse"
-                              className="flex cursor-pointer select-none items-center"
-                            >
-                              <div className="relative">
-                                <input
-                                  type="radio"
-                                  {...register("status", {
-                                    required: true,
-                                  })}
-                                  id="notUse"
-                                  value="disabled"
-                                  className="sr-only"
-                                  onChange={(e) => {
-                                    changeStatus(e.target.value);
-                                  }}
-                                />
-                                <div
-                                  className={`mr-4 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                                    useStatus === "disabled"
-                                      ? "border-[#002453]"
-                                      : "border-[#DBDBDB]"
-                                  }`}
-                                >
-                                  <span
-                                    className={`h-2.5 w-2.5 rounded-full  ${
-                                      useStatus === "disabled"
-                                        ? "!bg-[#002453]"
-                                        : "bg-[#DBDBDB]"
-                                    }`}
-                                  >
-                                    {" "}
-                                  </span>
-                                </div>
-                              </div>
-                              비활성
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      {errors.status && (
-                        <span className="text-xs font-medium text-red ">
                           입력해주세요
                         </span>
                       )}

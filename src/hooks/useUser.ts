@@ -507,7 +507,7 @@ export const getExhibitionOrganizerDetail = async (
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admin_exhibition/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/company/${id}`,
       {
         method: "GET",
         headers: {
@@ -528,25 +528,20 @@ export const getExhibitionOrganizerDetail = async (
 
 export const createExhibitionOrganizer = async (
   token: string,
-  formdata: FormData
+  name: string
 ) => {
-  const formData2 = new FormData();
-
-  formData2.append("username", formdata.get("username") as string);
-  formData2.append("password", formdata.get("password") as string);
-  formData2.append("firstName", formdata.get("firstName") as string);
-  formData2.append("companyName", formdata.get("companyName") as string);
-  formData2.append("email", formdata.get("email") as string);
-  formData2.append("phone", formdata.get("phone") as string);
-  formData2.append("status", formdata.get("status") as string);
+  const raw = JSON.stringify({
+    name: name,
+  });
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admin_exhibition/create`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/company/create`,
       {
         method: "POST",
-        body: formData2,
+        body: raw,
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
@@ -562,27 +557,21 @@ export const createExhibitionOrganizer = async (
 
 export const updateExhibitionOrganizer = async (
   token: string,
-  formdata: FormData
+  id: number,
+  name: string
 ) => {
-  const formData2 = new FormData();
-  formData2.append("adminId", formdata.get("adminId") as string);
-  if (formdata.get("password")) {
-    formData2.append("password", formdata.get("password") as string);
-  }
-
-  formData2.append("firstName", formdata.get("firstName") as string);
-  formData2.append("companyName", formdata.get("companyName") as string);
-  formData2.append("email", formdata.get("email") as string);
-  formData2.append("phone", formdata.get("phone") as string);
-  formData2.append("status", formdata.get("status") as string);
+  const raw = JSON.stringify({
+    name: name,
+  });
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admin_exhibition/update`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/company/${id}/update`,
       {
         method: "POST",
-        body: formData2,
+        body: raw,
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
@@ -623,9 +612,9 @@ export const deleteOrganizer = async (token: string, ids: string) => {
       ids: ids,
     });
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admin_exhibition/delete_multy`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/company/delete`,
       {
-        method: "POST",
+        method: "DELETE",
         body: raw,
         headers: {
           "Content-Type": "application/json",
@@ -639,6 +628,57 @@ export const deleteOrganizer = async (token: string, ids: string) => {
 
     const data = await response.text();
     return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getCompanyList = async (
+  token: string,
+  searchUrl: string,
+  page: number,
+  size: number
+) => {
+  const search = searchUrl;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/company/list?${search}&page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getCompanyAllList = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/company/list?page=1&pageSize=500`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }

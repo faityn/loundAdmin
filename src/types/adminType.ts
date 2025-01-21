@@ -43,6 +43,10 @@ export type ExhibitionType = {
     firstName?: string;
     companyName?: string;
   };
+  company?: {
+    id?: number;
+    name?: string;
+  };
 };
 
 export type TableOrderDetailType = {
@@ -545,10 +549,8 @@ export type UserInfoType = {
 };
 
 export type ExhibitionOrganizerListType = {
-  adminId?: number;
-  statusText?: string;
-  username?: string;
-  firstName?: string;
+  id?: number;
+
   companyName?: string;
   phone?: string;
   email: string;
@@ -576,4 +578,11 @@ export type CommunityUsersListType = {
     name?: string;
     position?: string;
   };
+};
+
+export type CompanyListType = {
+  id?: number;
+  name?: string;
+
+  use: boolean;
 };

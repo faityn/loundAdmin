@@ -2,6 +2,7 @@
 import {
   checkedInterestsListAtom,
   checkedPurposesListAtom,
+  companyListAtom,
   endDateAtom,
   exhibitionDetailAtom,
   exhibitionOptionAtom,
@@ -17,7 +18,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { getInterestsOptions } from "@/hooks/useData";
-import { FaRegCheckCircle } from "react-icons/fa";
+import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
 import AlertModal from "../Modal/AlertModal";
 import { LuAlertCircle } from "react-icons/lu";
 import NotFound from "../common/NotFound";
@@ -28,13 +29,14 @@ import TextEditor from "../Editor/TextEditor";
 import { formatInTimeZone } from "date-fns-tz";
 import EndDatePicker from "../common/EndDatePicker";
 import StartDatePicker from "../common/StartDatePicker";
+import { getCompanyAllList } from "@/hooks/useUser";
 interface Props {
   id: number;
   url?: string;
 }
 
 interface FormData {
-  company_name: string;
+  companyId: string;
   title: string;
   subtitle: string;
   startDate: string;
@@ -60,6 +62,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const [optionsList, setOptionsList] = useRecoilState(exhibitionOptionAtom);
+  const [optionValue, setOptionValue] = useState(0);
   const [contentRequired, setContentRequired] = useState(false);
   const [checkedInterests, setChechedInterests] = useRecoilState(
     checkedInterestsListAtom
@@ -68,6 +71,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
     checkedPurposesListAtom
   );
   const menuPermission = useRecoilValue(menuPermissionAtom);
+  const [companyList, setCompanyList] = useRecoilState(companyListAtom);
 
   const {
     register,
@@ -87,6 +91,12 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
     const response = await getInterestsOptions(String(userToken));
 
     setOptionsList([response?.result]);
+
+    const res = await getCompanyAllList(String(userToken));
+
+    if (res) {
+      setCompanyList(res?.rows);
+    }
   };
   const getData = async () => {
     const userToken = getToken();
@@ -119,10 +129,15 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
 
       setContentValue(response?.result?.description);
       setUseStatus(response?.result?.status);
+      setOptionValue(response?.result?.companyId);
       setItemsDetail([response?.result]);
     } else {
       setNotFound(true);
     }
+  };
+
+  const handleOption = (val: string) => {
+    setOptionValue(Number(val));
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -198,10 +213,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       const formdata = new FormData();
       formdata.append("token", String(token));
       formdata.append("exhibitionId", String(id));
-      formdata.append(
-        "company_name",
-        data.company_name ? data.company_name : ""
-      );
+      formdata.append("companyId", data.companyId ? data.companyId : "");
       formdata.append("title", data.title ? data.title : "");
       formdata.append("short_desc", data.subtitle ? data.subtitle : "");
       formdata.append("startDate", startDate);
@@ -242,26 +254,43 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            회사 이름
+                            회사 선택하기
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                          <input
-                            type="text"
-                            {...register("company_name", {
-                              required: true,
-                            })}
-                            defaultValue={item?.company_name}
-                            placeholder="제목 입력해주세요"
-                            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                          />
-                          {errors.company_name && (
-                            <span className="font-medium text-red ">
-                              입력해주세요
+                          <div className="relative z-20 bg-transparent dark:bg-form-input w-full">
+                            <select
+                              {...register(`companyId`, {
+                                required: true,
+                              })}
+                              value={optionValue}
+                              onChange={(e) => handleOption(e.target.value)}
+                              className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-bodydark`}
+                            >
+                              <option
+                                value=""
+                                className="text-black dark:text-white"
+                              >
+                                선택
+                              </option>
+                              {companyList?.map((item, index) => (
+                                <option
+                                  key={index}
+                                  value={item?.id}
+                                  className="text-black dark:text-white"
+                                >
+                                  {item?.name}{" "}
+                                </option>
+                              ))}
+                            </select>
+
+                            <span className="absolute right-4 top-1/2 z-30 -translate-y-1/2 text-black">
+                              <FaChevronDown />
                             </span>
-                          )}
+                          </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">

@@ -8,6 +8,7 @@ import {
   CommunityListType,
   CommunityManageListType,
   CommunityUsersListType,
+  CompanyListType,
   ConferenceOptionType,
   ConferenceType,
   ExhibitionLecturesType,
@@ -396,7 +397,7 @@ export const organizerAllListAtom = atom<ExhibitionOrganizerListType[]>({
   default: [],
 });
 
-export const organizerDetailAtom = atom<ExhibitionOrganizerListType[]>({
+export const organizerDetailAtom = atom<CompanyListType[]>({
   key: "organizerDetailAtom",
   default: [],
 });
@@ -443,5 +444,10 @@ export const communityManageListAtom = atom<CommunityManageListType[]>({
 
 export const communityUsersAtom = atom<CommunityUsersListType[]>({
   key: "communityUsersAtom",
+  default: [],
+});
+
+export const companyListAtom = atom<CompanyListType[]>({
+  key: "companyListAtom",
   default: [],
 });
