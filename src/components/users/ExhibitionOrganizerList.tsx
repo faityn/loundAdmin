@@ -2,46 +2,36 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   checkedListAtom,
+  companyListAtom,
   createExOrganizerOpenAtom,
   dataSavedAtom,
   detailOpenAtom,
-  endDateAtom,
   menuPermissionAtom,
-  optionStatusAtom,
-  optionTypeAtom,
-  organizerAllListAtom,
   organizerDetailAtom,
   searchOptionsAtom,
-  searchWordAtom,
-  startDateAtom,
   totalPageAtom,
   userDetailOptionsAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import {
   deleteOrganizer,
+  getCompanyList,
   getExhibitionOrganizerDetail,
-  getExhibitionOrganizerList,
   getOrganizerSearchOptionList,
   userDetailOptionList,
 } from "@/hooks/useUser";
 import CustomModal from "../Modal/Confirm";
 import getToken from "@/helper/getToken";
 
-import SearchFields from "../common/SearchFields";
 import Loader from "../common/Loader";
-import { format } from "date-fns";
 import { FaChevronDown } from "react-icons/fa";
 
 import ExhibitionOrganizerCreateModal from "./ExhibitionOrganizerCreateModal";
 import ExhibitionOrganizerDetailModal from "./ExhibitionOrganizerDetailModal";
-interface Props {
-  url?: string;
-}
-const ExhibitionOrganizerList = ({ url }: Props) => {
-  const router = useRouter();
+
+const ExhibitionOrganizerList = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -55,18 +45,13 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
   const [createModalOpen, setCreateModalOpen] = useRecoilState(
     createExOrganizerOpenAtom
   );
-  const [organizerAllList, setOrganizerAllList] = useRecoilState(
-    organizerAllListAtom
-  );
+  const [companyList, setCompanyList] = useRecoilState(companyListAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
   const setUserDetailOptions = useSetRecoilState(userDetailOptionsAtom);
-  const startDate = useRecoilValue(startDateAtom);
-  const endDate = useRecoilValue(endDateAtom);
-  const optionType = useRecoilValue(optionTypeAtom);
+
   const [loading, setLoading] = useState<boolean>(false);
-  const optionStatus = useRecoilValue(optionStatusAtom);
-  const searchWord = useRecoilValue(searchWordAtom);
+
   const setOrganizerDetail = useSetRecoilState(organizerDetailAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
 
@@ -88,33 +73,6 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
     setPageLimit(value);
   };
 
-  const handleSubmit = async () => {
-    setLoading(true);
-
-    const search = searchWord ? `&search=${searchWord}` : "";
-    const start = startDate ? `&startDate=${startDate}` : "";
-    const end = endDate ? `&endDate=${endDate}` : "";
-    const status = optionStatus ? `&status=${optionStatus}` : "";
-    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
-    const newUrl2 = decodeURIComponent(searchUrl);
-    const userToken = getToken();
-    router.push(`/${url}?${newUrl2}`);
-
-    const response = await getExhibitionOrganizerList(
-      String(userToken),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      newUrl2 as string,
-      Number(page),
-      Number(size)
-    );
-
-    const totalPage = Math.ceil(Number(response?.count) / Number(size));
-    setTotalPage(totalPage);
-    setOrganizerAllList(response?.rows);
-    //window.location.href = `/${url}?${newUrl}`;
-    setLoading(false);
-  };
-
   const OrganizerDelete = async () => {
     const userToken = getToken();
     const result = checkedElements.join(",");
@@ -126,6 +84,7 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
   };
 
   const OrganizerDetail = async (organizerId: number) => {
+    setLoading(true);
     setDataSaved(false);
     const userToken = getToken();
     const optionList = await userDetailOptionList(String(userToken));
@@ -135,17 +94,19 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
       String(userToken),
       Number(organizerId)
     );
+
     if (response) {
       setOrganizerDetail([response]);
     }
 
     setDetailOpen(true);
+    setLoading(false);
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
-      const allIds = organizerAllList?.map((data) => {
-        return data?.adminId;
+      const allIds = companyList?.map((data) => {
+        return data?.id;
       });
       setChechedElements(() =>
         e.target.checked ? (([...allIds] as unknown) as string[]) : []
@@ -189,16 +150,17 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
     const newUrl = decodeURIComponent(searchUrl);
     setNewUrl(newUrl);
     const userToken = getToken();
-    const response = await getExhibitionOrganizerList(
+    const response = await getCompanyList(
       String(userToken),
       newUrl as string,
       Number(page),
       Number(size)
     );
+
     if (response) {
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
       setTotalPage(totalPage);
-      setOrganizerAllList(response?.rows);
+      setCompanyList(response?.rows);
     }
   };
 
@@ -217,18 +179,7 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
   }, [searchParams, pageLimit]);
   return (
     <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
-      <div>
-        <SearchFields
-          handleSubmit={handleSubmit}
-          searchType={searchParams.get("searchType") as string}
-          search={searchParams.get("search") as string}
-          start={searchParams.get("startDate") as string}
-          end={searchParams.get("endDate") as string}
-          status={searchParams.get("status") as string}
-          dateStatus={true}
-        />
-        {loading ? <Loader /> : ""}
-      </div>
+      <div>{loading ? <Loader /> : ""}</div>
       <div className="grid grid-cols-12  pb-4">
         <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
@@ -328,20 +279,20 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
                       className="sr-only"
                       onChange={(e) => handleCheck(e, "all")}
                       checked={
-                        checkedElements.length === organizerAllList?.length
+                        checkedElements.length === companyList?.length
                           ? true
                           : false
                       }
                     />
                     <div
                       className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
-                        checkedElements.length === organizerAllList?.length &&
+                        checkedElements.length === companyList?.length &&
                         "border-primary bg-gray dark:bg-transparent"
                       }`}
                     >
                       <span
                         className={`h-2 w-2 rounded-sm ${
-                          checkedElements.length === organizerAllList?.length &&
+                          checkedElements.length === companyList?.length &&
                           "bg-primary"
                         }`}
                       ></span>
@@ -349,62 +300,46 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
                   </div>
                 </label>
               </th>
-              <th className="min-w-50px] px-4 py-2 font-medium text-black dark:text-white ">
+              <th className="w-[100px] px-4 py-2 font-medium text-black dark:text-white ">
                 번호
               </th>
 
               <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
                 회사 이름
               </th>
-              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                아이디
-              </th>
-              <th className="min-w-[120px] px-4 py-2 font-medium text-black dark:text-white">
-                대표자명
-              </th>
-              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                연락처
-              </th>
-              <th className="min-w-[150px] px-4 py-2 font-medium text-black dark:text-white ">
-                등록일
-              </th>
-
-              <th className="min-w-[130px] px-4 py-2 font-medium text-black dark:text-white">
-                상태
-              </th>
             </tr>
           </thead>
           <tbody>
-            {organizerAllList?.map((item, index) => (
+            {companyList?.map((item, index) => (
               <tr key={index}>
                 <td className="border-b  border-[#eee] px-3 py-3  dark:border-strokedark ">
                   <label
-                    htmlFor={String(item?.adminId)}
+                    htmlFor={String(item?.id)}
                     className="flex cursor-pointer select-none items-center"
                   >
                     <div className="relative">
                       <input
                         type="checkbox"
-                        id={String(item?.adminId)}
+                        id={String(item?.id)}
                         className="sr-only"
                         onChange={(e) =>
-                          handleCheck(e, (item?.adminId as unknown) as string)
+                          handleCheck(e, (item?.id as unknown) as string)
                         }
                         checked={checkedElements.includes(
-                          (item?.adminId as unknown) as string
+                          (item?.id as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            (item?.adminId as unknown) as string
+                            (item?.id as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              (item?.adminId as unknown) as string
+                              (item?.id as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>
@@ -422,74 +357,14 @@ const ExhibitionOrganizerList = ({ url }: Props) => {
                   <div
                     onClick={() =>
                       menuPermission?.status === "write"
-                        ? OrganizerDetail(Number(item?.adminId))
+                        ? OrganizerDetail(Number(item?.id))
                         : ""
                     }
                   >
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
-                      {item?.companyName}
+                      {item?.name}
                     </h5>
                   </div>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3  dark:border-strokedark ">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? OrganizerDetail(Number(item?.adminId))
-                        : ""
-                    }
-                  >
-                    <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
-                      {item?.username}
-                    </h5>
-                  </div>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? OrganizerDetail(Number(item?.adminId))
-                        : ""
-                    }
-                  >
-                    <p className="text-black dark:text-white">
-                      {item?.firstName}
-                    </p>
-                  </div>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? OrganizerDetail(Number(item?.adminId))
-                        : ""
-                    }
-                  >
-                    <p className="text-black dark:text-white">{item?.phone}</p>
-                  </div>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {item?.createdAt
-                      ? format(item?.createdAt as string, "yyyy-MM-dd")
-                      : ""}
-                  </p>
-                </td>
-
-                <td className="border-b border-[#eee] px-4 py-3 dark:border-strokedark">
-                  {item?.status === "use" ? (
-                    <p
-                      className={`inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success `}
-                    >
-                      {item?.statusText}
-                    </p>
-                  ) : (
-                    <p
-                      className={`inline-flex rounded-full bg-danger bg-opacity-10 px-3 py-1 text-sm font-medium text-danger `}
-                    >
-                      {item?.statusText}
-                    </p>
-                  )}
                 </td>
               </tr>
             ))}

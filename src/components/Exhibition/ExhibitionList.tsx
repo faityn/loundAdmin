@@ -387,7 +387,7 @@ const ExhibitionList = ({ url }: Props) => {
               <th className="min-w-[100px] px-4 py-3 font-medium text-black dark:text-white ">
                 체크인 번호
               </th>
-              <th className="min-w-[120px] px-4 py-3 font-medium text-black dark:text-white ">
+              <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white ">
                 회사 이름
               </th>
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
@@ -464,7 +464,7 @@ const ExhibitionList = ({ url }: Props) => {
                 </td>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
-                    {item?.company_name}
+                    {item?.company?.name}
                   </h5>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">

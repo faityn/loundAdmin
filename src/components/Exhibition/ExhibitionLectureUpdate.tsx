@@ -164,8 +164,6 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
         formdata.append("img", file1);
       }
 
-      //console.log(startDate, endDate);
-
       const res = await updateExhibitionLectures(formdata);
 
       if (res?.status) {
