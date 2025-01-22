@@ -514,6 +514,7 @@ export type UserExhibitionTablesType = {
   personCnt?: number;
   tableAction?: string;
   action?: boolean;
+  exhibitionConferenceTable?: [];
 };
 
 export type UserExhibitionRatingType = {
