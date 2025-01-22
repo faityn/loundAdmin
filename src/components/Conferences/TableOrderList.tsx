@@ -78,6 +78,7 @@ const TableOrderList = ({ url }: Props) => {
     const userToken = getToken();
 
     const response = await getExhibitionTable(String(userToken), Number(val));
+    console.log(response);
 
     setExhibitionTableArray(response?.result);
   };
@@ -89,6 +90,7 @@ const TableOrderList = ({ url }: Props) => {
       String(userToken),
       Number(val)
     );
+    console.log(response);
 
     setTableOrderDetail(response?.result);
     setTableNumber(tableNo);
@@ -164,12 +166,12 @@ const TableOrderList = ({ url }: Props) => {
                     return (
                       <div
                         key={index}
-                        className="flex items-center w-full h-[62px] gap-4 text-[#222222] px-5 bg-[#ECECEC] rounded-lg mb-8"
+                        className="flex items-center w-full h-[62px] gap-6 text-[#222222] px-5 bg-[#ECECEC] rounded-lg mb-8"
                       >
-                        <div className="flex items-center gap-1 w-[300px] ">
-                          <div className="px-1 w-[150px]">테이블 번호</div>
-                          <div className="px-1 w-full">
-                            <div className="relative z-20 w-39  ">
+                        <div className="flex items-center gap-1 min-w-[200px] ">
+                          <div className="px-1 min-w-[100px]">테이블 번호</div>
+                          <div className="px-1 ">
+                            <div className="relative z-20 w-full  ">
                               <input
                                 type="number"
                                 value={val?.tableNo}
@@ -179,7 +181,7 @@ const TableOrderList = ({ url }: Props) => {
                             </div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-1 w-[300px] ">
+                        <div className="flex items-center gap-1 min-w-[200px] ">
                           <div className="px-1 w-[150px]">인원 수</div>
                           <div className="px-1 w-full">
                             <div className="relative z-20 w-39  ">
@@ -202,18 +204,24 @@ const TableOrderList = ({ url }: Props) => {
                             )}
                           </div>
                         </div>
-                        <div className="w-full ">
+                        <div
+                          className=" relative min-w-[80px] flex items-center justify-center cursor-pointer"
+                          onClick={() =>
+                            tableOrderDetail(
+                              Number(val.tableId),
+                              Number(val?.tableNo)
+                            )
+                          }
+                        >
                           <img
-                            onClick={() =>
-                              tableOrderDetail(
-                                Number(val.tableId),
-                                Number(val?.tableNo)
-                              )
-                            }
-                            src={`/images/icon/menu-board.svg`}
+                            src={`/images/icon/tablaordercount.png`}
                             contextMenu="false"
-                            className="min-w-[20px] min-h-[20px]  "
+                            className="min-w-[30px] min-h-[30px]  "
                           />
+
+                          <div className="absolute flex  w-full items-center justify-center  mt-1 text-[11px] font-semibold text-slate-700">
+                            {val?.exhibitionConferenceTable?.length}
+                          </div>
                         </div>
                       </div>
                     );
