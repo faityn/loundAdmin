@@ -46,7 +46,7 @@ const ExhibitionList = ({ url }: Props) => {
   const userActiveRole = useRecoilValue(ActiveRoleAtom);
   const [newUrl, setNewUrl] = useState("");
   const [pageLimit, setPageLimit] = useState("10");
-
+  const [totalCount, setTotalCount] = useState(0);
   const page = searchParams.get("page");
   const size = pageLimit;
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
@@ -111,12 +111,12 @@ const ExhibitionList = ({ url }: Props) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
+    const option = optionType ? optionType : "all";
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
     const status = optionStatus ? `&status=${optionStatus}` : "";
-    const searchUrl = `searchType=${optionType}${search}${start}${end}${status}`;
+    const searchUrl = `searchType=${option}${search}${start}${end}${status}`;
     const newUrl2 = decodeURIComponent(searchUrl);
     const userToken = getToken();
     router.push(`/${url}?${newUrl2}`);
@@ -195,6 +195,7 @@ const ExhibitionList = ({ url }: Props) => {
     );
 
     if (response) {
+      setTotalCount(Number(response?.count));
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
       setTotalPage(totalPage);
       setExhibitionList(response?.rows);
@@ -227,8 +228,10 @@ const ExhibitionList = ({ url }: Props) => {
         />
         {loading ? <Loader /> : ""}
       </div>
-      <div className="grid grid-cols-12  pb-4">
-        <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
+      <div className="grid grid-cols-12 mt-5 pb-4">
+        <div className="col-span-5 flex items-center w-full gap-4 max-md:col-span-12 text-slate-700 font-medium">
+          전체 {totalCount} 개
+        </div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
           <div className="flex w-full  justify-end gap-4">
             <div className="relative z-20 w-39 bg-transparent dark:bg-form-input ">
@@ -281,33 +284,15 @@ const ExhibitionList = ({ url }: Props) => {
 
           {isOpen ? (
             <DeleteConfirm>
-              <div className="w-full border-l-6 border-warning bg-warning bg-opacity-[15%] pb-5 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30">
-                <div className="flex px-7 pb-4 pt-6">
-                  <div className="mr-5 flex h-9 w-9 items-center justify-center rounded-lg bg-warning bg-opacity-30">
-                    <svg
-                      width="19"
-                      height="16"
-                      viewBox="0 0 19 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1.50493 16H17.5023C18.6204 16 19.3413 14.9018 18.8354 13.9735L10.8367 0.770573C10.2852 -0.256858 8.70677 -0.256858 8.15528 0.770573L0.156617 13.9735C-0.334072 14.8998 0.386764 16 1.50493 16ZM10.7585 12.9298C10.7585 13.6155 10.2223 14.1433 9.45583 14.1433C8.6894 14.1433 8.15311 13.6155 8.15311 12.9298V12.9015C8.15311 12.2159 8.6894 11.688 9.45583 11.688C10.2223 11.688 10.7585 12.2159 10.7585 12.9015V12.9298ZM8.75236 4.01062H10.2548C10.6674 4.01062 10.9127 4.33826 10.8671 4.75288L10.2071 10.1186C10.1615 10.5049 9.88572 10.7455 9.50142 10.7455C9.11929 10.7455 8.84138 10.5028 8.79579 10.1186L8.13574 4.75288C8.09449 4.33826 8.33984 4.01062 8.75236 4.01062Z"
-                        fill="#FBBF24"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="w-full">
-                    <h5 className="mb-3 text-lg font-semibold text-[#9D5425]">
-                      Are you sure you want to <br />
-                      delete?
-                    </h5>
-                  </div>
+              <CustomModal>
+                <div className=" my-4 text-lg text-black">
+                  정말 삭제 진행하시겠습니까? 삭제한 내용은 다시 복구
+                  불가능합니다.
                 </div>
                 <div className="flex w-full items-center justify-center gap-4">
                   <button
                     onClick={closeModal}
-                    className="rounded-md bg-slate-400 px-3 py-1 text-white"
+                    className="rounded-md bg-slate-500 px-3 py-1 text-white"
                   >
                     취소{" "}
                   </button>
@@ -318,7 +303,7 @@ const ExhibitionList = ({ url }: Props) => {
                     삭제{" "}
                   </button>
                 </div>
-              </div>
+              </CustomModal>
             </DeleteConfirm>
           ) : (
             ""
@@ -454,7 +439,12 @@ const ExhibitionList = ({ url }: Props) => {
                 </td>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
-                    {index + 1}
+                    {Number(page) > 1
+                      ? Number(page) * Number(pageLimit) -
+                        Number(pageLimit) +
+                        index +
+                        1
+                      : index + 1}
                   </h5>
                 </td>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">

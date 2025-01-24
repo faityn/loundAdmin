@@ -20,6 +20,7 @@ const AdminList = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
+  const [totalCount, setTotalCount] = useState(0);
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?id=0`;
   const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +48,6 @@ const AdminList = () => {
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    console.log(id);
-
     if (id === "all") {
       const allIds = userAllList?.map((data) => {
         return data?.adminId;
@@ -69,6 +68,7 @@ const AdminList = () => {
     const userToken = getToken();
     const response = await getAdminList(userToken as string);
 
+    setTotalCount(Number(response?.count));
     setTotalPage(response?.pages);
     setUserAllList(response?.rows);
 
@@ -83,7 +83,9 @@ const AdminList = () => {
   return (
     <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="grid grid-cols-12  pb-4">
-        <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
+        <div className="col-span-5 flex items-center w-full gap-4 max-md:col-span-12 text-slate-700 font-medium">
+          전체 {totalCount} 개
+        </div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
           {menuPermission?.status === "write" ? (
             <div className="flex w-full  justify-end gap-4">
@@ -110,9 +112,9 @@ const AdminList = () => {
           )}
           {isOpen ? (
             <CustomModal>
-              <div className="mb-2 mt-2 text-lg text-black">
-                Are you sure you want to <br />
-                delete?
+              <div className=" my-4 text-lg text-black">
+                정말 삭제 진행하시겠습니까? 삭제한 내용은 다시 복구
+                불가능합니다.
               </div>
               <div className="flex w-full items-center justify-center gap-4">
                 <button

@@ -129,7 +129,7 @@ export const saveExhibitionTable = async (
 export const getInterestsList = async (token: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/interests/list?page=1&pageSize=50`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/interests/list?page=1&pageSize=100`,
       {
         method: "GET",
         headers: {
@@ -246,7 +246,7 @@ export const deleteInterest = async (token: string, id: number) => {
 export const getPurposesList = async (token: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/purposes/list?page=1&pageSize=50`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/purposes/list?page=1&pageSize=100`,
       {
         method: "GET",
         headers: {
@@ -363,7 +363,7 @@ export const deletePurposes = async (token: string, id: number) => {
 export const getProfessionList = async (token: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/professions/list?page=1&pageSize=50`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/professions/list?page=1&pageSize=100`,
       {
         method: "GET",
         headers: {

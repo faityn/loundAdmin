@@ -34,6 +34,7 @@ const ConferencesList = ({ url }: Props) => {
   const pathname = usePathname();
   const page = searchParams.get("page");
   const [pageLimit, setPageLimit] = useState("10");
+  const [totalCount, setTotalCount] = useState(0);
   const [newUrl, setNewUrl] = useState("");
   const size = pageLimit;
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
@@ -149,7 +150,7 @@ const ConferencesList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-
+    setTotalCount(Number(response?.count));
     const totalPage =
       response !== undefined
         ? Math.ceil(Number(response?.count) / Number(size))
@@ -189,7 +190,9 @@ const ConferencesList = ({ url }: Props) => {
         {loading ? <Loader /> : ""}
       </div>
       <div className="grid grid-cols-12  pb-4">
-        <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
+        <div className="col-span-5 flex items-center w-full gap-4 max-md:col-span-12 text-slate-700 font-medium">
+          전체 {totalCount} 개
+        </div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
           <div className="flex w-full  justify-end gap-4"></div>
         </div>
@@ -296,7 +299,12 @@ const ConferencesList = ({ url }: Props) => {
                 </td>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
-                    {index + 1}
+                    {Number(page) > 1
+                      ? Number(page) * Number(pageLimit) -
+                        Number(pageLimit) +
+                        index +
+                        1
+                      : index + 1}
                   </h5>
                 </td>
 

@@ -9,7 +9,7 @@ const CustomModal: React.FC<ModalProps> = ({ children }) => {
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-35 backdrop-blur-sm">
       <div className="flex w-[300px] flex-col ">
         {/* <button className="place-self-end text-xl text-white" onClick={onClose}>X</button> */}
-        <div className="bg-white rounded-lg p-4 text-center border border-black">
+        <div className="bg-white rounded-lg p-4 text-center  border-black">
           {children}
         </div>
       </div>
