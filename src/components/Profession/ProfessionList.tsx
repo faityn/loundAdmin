@@ -107,9 +107,9 @@ const ProfessionList = ({ url }: Props) => {
           )}
           {isOpen ? (
             <CustomModal>
-              <div className="mb-2 mt-2 text-lg text-black">
-                Are you sure you want to <br />
-                delete?
+              <div className=" my-4 text-lg text-black">
+                정말 삭제 진행하시겠습니까? 삭제한 내용은 다시 복구
+                불가능합니다.
               </div>
               <div className="flex w-full items-center justify-center gap-4">
                 <button

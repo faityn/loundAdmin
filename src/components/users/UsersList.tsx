@@ -52,6 +52,7 @@ const UsersList = ({ url }: Props) => {
 
   const [newUrl, setNewUrl] = useState("");
   const [pageLimit, setPageLimit] = useState("10");
+  const [totalCount, setTotalCount] = useState(0);
   const page = searchParams.get("page");
   const size = pageLimit;
 
@@ -223,6 +224,7 @@ const UsersList = ({ url }: Props) => {
           );
 
     if (response) {
+      setTotalCount(Number(response?.count));
       const totalPage = Math.ceil(Number(response?.count) / Number(size));
       setTotalPage(totalPage);
       setUserAllList(response?.rows);
@@ -261,7 +263,9 @@ const UsersList = ({ url }: Props) => {
         {loading ? <Loader /> : ""}
       </div>
       <div className="grid grid-cols-12  pb-4">
-        <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
+        <div className="col-span-5 flex items-center w-full gap-4 max-md:col-span-12 text-slate-700 font-medium">
+          전체 {totalCount} 개
+        </div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
           <div className="flex w-full  justify-end gap-4">
             <div className="relative z-20 w-39 bg-transparent dark:bg-form-input ">
@@ -302,14 +306,9 @@ const UsersList = ({ url }: Props) => {
           </div>
           {isOpen ? (
             <CustomModal>
-              <h2 className="text-xl text-black">
-                ({checkedElements?.length}){" "}
-                {checkedElements?.length > 1 ? "Users" : "User"} will <br /> be
-                deleted
-              </h2>
-              <div className="mb-2 mt-4 text-lg text-black">
-                Are you sure you want to <br />
-                delete?
+              <div className="my-4 text-lg text-black">
+                정말 삭제 진행하시겠습니까? 삭제한 내용은 다시 복구
+                불가능합니다.
               </div>
               <div className="flex w-full items-center justify-center gap-4">
                 <button
@@ -437,7 +436,12 @@ const UsersList = ({ url }: Props) => {
                 </td>
                 <td className="border-b  border-[#eee] px-4 py-3  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
-                    {index + 1}
+                    {Number(page) > 1
+                      ? Number(page) * Number(pageLimit) -
+                        Number(pageLimit) +
+                        index +
+                        1
+                      : index + 1}
                   </h5>
                 </td>
 

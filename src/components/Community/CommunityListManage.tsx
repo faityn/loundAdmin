@@ -14,11 +14,12 @@ import {
   getConferenceCommunityManageList,
 } from "@/hooks/useEvents";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Pagination from "../Pagination/Pagination";
 
 import CommunityUsersModal from "./CommunityUsersModal";
+import { FaChevronDown } from "react-icons/fa";
 
 interface Props {
   url?: string;
@@ -26,9 +27,11 @@ interface Props {
 const CommunityListManage = ({}: Props) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const [pageLimit, setPageLimit] = useState("10");
+  const [totalCount, setTotalCount] = useState(0);
   const page = searchParams.get("page");
-  const size = 20;
-  const totalPage = useRecoilValue(totalPageAtom);
+  const size = pageLimit;
+  const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
   const pageUrl = `${pathname}?id=0`;
   const [communityManageList, setCommunityManageList] = useRecoilState(
     communityManageListAtom
@@ -38,6 +41,10 @@ const CommunityListManage = ({}: Props) => {
   const menuPermission = useRecoilValue(menuPermissionAtom);
   const setCommunityUsers = useSetRecoilState(communityUsersAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+
+  const handlePageLimit = (value: string) => {
+    setPageLimit(value);
+  };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
@@ -79,8 +86,10 @@ const CommunityListManage = ({}: Props) => {
       Number(size)
     );
 
-    if (response?.length > 0) {
-      setCommunityManageList(response);
+    if (response?.rows?.length > 0) {
+      setTotalCount(Number(response?.count));
+      setTotalPage(Number(response?.page));
+      setCommunityManageList(response?.rows);
     }
   };
 
@@ -97,8 +106,35 @@ const CommunityListManage = ({}: Props) => {
   return (
     <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="grid grid-cols-12  pb-4">
-        <div className="col-span-5 flex  w-full  gap-4 max-md:col-span-12 max-xsm:flex-col "></div>
+        <div className="col-span-5 flex items-center w-full gap-4 max-md:col-span-12 text-slate-700 font-medium">
+          전체 {totalCount} 개
+        </div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
+          <div className="flex w-full  justify-end gap-4">
+            <div className="relative z-20 w-39 bg-transparent dark:bg-form-input ">
+              <select
+                value={pageLimit}
+                onChange={(e) => handlePageLimit(e.target.value)}
+                className={`relative z-10 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-1.5 text-sm text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+              >
+                <option value="10" className="text-black dark:text-bodydark">
+                  10개씩 보기
+                </option>
+                <option value="20" className="text-black dark:text-bodydark">
+                  20개씩 보기
+                </option>
+                <option value="50" className="text-black dark:text-bodydark">
+                  50개씩 보기
+                </option>
+                <option value="100" className="text-black dark:text-bodydark">
+                  100개씩 보기
+                </option>
+              </select>
+              <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-black dark:text-white">
+                <FaChevronDown />
+              </span>
+            </div>
+          </div>
           <div className="flex w-full  justify-end gap-4">
             {detailOpen ? <CommunityUsersModal /> : ""}
           </div>
@@ -201,7 +237,12 @@ const CommunityListManage = ({}: Props) => {
                 </td>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
-                    {index + 1}
+                    {Number(page) > 1
+                      ? Number(page) * Number(pageLimit) -
+                        Number(pageLimit) +
+                        index +
+                        1
+                      : index + 1}
                   </h5>
                 </td>
 

@@ -78,7 +78,6 @@ const TableOrderList = ({ url }: Props) => {
     const userToken = getToken();
 
     const response = await getExhibitionTable(String(userToken), Number(val));
-    console.log(response);
 
     setExhibitionTableArray(response?.result);
   };
@@ -90,7 +89,6 @@ const TableOrderList = ({ url }: Props) => {
       String(userToken),
       Number(val)
     );
-    console.log(response);
 
     setTableOrderDetail(response?.result);
     setTableNumber(tableNo);

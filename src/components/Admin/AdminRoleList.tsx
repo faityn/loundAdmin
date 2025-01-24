@@ -112,7 +112,12 @@ const AdminRoleList = ({ url }: Props) => {
               <tr key={index}>
                 <td className="border-b  border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <h5 className="font-medium text-black dark:text-white">
-                    {index + 1}
+                    {Number(page) > 1
+                      ? Number(page) * Number(pageLimit) -
+                        Number(pageLimit) +
+                        index +
+                        1
+                      : index + 1}
                   </h5>
                 </td>
 
