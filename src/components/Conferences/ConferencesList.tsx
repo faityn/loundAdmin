@@ -13,7 +13,11 @@ import {
   totalPageAtom,
 } from "@/atom";
 import getToken from "@/helper/getToken";
-import { changeConferenceStatus, getConferencesList } from "@/hooks/useEvents";
+import {
+  changeConferenceStatus,
+  conferenceDeleteMulti,
+  getConferencesList,
+} from "@/hooks/useEvents";
 import { format } from "date-fns";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -24,6 +28,9 @@ import Pagination from "../Pagination/Pagination";
 import Loader from "../common/Loader";
 import SearchFields from "../common/SearchFields";
 import { getSearchOptionList } from "@/hooks/useUser";
+import { FaChevronDown } from "react-icons/fa";
+import CustomModal from "../Modal/Confirm";
+import DeleteConfirm from "../Modal/DeleteConfirm";
 
 interface Props {
   url?: string;
@@ -42,6 +49,7 @@ const ConferencesList = ({ url }: Props) => {
   const [conferencesList, setConferencesList] = useRecoilState(
     conferencesListAtom
   );
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
@@ -52,6 +60,8 @@ const ConferencesList = ({ url }: Props) => {
   const optionStatus = useRecoilValue(optionStatusAtom);
   const optionType = useRecoilValue(optionTypeAtom);
   const setSearchOptions = useSetRecoilState(searchOptionsAtom);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [deleteAlertMessage, setDeleteAlertMessage] = useState("");
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
@@ -99,6 +109,47 @@ const ConferencesList = ({ url }: Props) => {
     router.push(`/${url}?${newUrl}`);
 
     setLoading(false);
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setDeleteAlert(false);
+  };
+
+  const handlePageLimit = (value: string) => {
+    setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
+  };
+
+  const itemDelete = async () => {
+    const userToken = getToken();
+    const result = checkedElements.join(",");
+    const res = await conferenceDeleteMulti(String(userToken), result);
+
+    if (res?.status) {
+      getData();
+      setChechedElements([]);
+      setIsOpen(false);
+    } else {
+      setDeleteAlertMessage(String(res?.result));
+      setDeleteAlert(true);
+    }
+
+    // checkedElements.forEach(async (element) => {
+    //   const res = await deleteExhibition(String(userToken), Number(element));
+    //   if (res?.status) {
+    //     getData();
+    //     setChechedElements([]);
+    //     setIsOpen(false);
+    //   } else {
+    //     setDeleteAlertMessage(String(res?.result));
+    //     setDeleteAlert(true);
+    //   }
+    // });
   };
 
   const getSearchOption = async () => {
@@ -194,7 +245,92 @@ const ConferencesList = ({ url }: Props) => {
           전체 {totalCount} 개
         </div>
         <div className="col-span-7 w-full  text-right max-md:col-span-12 ">
-          <div className="flex w-full  justify-end gap-4"></div>
+          <div className="flex w-full  justify-end gap-4">
+            <div className="relative z-20 w-39 bg-transparent dark:bg-form-input ">
+              <select
+                value={pageLimit}
+                onChange={(e) => handlePageLimit(e.target.value)}
+                className={`relative z-10 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-1.5 text-sm text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+              >
+                <option value="10" className="text-black dark:text-bodydark">
+                  10개씩 보기
+                </option>
+                <option value="20" className="text-black dark:text-bodydark">
+                  20개씩 보기
+                </option>
+                <option value="50" className="text-black dark:text-bodydark">
+                  50개씩 보기
+                </option>
+                <option value="100" className="text-black dark:text-bodydark">
+                  100개씩 보기
+                </option>
+              </select>
+              <span className="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-sm text-black dark:text-white">
+                <FaChevronDown />
+              </span>
+            </div>
+
+            {menuPermission?.status === "write" ? (
+              <>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md bg-rose-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                  onClick={openModal}
+                  disabled={checkedElements?.length > 0 ? false : true}
+                >
+                  삭제
+                </button>
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+
+          {isOpen ? (
+            <DeleteConfirm>
+              <CustomModal>
+                <div className=" my-4 text-lg text-black">
+                  정말 삭제 진행하시겠습니까? 삭제한 내용은 다시 복구
+                  불가능합니다.
+                </div>
+                <div className="flex w-full items-center justify-center gap-4">
+                  <button
+                    onClick={closeModal}
+                    className="rounded-md bg-slate-500 px-3 py-1 text-white"
+                  >
+                    취소{" "}
+                  </button>
+                  <button
+                    onClick={itemDelete}
+                    className="rounded-md bg-red px-3 py-1 text-white "
+                  >
+                    삭제{" "}
+                  </button>
+                </div>
+              </CustomModal>
+            </DeleteConfirm>
+          ) : (
+            ""
+          )}
+
+          {deleteAlert ? (
+            <CustomModal>
+              <h2 className="text-xl text-black"></h2>
+              <div className="mb-2 mt-4 text-sm text-rose-400">
+                {deleteAlertMessage}
+              </div>
+              <div className="flex w-full items-center justify-center gap-4">
+                <button
+                  onClick={closeModal}
+                  className="rounded-md bg-slate-500 px-3 py-1 text-white"
+                >
+                  취소{" "}
+                </button>
+              </div>
+            </CustomModal>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="max-w-full overflow-x-auto">
