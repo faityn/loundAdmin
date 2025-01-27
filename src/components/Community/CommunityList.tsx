@@ -54,6 +54,7 @@ const CommunityList = ({}: Props) => {
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
   };
 
   const statusChange = async (status: string) => {

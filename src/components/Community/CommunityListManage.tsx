@@ -44,6 +44,7 @@ const CommunityListManage = ({}: Props) => {
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {

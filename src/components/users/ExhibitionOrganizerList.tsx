@@ -13,7 +13,7 @@ import {
   userDetailOptionsAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import {
   deleteOrganizer,
@@ -31,7 +31,11 @@ import { FaChevronDown } from "react-icons/fa";
 import ExhibitionOrganizerCreateModal from "./ExhibitionOrganizerCreateModal";
 import ExhibitionOrganizerDetailModal from "./ExhibitionOrganizerDetailModal";
 
-const ExhibitionOrganizerList = () => {
+interface Props {
+  url?: string;
+}
+const ExhibitionOrganizerList = ({ url }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -72,6 +76,7 @@ const ExhibitionOrganizerList = () => {
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
   };
 
   const OrganizerDelete = async () => {
