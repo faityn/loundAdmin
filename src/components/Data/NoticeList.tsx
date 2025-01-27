@@ -7,7 +7,7 @@ import {
   totalPageAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import CustomModal from "../Modal/Confirm";
 
@@ -22,6 +22,7 @@ interface Props {
   url?: string;
 }
 const NoticeList = ({ url }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [pageLimit, setPageLimit] = useState("20");
