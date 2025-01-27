@@ -11,7 +11,7 @@ import {
   changeCommunityStatus,
   getConferenceCommunityList,
 } from "@/hooks/useEvents";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Pagination from "../Pagination/Pagination";
@@ -20,7 +20,8 @@ import { FaChevronDown } from "react-icons/fa";
 interface Props {
   url?: string;
 }
-const CommunityList = ({}: Props) => {
+const CommunityList = ({ url }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
