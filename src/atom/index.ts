@@ -88,6 +88,11 @@ export const totalPageAtom = atom<number>({
   default: 1,
 });
 
+export const pageLimitAtom = atom<string>({
+  key: "pageLimitAtom",
+  default: "10",
+});
+
 export const startDateAtom = atom<string>({
   key: "start_date_atom",
   default: "",

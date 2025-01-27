@@ -82,6 +82,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
   };
 
   const handleSubmit = async () => {

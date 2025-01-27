@@ -68,6 +68,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
   };
 
   const userDelete = async () => {
@@ -126,7 +127,6 @@ const ExhibitionLecturesList = ({ url }: Props) => {
       { value: "all", text: "전체" },
       { value: "exhibitionName", text: "행사 이름" },
       { value: "lectureName", text: "강연 제목" },
-      { value: "companyName", text: "소속" },
     ];
     const searchOption = {
       search: search,

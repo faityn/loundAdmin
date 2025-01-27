@@ -13,7 +13,7 @@ import {
   getCommunityUsersList,
   getConferenceCommunityManageList,
 } from "@/hooks/useEvents";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Pagination from "../Pagination/Pagination";
@@ -24,7 +24,8 @@ import { FaChevronDown } from "react-icons/fa";
 interface Props {
   url?: string;
 }
-const CommunityListManage = ({}: Props) => {
+const CommunityListManage = ({ url }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [pageLimit, setPageLimit] = useState("10");
@@ -44,6 +45,7 @@ const CommunityListManage = ({}: Props) => {
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
+    router.push(`/${url}?pageLimit=${value}&page=1`);
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
