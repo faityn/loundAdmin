@@ -138,18 +138,6 @@ const ConferencesList = ({ url }: Props) => {
       setDeleteAlertMessage(String(res?.result));
       setDeleteAlert(true);
     }
-
-    // checkedElements.forEach(async (element) => {
-    //   const res = await deleteExhibition(String(userToken), Number(element));
-    //   if (res?.status) {
-    //     getData();
-    //     setChechedElements([]);
-    //     setIsOpen(false);
-    //   } else {
-    //     setDeleteAlertMessage(String(res?.result));
-    //     setDeleteAlert(true);
-    //   }
-    // });
   };
 
   const getSearchOption = async () => {
