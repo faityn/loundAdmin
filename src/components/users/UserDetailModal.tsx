@@ -188,7 +188,11 @@ const DetailModal: React.FC = () => {
     setContentValue(userDetail[0]?.description);
     setGender(userDetail[0]?.gender as string);
     setUseStatus(userDetail[0]?.status as string);
-    setBirthDate(format(String(userDetail[0]?.birthday), "yyyy-MM-dd"));
+    const birthday =
+      userDetail[0]?.birthday !== null
+        ? format(String(userDetail[0]?.birthday), "yyyy-MM-dd")
+        : "";
+    setBirthDate(birthday);
 
     setValue("professionId", Number(userDetail[0]?.professionId));
     setValue("roleId", Number(userDetail[0]?.roleId));
