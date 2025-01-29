@@ -14,12 +14,15 @@ import AlertModal from "../Modal/AlertModal";
 
 import { format } from "date-fns";
 import getStarRating from "../common/getStarRating";
+import getToken from "@/helper/getToken";
+import { getRatingDownload } from "@/hooks/useEvents";
+import Loader from "../common/Loader";
 
 const FeedbackDetailModal: React.FC = () => {
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
 
   const feedbackDetail = useRecoilValue(feedbackDetailAtom);
-
+  const [loading, setLoading] = useState(false);
   const userExhibitionRatingList = useRecoilValue(userExhibitionRatingListAtom);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -29,6 +32,24 @@ const FeedbackDetailModal: React.FC = () => {
     setDataSaved(true);
     setIsOpen(false);
     setDetailOpen(false);
+  };
+
+  const download = async () => {
+    setLoading(true);
+    const userToken = getToken();
+    const response = await getRatingDownload(
+      String(userToken),
+
+      Number(feedbackDetail[0]?.exhibitionId)
+    );
+
+    if (response?.status) {
+      const link = document.createElement("a");
+      link.href = response?.result;
+      link.click();
+
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,6 +66,7 @@ const FeedbackDetailModal: React.FC = () => {
                   onClick={() => setDetailOpen(false)}
                 />
               </div>
+              {loading ? <Loader /> : ""}
             </div>
             <div className="">
               <div className={` mx-auto h-[600px]   pt-5 text-left text-sm`}>
@@ -122,6 +144,7 @@ const FeedbackDetailModal: React.FC = () => {
                         <button
                           type="button"
                           className=" items-center mt-4 justify-center rounded bg-black px-5 py-2 text-center font-medium text-white hover:bg-opacity-90 "
+                          onClick={() => download()}
                         >
                           평가 데이터 다운받기
                         </button>
