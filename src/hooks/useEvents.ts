@@ -967,3 +967,54 @@ export const getCommunityUsersList = async (token: string, id: number) => {
     console.error("Error fetching data:", error);
   }
 };
+
+export const getRatingDownload = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibition/rating/download/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
+
+    const data = await response.text();
+    console.log(data);
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const downloadExcel = async (token: string, id: number) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibition/rating/download/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Accept:
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to download file");
+  }
+
+  const blob = await response.blob();
+  const urlObject = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = urlObject;
+  link.download = "users.xlsx"; // Set your desired file name
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(urlObject);
+};
