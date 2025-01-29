@@ -535,6 +535,37 @@ export const AddUsersToExhibition = async (
   }
 };
 
+export const AddUsersToExhibitionBulkUpload = async (formdata: FormData) => {
+  try {
+    const excel: File | null = (formdata.get("excel") as unknown) as File;
+    const formData2 = new FormData();
+    const token = formdata.get("token") as string;
+
+    formData2.append("exhibitionId", formdata.get("exhibitionId") as string);
+    if (excel !== null) {
+      formData2.append("excel", excel);
+    }
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/user/uploadExcel`,
+      {
+        method: "POST",
+        body: formData2,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const ConfirmUsersToExhibition = async (
   token: string,
   userIds: string,

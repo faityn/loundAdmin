@@ -6,6 +6,7 @@ import {
   detailOpenAtom,
   endDateAtom,
   exhibitionUsersAddModalAtom,
+  exhibitionUsersBulkUploadModalAtom,
   optionStatusAtom,
   optionTypeAtom,
   searchOptionsAtom,
@@ -40,6 +41,7 @@ import { FaChevronDown } from "react-icons/fa";
 import ExhibitionUsersAddModal from "./ExhibitionUsersAddModal";
 import { getUsersAddExhibitionList } from "@/hooks/useEvents";
 import DetailModal from "../users/UserDetailModal";
+import ExhibitionUsersBulkUploadModal from "./ExhibitionUsersBulkUploadModal";
 
 interface Props {
   url?: string;
@@ -76,7 +78,9 @@ const ExhibitionUsersList = ({ url }: Props) => {
   const setUsersAddExhibitionList = useSetRecoilState(
     usersAddExhibitionListAtom
   );
-
+  const [bulkModalOpen, setBulkModalOpen] = useRecoilState(
+    exhibitionUsersBulkUploadModalAtom
+  );
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
 
   const setUserExhibitionRatingState = useSetRecoilState(
@@ -109,6 +113,14 @@ const ExhibitionUsersList = ({ url }: Props) => {
     router.push(`/${url}?${newUrl}`);
 
     setLoading(false);
+  };
+
+  const bulkModal = async () => {
+    const userToken = getToken();
+    const exhibitionList = await getUsersAddExhibitionList(String(userToken));
+
+    setUsersAddExhibitionList(exhibitionList?.exhibitions);
+    setBulkModalOpen(true);
   };
 
   const userDelete = async () => {
@@ -322,6 +334,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
       </div>
       {detailOpen ? <DetailModal /> : ""}
       {exhibitionUsersAddModal ? <ExhibitionUsersAddModal /> : ""}
+      {bulkModalOpen ? <ExhibitionUsersBulkUploadModal /> : ""}
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto text-sm">
           <thead>
@@ -488,6 +501,7 @@ const ExhibitionUsersList = ({ url }: Props) => {
           <button
             type="button"
             className=" items-center  rounded-md bg-black px-5 py-1.5 text-center font-medium text-white hover:bg-opacity-90 "
+            onClick={() => bulkModal()}
           >
             대량 등록
           </button>
