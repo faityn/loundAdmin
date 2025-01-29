@@ -200,6 +200,8 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
+    console.log(response);
+
     setTotalCount(Number(response?.count));
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
     setTotalPage(totalPage);
@@ -424,7 +426,7 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
                     }
                   >
                     <h5 className="cursor-pointer  font-medium hover:text-primary dark:text-white">
-                      {item?.admin?.companyName}
+                      {item?.company?.name}
                     </h5>
                   </div>
                 </td>

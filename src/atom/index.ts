@@ -311,6 +311,11 @@ export const exhibitionUsersAddModalAtom = atom({
   default: false,
 });
 
+export const exhibitionUsersBulkUploadModalAtom = atom({
+  key: "exhibitionUsersBulkUploadModalAtom",
+  default: false,
+});
+
 export const birthDateAtom = atom({
   key: "birthDateAtom",
   default: "",

@@ -394,6 +394,9 @@ export type ExhibitionsApprovedListType = {
     firstName: string;
     companyName: string;
   };
+  company?: {
+    name: string;
+  };
 };
 
 export type FeedbackRatingDetailType = {
