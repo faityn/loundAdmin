@@ -67,7 +67,6 @@ const ExhibitionUsersBulkUploadModal: React.FC = () => {
     }
 
     const res = await AddUsersToExhibitionBulkUpload(formdata);
-
     if (res?.status) {
       setIsOpen(true);
       setLoading(false);
@@ -134,7 +133,7 @@ const ExhibitionUsersBulkUploadModal: React.FC = () => {
                         />
                         {errors.excel && (
                           <span className="font-medium text-red">
-                            excel 업로드해주세요
+                            업로드해주세요
                           </span>
                         )}
                       </div>
