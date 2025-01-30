@@ -200,7 +200,6 @@ const ExhibitionFeedbackList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-    console.log(response);
 
     setTotalCount(Number(response?.count));
     const totalPage = Math.ceil(Number(response?.count) / Number(size));
