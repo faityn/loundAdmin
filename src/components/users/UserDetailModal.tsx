@@ -16,7 +16,11 @@ import UsersExhibitionList from "./UsersExhibitionList";
 import RateSummary from "./RateSummary";
 import { SubmitHandler, useForm } from "react-hook-form";
 import getToken from "@/helper/getToken";
-import { updateUserInfo, updateUserProfile } from "@/hooks/useUser";
+import {
+  checkUsername,
+  updateUserInfo,
+  updateUserProfile,
+} from "@/hooks/useUser";
 import AlertModal from "../Modal/AlertModal";
 import { LuAlertCircle } from "react-icons/lu";
 import { FaUserLarge } from "react-icons/fa6";
@@ -61,7 +65,8 @@ const DetailModal: React.FC = () => {
   const [gender, setGender] = useState("");
   const [activeButton, setActiveButton] = useState("1");
   const [contentValue, setContentValue] = useState("");
-
+  const [checkError, setCheckError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
   const {
@@ -86,6 +91,7 @@ const DetailModal: React.FC = () => {
 
   const closeError = () => {
     setCreateError(false);
+    setCheckError(false);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -129,24 +135,34 @@ const DetailModal: React.FC = () => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setLoading(true);
     const userToken = getToken();
+    const check = await checkUsername(
+      String(userToken),
+      Number(userDetail[0]?.userId),
+      String(data.username)
+    );
+    if (check) {
+      setErrorMessage(String(check));
 
-    const formdata = {
-      userId: userDetail[0]?.userId,
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      birthday: birthDate,
-      status: useStatus,
-    };
-
-    const res = await updateUserInfo(String(userToken), formdata);
-
-    if (res?.status) {
-      setIsOpen(true);
       setLoading(false);
+      setCheckError(true);
     } else {
-      setCreateError(true);
-      setLoading(false);
+      const formdata = {
+        userId: userDetail[0]?.userId,
+        username: data.username,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        birthday: birthDate,
+        status: useStatus,
+      };
+      const res = await updateUserInfo(String(userToken), formdata);
+      if (res?.status) {
+        setIsOpen(true);
+        setLoading(false);
+      } else {
+        setCreateError(true);
+        setLoading(false);
+      }
     }
   };
 
@@ -921,6 +937,25 @@ const DetailModal: React.FC = () => {
           </div>
         </div>
       </div>
+      {checkError ? (
+        <AlertModal>
+          <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-red">
+            <LuAlertCircle className="text-xl" />{" "}
+            <div className="">{errorMessage}</div>
+          </div>
+          <div className="flex w-full items-center justify-center gap-4">
+            <button
+              onClick={closeError}
+              className="rounded-md bg-black px-4 py-1 text-white"
+            >
+              확인
+            </button>
+          </div>
+        </AlertModal>
+      ) : (
+        ""
+      )}
+
       {createError ? (
         <AlertModal>
           <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-red">

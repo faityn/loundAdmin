@@ -432,7 +432,7 @@ export const getExhibitionLectureDetail = async (token: string, id: number) => {
 export const getExhibitionAll = async (token: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/list`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/list?page=1&pageSize=500`,
       {
         method: "GET",
         headers: {

@@ -545,6 +545,7 @@ export type AdminPermittionType = {
 export type UserInfoType = {
   userId?: number;
   name?: string;
+  username?: string;
   email?: string;
   phone?: string;
   birthday?: string;
@@ -570,11 +571,38 @@ export type NoticeType = {
   updatedAt?: string;
 };
 
+export type UserReportListType = {
+  id?: number;
+  userId?: number;
+  reportedUserId?: number;
+  createdAt?: string;
+  startDate?: string;
+  endDate?: string;
+  request?: string;
+  description?: string;
+  blocker?: {
+    imgUrl?: string;
+    userId?: number;
+    username?: string;
+    name?: string;
+    img?: string;
+    company_name?: string;
+  };
+  blocked?: {
+    imgUrl?: string;
+    userId?: number;
+    username?: string;
+    name?: string;
+    img?: string;
+    company_name?: string;
+  };
+};
+
 export type CommunityUsersListType = {
   communityId?: number;
   id?: number;
   title?: string;
-  request?: string;
+  type?: string;
   userId?: number;
   member?: {
     company_name?: string;
