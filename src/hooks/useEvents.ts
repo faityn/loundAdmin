@@ -342,12 +342,14 @@ export const deleteExhibitionLectures = async (token: string, ids: string) => {
     const raw = JSON.stringify({
       ids: ids,
     });
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/exhibitions/lecture/delete_multy`,
       {
         method: "DELETE",
         body: raw,
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",

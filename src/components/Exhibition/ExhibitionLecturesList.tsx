@@ -74,6 +74,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
   const userDelete = async () => {
     const userToken = getToken();
     const result = checkedElements.join(",");
+
     const res = await deleteExhibitionLectures(String(userToken), result);
 
     if (res?.status) {
