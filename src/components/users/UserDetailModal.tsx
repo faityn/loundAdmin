@@ -67,6 +67,7 @@ const DetailModal: React.FC = () => {
   const [contentValue, setContentValue] = useState("");
   const [checkError, setCheckError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [validError, setValidError] = useState(false);
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
   const {
@@ -146,22 +147,27 @@ const DetailModal: React.FC = () => {
       setLoading(false);
       setCheckError(true);
     } else {
-      const formdata = {
-        userId: userDetail[0]?.userId,
-        username: data.username,
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        birthday: birthDate,
-        status: useStatus,
-      };
-      const res = await updateUserInfo(String(userToken), formdata);
-      if (res?.status) {
-        setIsOpen(true);
-        setLoading(false);
+      if (birthDate) {
+        const formdata = {
+          userId: userDetail[0]?.userId,
+          username: data.username,
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          birthday: birthDate,
+          status: useStatus,
+        };
+        const res = await updateUserInfo(String(userToken), formdata);
+        if (res?.status) {
+          setIsOpen(true);
+          setLoading(false);
+        } else {
+          setCreateError(true);
+          setLoading(false);
+        }
       } else {
-        setCreateError(true);
         setLoading(false);
+        setValidError(true);
       }
     }
   };
@@ -401,7 +407,7 @@ const DetailModal: React.FC = () => {
                           defaultDate={birthDate}
                         />
 
-                        {errors.birthday && (
+                        {validError && (
                           <span className="font-medium text-red ">
                             입력해주세요
                           </span>
@@ -937,6 +943,7 @@ const DetailModal: React.FC = () => {
           </div>
         </div>
       </div>
+
       {checkError ? (
         <AlertModal>
           <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-red">
