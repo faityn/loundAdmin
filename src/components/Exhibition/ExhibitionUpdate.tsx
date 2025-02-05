@@ -76,6 +76,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>();
 
@@ -130,6 +131,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
       setContentValue(response?.result?.description);
       setUseStatus(response?.result?.status);
       setOptionValue(response?.result?.companyId);
+      setValue("companyId", response?.result?.companyId);
       setItemsDetail([response?.result]);
     } else {
       setNotFound(true);
@@ -276,7 +278,7 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                               {companyList?.map((item, index) => (
                                 <option
                                   key={index}
-                                  value={item?.id}
+                                  value={Number(item?.id)}
                                   className="text-black dark:text-white"
                                 >
                                   {item?.name}{" "}
@@ -288,6 +290,11 @@ const ExhibitionUpdate = ({ id, url }: Props) => {
                               <FaChevronDown />
                             </span>
                           </div>
+                          {errors.companyId && (
+                            <span className="font-medium text-red ">
+                              입력해주세요
+                            </span>
+                          )}
                         </td>
                       </tr>
 
