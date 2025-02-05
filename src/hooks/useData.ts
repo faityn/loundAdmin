@@ -868,3 +868,109 @@ export const deleteNotice = async (token: string, id: number) => {
     console.error("Error fetching data:", error);
   }
 };
+
+export const getUserReportList = async (
+  token: string,
+  page: number,
+  size: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/report/list?page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getUserReportDetail = async (token: string, id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/report/detail/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+    console.log(response);
+
+    const data = await response.json();
+
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+export const deleteReport = async (token: string, ids: string) => {
+  try {
+    const raw = JSON.stringify({
+      ids: ids,
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/report/delete`,
+      {
+        method: "DELETE",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const userReportUpdate = async (
+  token: string,
+  id: number,
+  post: { status?: string; start?: string; end?: string }
+) => {
+  try {
+    const raw = JSON.stringify({
+      request: post?.status,
+      startDate: post?.status === "block" ? post?.start : null,
+      endDate: post?.status === "block" ? post?.end : null,
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/report/update/${id}`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+    return { status: response.ok, result: data };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};

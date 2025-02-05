@@ -37,6 +37,7 @@ import {
   UserExhibitionRatingType,
   UserExhibitionTablesType,
   UserMessageActivityType,
+  UserReportListType,
   UsersAddExhibitionListType,
   UsersType,
 } from "@/types/adminType";
@@ -445,6 +446,16 @@ export const noticeListAtom = atom<NoticeType[]>({
 export const noticeDetailAtom = atom<NoticeType[]>({
   key: "noticeDetailAtom",
   default: [],
+});
+
+export const userReportListAtom = atom<UserReportListType[]>({
+  key: "userReportListAtom",
+  default: [],
+});
+
+export const userReportDetailAtom = atom<UserReportListType>({
+  key: "userReportDetailAtom",
+  default: {},
 });
 
 export const communityManageListAtom = atom<CommunityManageListType[]>({

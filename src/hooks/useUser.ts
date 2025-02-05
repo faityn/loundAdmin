@@ -404,10 +404,41 @@ export const userMessageActivity = async (
   }
 };
 
+export const checkUsername = async (
+  token: string,
+  userId: number,
+  username: string
+) => {
+  try {
+    const raw = JSON.stringify({
+      username: username,
+      userId: userId,
+    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/user/check_username`,
+      {
+        method: "POST",
+        body: raw,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const updateUserInfo = async (token: string, formdata: UserInfoType) => {
   const raw = JSON.stringify({
     userId: formdata?.userId,
     name: formdata?.name,
+    username: formdata?.username,
     email: formdata.email,
     phone: formdata.phone,
     birthday: formdata.birthday,
