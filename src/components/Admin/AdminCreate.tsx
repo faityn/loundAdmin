@@ -410,7 +410,7 @@ const AdminCreate = ({ url }: Props) => {
                   type="submit"
                   className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 "
                 >
-                  수정 확인
+                  등록하기
                 </button>
               </div>
             </form>

@@ -11,9 +11,7 @@ const CommunityUsersModal: React.FC = () => {
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
 
   const communityUsers = useRecoilValue(communityUsersAtom);
-
   const [isOpen, setIsOpen] = useState(false);
-
   const setDataSaved = useSetRecoilState(dataSavedAtom);
 
   const closeModal = () => {
@@ -22,13 +20,17 @@ const CommunityUsersModal: React.FC = () => {
     setDetailOpen(false);
   };
 
+  
+
+  
+
   return (
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-35 backdrop-blur-sm">
-      <div className="flex w-[450px] flex-col text-[#111111]">
+      <div className="flex w-[480px] flex-col text-[#111111]">
         <div className=" rounded-2xl  bg-white  p-5 px-8 text-center">
           <div className="  w-full  ">
             <div className="flex justify-between items-center border-b border-[#EEEEEE] pb-3 h-[55px]">
-              <div className="font-bold">커뮤니티 개최자</div>
+              <div className="font-bold">커뮤니티 회원 리스트</div>
               <div></div>
               <div className="">
                 <RiCloseFill
@@ -44,13 +46,14 @@ const CommunityUsersModal: React.FC = () => {
                 <table className="w-full table-auto text-sm">
                   <thead>
                     <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                      <th className="min-w-50px] px-4 py-3 font-medium text-black dark:text-white ">
+                      <th className="w-[50px] px-4 py-3 font-medium text-black dark:text-white ">
                         #
                       </th>
 
                       <th className="w-full px-4 py-3 font-medium text-black dark:text-white ">
-                        이름
+                        회원 이름
                       </th>
+                     
                     </tr>
                   </thead>
                   <tbody>
@@ -68,6 +71,7 @@ const CommunityUsersModal: React.FC = () => {
                             {item?.member?.position}
                           </p>
                         </td>
+                      
                       </tr>
                     ))}
                   </tbody>

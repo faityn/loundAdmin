@@ -10,6 +10,7 @@ import {
 } from "@/atom";
 import getToken from "@/helper/getToken";
 import {
+  communityManageDelete,
   getCommunityUsersList,
   getConferenceCommunityManageList,
 } from "@/hooks/useEvents";
@@ -19,7 +20,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Pagination from "../Pagination/Pagination";
 
 import CommunityUsersModal from "./CommunityUsersModal";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
+import AlertModal from "../Modal/AlertModal";
 
 interface Props {
   url?: string;
@@ -42,6 +44,16 @@ const CommunityListManage = ({ url }: Props) => {
   const menuPermission = useRecoilValue(menuPermissionAtom);
   const setCommunityUsers = useSetRecoilState(communityUsersAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+const [confirmModal, setConfirmModal] = useState(false);
+const [communityUserId, setCommunityUserId] = useState(0);
+const [isOpen, setIsOpen] = useState(false);
+
+const closeModal = () => {
+    setDataSaved(true);
+    setIsOpen(false);
+    setDetailOpen(false);
+  };
+
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
@@ -64,6 +76,25 @@ const CommunityListManage = ({ url }: Props) => {
       );
     }
   };
+
+  const deleteConfirm = async (val: number) => {
+      setCommunityUserId(val);
+      setConfirmModal(true);
+    };
+  
+    const communityUserDelete = async () => {
+      const userToken = getToken();
+  
+      const response = await communityManageDelete(
+        String(userToken),
+        Number(communityUserId)
+      );
+  
+      if (response) {
+        setIsOpen(true);
+        setConfirmModal(false);
+      }
+    };
 
   const communityUsersModal = async (communityId: number) => {
     setDataSaved(false);
@@ -139,6 +170,50 @@ const CommunityListManage = ({ url }: Props) => {
           </div>
           <div className="flex w-full  justify-end gap-4">
             {detailOpen ? <CommunityUsersModal /> : ""}
+
+{confirmModal ? (
+        <AlertModal>
+          <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-[16px] text-red">
+            <div className="">정말 취소하시겠습니까?</div>
+          </div>
+          <div className="flex w-full items-center justify-center gap-4">
+            <button
+              onClick={() => setConfirmModal(false)}
+              className="rounded-md bg-slate-400 px-4 py-1 text-white"
+            >
+              취소
+            </button>
+
+            <button
+              onClick={() => communityUserDelete()}
+              className="rounded-md bg-black px-4 py-1 text-white"
+            >
+              삭제
+            </button>
+          </div>
+        </AlertModal>
+      ) : (
+        ""
+      )}
+
+            {isOpen ? (
+        <AlertModal>
+          <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
+            <FaRegCheckCircle className="text-xl" />{" "}
+            <div className="">저장되었습니다</div>
+          </div>
+          <div className="flex w-full items-center justify-center gap-4">
+            <button
+              onClick={closeModal}
+              className="rounded-md bg-black px-4 py-1 text-white"
+            >
+              확인
+            </button>
+          </div>
+        </AlertModal>
+      ) : (
+        ""
+      )}
           </div>
         </div>
       </div>
@@ -193,6 +268,10 @@ const CommunityListManage = ({ url }: Props) => {
               </th>
               <th className="min-w-[150px] max-w-[200px] px-4 py-3 font-medium text-black dark:text-white">
                 커뮤니티 회원
+              </th>
+
+              <th className="min-w-[80px] px-4 py-3 font-medium text-black dark:text-white">
+                
               </th>
             </tr>
           </thead>
@@ -249,27 +328,15 @@ const CommunityListManage = ({ url }: Props) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? communityUsersModal(Number(item?.communityId))
-                        : ""
-                    }
-                  >
-                    <p className="font-medium cursor-pointer">{item?.title}</p>
-                  </div>
+                  
+                    <p className="font-medium ">{item?.title}</p>
+                  
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  <div
-                    onClick={() =>
-                      menuPermission?.status === "write"
-                        ? communityUsersModal(Number(item?.communityId))
-                        : ""
-                    }
-                  >
-                    <p className="cursor-pointer">{item?.user?.name}</p>
-                  </div>
+                  
+                    <p className="">{item?.user?.name}</p>
+                  
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <div
@@ -279,8 +346,18 @@ const CommunityListManage = ({ url }: Props) => {
                         : ""
                     }
                   >
-                    <p className="cursor-pointer">{item?.memberCount}</p>
+                    <p className="cursor-pointer">{item?.memberCount} 명</p>
                   </div>
+                </td>
+                <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
+                  <button
+                            onClick={() =>
+                              deleteConfirm(Number(item?.communityId))
+                            }
+                            className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
+                          >
+                            취소
+                          </button>
                 </td>
               </tr>
             ))}
