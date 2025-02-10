@@ -175,7 +175,7 @@ const TableOrderDetailModal: React.FC = () => {
         <AlertModal>
           <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
             <FaRegCheckCircle className="text-xl" />{" "}
-            <div className="">Deleted</div>
+            <div className="">삭제되었습니다.</div>
           </div>
           <div className="flex w-full items-center justify-center gap-4">
             <button

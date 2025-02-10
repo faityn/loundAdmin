@@ -108,18 +108,17 @@ const Sidebar = ({
       }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-4 ">
-        <div className="flex items-end gap-2">
-          <div className=" pb-2">
+        <div className="flex items-center justify-between gap-2  w-full ">
+          <div className="w-[150px] mx-auto   ">
             <Link href="/">
               <img
                 src={`/images/logo/lound-logo-white.png`}
                 contextMenu="false"
                 alt="logo "
-                className="max-h-[40px] max-w-[140px]  "
+                className="h-[50px] w-[136px]  "
               />
             </Link>
           </div>
-          <div className="text-xl text-blue-300"></div>
         </div>
         <button
           ref={trigger}

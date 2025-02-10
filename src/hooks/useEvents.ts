@@ -1001,6 +1001,30 @@ export const getCommunityUsersList = async (token: string, id: number) => {
   }
 };
 
+export const communityManageDelete = async (token: string, id: number) => {
+  try {
+    console.log(id);
+
+    
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community_manage/${id}/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.text();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getRatingDownload = async (token: string, id: number) => {
   try {
     const response = await fetch(
