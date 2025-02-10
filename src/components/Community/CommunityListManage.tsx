@@ -356,7 +356,7 @@ const closeModal = () => {
                             }
                             className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
                           >
-                            취소
+                            삭제
                           </button>
                 </td>
               </tr>

@@ -319,9 +319,10 @@ const UserReportList = ({ url }: Props) => {
                     }
                   >
                     <h5 className="font-medium  dark:text-white">
-                      {item?.blocked?.name}
+                      {item?.blocker?.name}
                     </h5>
                   </div>
+                  
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <div
@@ -333,7 +334,7 @@ const UserReportList = ({ url }: Props) => {
                     }
                   >
                     <h5 className="font-medium  dark:text-white">
-                      {item?.blocker?.name}
+                      {item?.blocked?.name}
                     </h5>
                   </div>
                 </td>
