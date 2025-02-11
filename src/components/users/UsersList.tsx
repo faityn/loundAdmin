@@ -20,7 +20,7 @@ import {
   userExhibitionRatingAtom,
 } from "@/atom";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Pagination from "../Pagination/Pagination";
 import {
   deleteUser,
@@ -48,7 +48,6 @@ interface Props {
 const UsersList = ({ url }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   const [newUrl, setNewUrl] = useState("");
   const [pageLimit, setPageLimit] = useState("10");
@@ -57,7 +56,7 @@ const UsersList = ({ url }: Props) => {
   const size = pageLimit;
 
   const [totalPage, setTotalPage] = useRecoilState(totalPageAtom);
-  const pageUrl = `${pathname}?${newUrl}&pageLimit=${pageLimit}`;
+  const pageUrl = `users?${newUrl}&pageLimit=${pageLimit}`;
   const [isOpen, setIsOpen] = useState(false);
   const [userAllList, setUserAllList] = useRecoilState(userAllListAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
