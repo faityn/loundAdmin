@@ -340,9 +340,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
                 행사 이름
               </th>
-              <th className="min-w-[120px] px-4 py-3 font-medium text-black dark:text-white ">
-                체크인 번호
-              </th>
+              
               <th className="min-w-[300px] w-[320px] px-4 py-3 font-medium text-black dark:text-white ">
                 강연 일정
               </th>
@@ -411,11 +409,7 @@ const ExhibitionLecturesList = ({ url }: Props) => {
                     {item?.exhibition?.title}
                   </h5>
                 </td>
-                <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <h5 className="font-medium  dark:text-white">
-                    {item?.exhibition?.verifyCode}
-                  </h5>
-                </td>
+                
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   {item?.startDate
                     ? formatInTimeZone(
