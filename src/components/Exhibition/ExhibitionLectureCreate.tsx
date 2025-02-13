@@ -168,8 +168,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
                               value={item?.exhibitionId}
                               className="text-black dark:text-white"
                             >
-                              {item?.title}{" "}
-                              {item?.verifyCode ? `- ${item?.verifyCode}` : ""}
+                              {item?.title}
                             </option>
                           ))}
                         </select>

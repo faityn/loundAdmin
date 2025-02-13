@@ -240,7 +240,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                                   className="text-black dark:text-bodydark"
                                 >
                                   {e?.title}{" "}
-                                  {e?.verifyCode ? `- ${e?.verifyCode}` : ""}
+                                 
                                 </option>
                               ))}
                             </select>
