@@ -196,6 +196,7 @@ export const exhibitionUsersDeleteMulti = async (
         method: "DELETE",
         body: raw,
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
