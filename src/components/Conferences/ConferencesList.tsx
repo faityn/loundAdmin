@@ -18,7 +18,7 @@ import {
   conferenceDeleteMulti,
   getConferencesList,
 } from "@/hooks/useEvents";
-import { format } from "date-fns";
+import { parseISO } from "date-fns";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,6 +31,7 @@ import { getSearchOptionList } from "@/hooks/useUser";
 import { FaChevronDown } from "react-icons/fa";
 import CustomModal from "../Modal/Confirm";
 import DeleteConfirm from "../Modal/DeleteConfirm";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface Props {
   url?: string;
@@ -189,6 +190,7 @@ const ConferencesList = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
+
     setTotalCount(Number(response?.count));
     const totalPage =
       response !== undefined
@@ -450,11 +452,19 @@ const ConferencesList = ({ url }: Props) => {
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {item?.startDate
-                      ? format(item?.startDate as string, "yyyy-MM-dd HH:mm")
+                      ? formatInTimeZone(
+                          parseISO(item?.startDate),
+                          "UTC",
+                          "yyyy-MM-dd HH:mm"
+                        )
                       : ""}{" "}
                     ~{" "}
                     {item?.endDate
-                      ? format(item?.endDate as string, "yyyy-MM-dd HH:mm")
+                      ? formatInTimeZone(
+                          parseISO(item?.endDate),
+                          "UTC",
+                          "yyyy-MM-dd HH:mm"
+                        )
                       : ""}
                   </p>
                 </td>

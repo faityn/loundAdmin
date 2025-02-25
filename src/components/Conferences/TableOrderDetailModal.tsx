@@ -1,6 +1,7 @@
 import {
   dataSavedAtom,
   detailOpenAtom,
+  menuPermissionAtom,
   tableNumberAtom,
   tableOrderDetailAtom,
 } from "@/atom";
@@ -18,7 +19,7 @@ import { tableOrderCancel } from "@/hooks/useData";
 
 const TableOrderDetailModal: React.FC = () => {
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
-
+  const menuPermission = useRecoilValue(menuPermissionAtom);
   const tableOrderDetail = useRecoilValue(tableOrderDetailAtom);
   const tableNumber = useRecoilValue(tableNumberAtom);
   const [isOpen, setIsOpen] = useState(false);
@@ -119,14 +120,22 @@ const TableOrderDetailModal: React.FC = () => {
                         : ""} */}
                     </div>
                     <div className="min-w-[80px] px-2 text-center">
-                      <button
-                        onClick={() =>
-                          tableOrderDeleteConfirm(Number(item?.tableId))
-                        }
-                        className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
-                      >
-                        취소
-                      </button>
+                      {menuPermission?.status === "write" ? (
+                        <button
+                          onClick={() =>
+                            tableOrderDeleteConfirm(Number(item?.tableId))
+                          }
+                          className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
+                        >
+                          취소
+                        </button>
+                      ) : (
+                        <button
+                          className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-slate-400 text-slate-400 `}
+                        >
+                          취소
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}

@@ -219,6 +219,7 @@ export type ConferenceOptionType = {
 export type CommunityListType = {
   communityId?: number;
   conferenceId?: number;
+  availableMembersCnt?: number;
   title?: string;
   request?: string;
   userId?: number;
@@ -226,6 +227,9 @@ export type CommunityListType = {
     participationText?: string;
     personCnt?: number;
     participation?: string;
+    startDate?: string;
+    endDate?: string;
+    description?: string;
   };
 };
 
@@ -233,6 +237,7 @@ export type CommunityManageListType = {
   communityId?: number;
   memberCount?: number;
   title?: string;
+  description?: string;
   request?: string;
   userId?: number;
   user?: {
@@ -607,6 +612,15 @@ export type CommunityUsersListType = {
   member?: {
     company_name?: string;
     img?: string;
+    imgUrl?: string;
+    name?: string;
+    position?: string;
+  };
+
+  user?: {
+    company_name?: string;
+    img?: string;
+    imgUrl?: string;
     name?: string;
     position?: string;
   };

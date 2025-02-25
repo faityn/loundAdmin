@@ -8,12 +8,14 @@ interface DateTimePickerProps {
   label?: string;
   onDateChange: (date: Date) => void;
   defaultDate?: string;
+  placeholder?: string;
 }
 
 const StartDatePickerByModal: React.FC<DateTimePickerProps> = ({
   label,
   onDateChange,
   defaultDate,
+  placeholder,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -36,7 +38,7 @@ const StartDatePickerByModal: React.FC<DateTimePickerProps> = ({
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd "
         className="w-full rounded-lg border-[1.5px] border-slate-300 bg-transparent px-5 py-2 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
-        placeholderText="시작"
+        placeholderText={placeholder ? placeholder : "시작"}
         popperClassName="custom-datepicker-popper"
       />
     </div>

@@ -449,35 +449,35 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
               <tr key={index}>
                 <td className="border-b  border-[#eee] px-3 py-3  dark:border-strokedark ">
                   <label
-                    htmlFor={String(item?.userId)}
+                    htmlFor={String(item?.exhibition?.[0]?.id)}
                     className="flex cursor-pointer select-none items-center"
                   >
                     <div className="relative">
                       <input
                         type="checkbox"
-                        id={String(item?.userId)}
+                        id={String(item?.exhibition?.[0]?.id)}
                         className="sr-only"
                         onChange={(e) =>
                           handleCheck(
                             e,
-                            (item?.userId as unknown) as string
+                            (item?.exhibition?.[0]?.id as unknown) as string
                           )
                         }
                         checked={checkedElements.includes(
-                          (item?.userId as unknown) as string
+                          (item?.exhibition?.[0]?.id as unknown) as string
                         )}
                       />
                       <div
                         className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
                           checkedElements.includes(
-                            (item?.userId as unknown) as string
+                            (item?.exhibition?.[0]?.id as unknown) as string
                           ) && "border-primary bg-gray dark:bg-transparent"
                         }`}
                       >
                         <span
                           className={`h-2 w-2 rounded-sm ${
                             checkedElements.includes(
-                              (item?.userId as unknown) as string
+                              (item?.exhibition?.[0]?.id as unknown) as string
                             ) && "bg-primary"
                           }`}
                         ></span>

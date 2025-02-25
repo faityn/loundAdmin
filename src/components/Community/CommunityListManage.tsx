@@ -1,6 +1,8 @@
 "use client";
 import {
   checkedListAtom,
+  communityDetailOpenAtom,
+  communityManageDetailAtom,
   communityManageListAtom,
   communityUsersAtom,
   dataSavedAtom,
@@ -19,9 +21,10 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Pagination from "../Pagination/Pagination";
 
-import CommunityUsersModal from "./CommunityUsersModal";
 import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
 import AlertModal from "../Modal/AlertModal";
+import CommunityManageUserListModal from "./CommunityManageUserListModal";
+import CommunityManageDetailModal from "./CommunityManageDetailModal";
 
 interface Props {
   url?: string;
@@ -39,21 +42,24 @@ const CommunityListManage = ({ url }: Props) => {
   const [communityManageList, setCommunityManageList] = useRecoilState(
     communityManageListAtom
   );
+  const setCommunityManageDetail = useSetRecoilState(communityManageDetailAtom);
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
   const setCommunityUsers = useSetRecoilState(communityUsersAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
-const [confirmModal, setConfirmModal] = useState(false);
-const [communityUserId, setCommunityUserId] = useState(0);
-const [isOpen, setIsOpen] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [communityUserId, setCommunityUserId] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [communityDetailOpen, setCommunityDetailOpen] = useRecoilState(
+    communityDetailOpenAtom
+  );
 
-const closeModal = () => {
+  const closeModal = () => {
     setDataSaved(true);
     setIsOpen(false);
     setDetailOpen(false);
   };
-
 
   const handlePageLimit = (value: string) => {
     setPageLimit(value);
@@ -78,23 +84,36 @@ const closeModal = () => {
   };
 
   const deleteConfirm = async (val: number) => {
-      setCommunityUserId(val);
-      setConfirmModal(true);
-    };
-  
-    const communityUserDelete = async () => {
-      const userToken = getToken();
-  
-      const response = await communityManageDelete(
-        String(userToken),
-        Number(communityUserId)
-      );
-  
-      if (response) {
-        setIsOpen(true);
-        setConfirmModal(false);
-      }
-    };
+    setCommunityUserId(val);
+    setConfirmModal(true);
+  };
+
+  const communityUserDelete = async () => {
+    const userToken = getToken();
+
+    const response = await communityManageDelete(
+      String(userToken),
+      Number(communityUserId)
+    );
+
+    if (response) {
+      setIsOpen(true);
+      setConfirmModal(false);
+    }
+  };
+
+  const CommunityManageDetail = async (communityId: number) => {
+    setDataSaved(false);
+    const detail = communityManageList.find(
+      (item) => item.communityId === communityId
+    );
+
+    if (detail) {
+      setCommunityManageDetail(detail);
+    }
+
+    setCommunityDetailOpen(true);
+  };
 
   const communityUsersModal = async (communityId: number) => {
     setDataSaved(false);
@@ -169,51 +188,51 @@ const closeModal = () => {
             </div>
           </div>
           <div className="flex w-full  justify-end gap-4">
-            {detailOpen ? <CommunityUsersModal /> : ""}
+            {detailOpen ? <CommunityManageUserListModal /> : ""}
+            {communityDetailOpen ? <CommunityManageDetailModal /> : ""}
+            {confirmModal ? (
+              <AlertModal>
+                <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-[16px] text-red">
+                  <div className="">정말 취소하시겠습니까?</div>
+                </div>
+                <div className="flex w-full items-center justify-center gap-4">
+                  <button
+                    onClick={() => setConfirmModal(false)}
+                    className="rounded-md bg-slate-400 px-4 py-1 text-white"
+                  >
+                    취소
+                  </button>
 
-{confirmModal ? (
-        <AlertModal>
-          <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-[16px] text-red">
-            <div className="">정말 취소하시겠습니까?</div>
-          </div>
-          <div className="flex w-full items-center justify-center gap-4">
-            <button
-              onClick={() => setConfirmModal(false)}
-              className="rounded-md bg-slate-400 px-4 py-1 text-white"
-            >
-              취소
-            </button>
-
-            <button
-              onClick={() => communityUserDelete()}
-              className="rounded-md bg-black px-4 py-1 text-white"
-            >
-              삭제
-            </button>
-          </div>
-        </AlertModal>
-      ) : (
-        ""
-      )}
+                  <button
+                    onClick={() => communityUserDelete()}
+                    className="rounded-md bg-black px-4 py-1 text-white"
+                  >
+                    삭제
+                  </button>
+                </div>
+              </AlertModal>
+            ) : (
+              ""
+            )}
 
             {isOpen ? (
-        <AlertModal>
-          <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
-            <FaRegCheckCircle className="text-xl" />{" "}
-            <div className="">저장되었습니다</div>
-          </div>
-          <div className="flex w-full items-center justify-center gap-4">
-            <button
-              onClick={closeModal}
-              className="rounded-md bg-black px-4 py-1 text-white"
-            >
-              확인
-            </button>
-          </div>
-        </AlertModal>
-      ) : (
-        ""
-      )}
+              <AlertModal>
+                <div className="mb-3 mt-2 flex items-center justify-center gap-2 text-xl text-green-600">
+                  <FaRegCheckCircle className="text-xl" />{" "}
+                  <div className="">저장되었습니다</div>
+                </div>
+                <div className="flex w-full items-center justify-center gap-4">
+                  <button
+                    onClick={closeModal}
+                    className="rounded-md bg-black px-4 py-1 text-white"
+                  >
+                    확인
+                  </button>
+                </div>
+              </AlertModal>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
@@ -270,9 +289,7 @@ const closeModal = () => {
                 커뮤니티 회원
               </th>
 
-              <th className="min-w-[80px] px-4 py-3 font-medium text-black dark:text-white">
-                
-              </th>
+              <th className="min-w-[80px] px-4 py-3 font-medium text-black dark:text-white"></th>
             </tr>
           </thead>
           <tbody>
@@ -328,15 +345,20 @@ const closeModal = () => {
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  
-                    <p className="font-medium ">{item?.title}</p>
-                  
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? CommunityManageDetail(Number(item?.communityId))
+                        : ""
+                    }
+                  >
+                    <p className="font-medium ">{item?.title} </p>
+                  </div>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  
-                    <p className="">{item?.user?.name}</p>
-                  
+                  <p className="">{item?.user?.name}</p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <div
@@ -351,13 +373,11 @@ const closeModal = () => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <button
-                            onClick={() =>
-                              deleteConfirm(Number(item?.communityId))
-                            }
-                            className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
-                          >
-                            삭제
-                          </button>
+                    onClick={() => deleteConfirm(Number(item?.communityId))}
+                    className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
+                  >
+                    삭제
+                  </button>
                 </td>
               </tr>
             ))}

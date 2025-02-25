@@ -89,8 +89,6 @@ export const updateAdmin = async (
   adminPermittionArray: AdminPermittionType[]
 ) => {
   try {
-    console.log("hh", status);
-
     const raw =
       password !== ""
         ? JSON.stringify({
@@ -161,7 +159,6 @@ export const getAdminDetail = async (token: string, id: number) => {
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.json();
 

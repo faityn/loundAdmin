@@ -22,7 +22,8 @@ import {
   getConferencesOptions,
   updateConferenceStatus,
 } from "@/hooks/useEvents";
-import { format } from "date-fns";
+import { parseISO } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 interface Props {
   id: number;
   url?: string;
@@ -74,8 +75,20 @@ const ConferenceUpdate = ({ id, url }: Props) => {
     const response = await getConferenceDetail(String(userToken), id);
 
     if (response?.status) {
-      setStartDate(format(response?.result?.startDate, "yyyy-MM-dd HH:mm"));
-      setEndDate(format(response?.result?.endDate, "yyyy-MM-dd HH:mm"));
+      setStartDate(
+        formatInTimeZone(
+          parseISO(response?.result?.startDate),
+          "UTC",
+          "yyyy-MM-dd HH:mm"
+        )
+      );
+      setEndDate(
+        formatInTimeZone(
+          parseISO(response?.result?.endDate),
+          "UTC",
+          "yyyy-MM-dd HH:mm"
+        )
+      );
       setContentValue(response?.result?.description);
 
       setOptionValue(response?.result?.request);

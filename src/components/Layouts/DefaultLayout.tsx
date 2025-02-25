@@ -38,6 +38,7 @@ export default function DefaultLayout({ children, menuId }: WithRoleProps) {
       }
       if (item.children && item.children.length > 0) {
         const found = findByMenuId(item.children, menuId);
+
         if (found) {
           return found;
         }
@@ -50,9 +51,7 @@ export default function DefaultLayout({ children, menuId }: WithRoleProps) {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getAdminRole();
   }, []);
-  // useEffect(() => {
-  //   findByMenuId(menuList, Number(menuId));
-  // }, [menuList]);
+
   return (
     <RecoilRoot>
       <div className="flex h-screen overflow-hidden">
