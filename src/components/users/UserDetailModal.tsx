@@ -405,6 +405,7 @@ const DetailModal: React.FC = () => {
                           label=""
                           onDateChange={startDateChange}
                           defaultDate={birthDate}
+                          placeholder={"날짜 선택"}
                         />
 
                         {validError && (
@@ -561,13 +562,13 @@ const DetailModal: React.FC = () => {
                         <div className="w-30 ">
                           <div className="h-20 w-20 rounded-full  bg-slate-400">
                             <label htmlFor="doc">
-                              <div className="flex h-full items-center justify-center ">
+                              <div className="flex h-full items-center justify-center rounded-full">
                                 {userDetail[0]?.imgUrl !== null ? (
                                   <img
                                     src={`${userDetail[0]?.imgUrl}`}
                                     contextMenu="false"
                                     alt={userDetail[0]?.name}
-                                    className="max-h-20 max-w-20 rounded-full "
+                                    className="h-full max-w-20 rounded-full object-cover"
                                   />
                                 ) : (
                                   <FaUserLarge className="text-[40px] text-white" />

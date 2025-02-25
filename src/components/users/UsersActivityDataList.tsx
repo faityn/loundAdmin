@@ -21,7 +21,6 @@ const UsersActivityDataList = () => {
   };
 
   const userDelete = async () => {
-    console.log("delete");
     //getData();
     setChechedUsers([]);
     setIsOpen(false);

@@ -40,18 +40,6 @@ const AdminRoleList = ({ url }: Props) => {
     setIsOpen(true);
   };
 
-  // const itemDelete = async (id: number) => {
-  //   const userToken = getToken();
-  //   const check = await checkRole(String(userToken), Number(id));
-  //   console.log(check);
-
-  //    const deleted = await deleteRole(String(userToken), Number(id));
-  //    console.log(deleted);
-
-  //   getData();
-
-  //   setIsOpen(false);
-  // };
   return (
     <div className="rounded-lg border border-stroke bg-white  pb-2.5 pt-4 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-4 xl:pb-1">
       <div className="grid grid-cols-12 pb-4">

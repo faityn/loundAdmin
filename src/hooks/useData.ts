@@ -83,7 +83,6 @@ export const tableOrderCancel = async (token: string, id: number) => {
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.text();
 
@@ -116,10 +115,9 @@ export const saveExhibitionTable = async (
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.text();
-    console.log(data);
+
     return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -908,7 +906,6 @@ export const getUserReportDetail = async (token: string, id: number) => {
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.json();
 

@@ -376,7 +376,7 @@ export const getFeedbackDetail = async (token: string, id: number) => {
         redirect: "follow",
       }
     );
-    console.log(response);
+  
 
     const data = await response.json();
 
@@ -495,10 +495,8 @@ export const getUsersListByExhibitions = async (
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.json();
-    console.log(data);
 
     return data;
   } catch (error) {
@@ -979,6 +977,31 @@ export const getConferenceCommunityManageList = async (
   }
 };
 
+export const getConferenceCommunityUsersList = async (
+  token: string,
+  id: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community/${id}/members`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const getCommunityUsersList = async (token: string, id: number) => {
   try {
     const response = await fetch(
@@ -1003,9 +1026,6 @@ export const getCommunityUsersList = async (token: string, id: number) => {
 
 export const communityManageDelete = async (token: string, id: number) => {
   try {
-    console.log(id);
-
-    
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/conference/community_manage/${id}/delete`,
       {
@@ -1037,10 +1057,10 @@ export const getRatingDownload = async (token: string, id: number) => {
         },
       }
     );
-    console.log(response);
+   
 
     const data = await response.text();
-    console.log(data);
+   
     return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);

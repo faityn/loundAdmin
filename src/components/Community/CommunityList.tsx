@@ -1,8 +1,12 @@
 "use client";
 import {
   checkedListAtom,
+  communityDetailAtom,
+  communityDetailOpenAtom,
   communityListAtom,
+  communityUsersAtom,
   dataSavedAtom,
+  detailOpenAtom,
   menuPermissionAtom,
   totalPageAtom,
 } from "@/atom";
@@ -10,12 +14,15 @@ import getToken from "@/helper/getToken";
 import {
   changeCommunityStatus,
   getConferenceCommunityList,
+  getConferenceCommunityUsersList,
 } from "@/hooks/useEvents";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Pagination from "../Pagination/Pagination";
 import { FaChevronDown } from "react-icons/fa";
+import CommunityDetailModal from "./CommunityDetailModal";
+import CommunityUsersModal from "./CommunityUsersModal";
 
 interface Props {
   url?: string;
@@ -32,9 +39,16 @@ const CommunityList = ({ url }: Props) => {
 
   const pageUrl = `${pathname}?id=0`;
   const [communityList, setCommunityList] = useRecoilState(communityListAtom);
+  const setCommunityDetail = useSetRecoilState(communityDetailAtom);
+
   const [checkedElements, setChechedElements] = useRecoilState(checkedListAtom);
   const [dataSaved, setDataSaved] = useRecoilState(dataSavedAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
+  const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
+  const [communityDetailOpen, setCommunityDetailOpen] = useRecoilState(
+    communityDetailOpenAtom
+  );
+  const setCommunityUsers = useSetRecoilState(communityUsersAtom);
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (id === "all") {
@@ -72,6 +86,35 @@ const CommunityList = ({ url }: Props) => {
     setChechedElements([]);
     setDataSaved(true);
     //setIsOpen(false);
+  };
+
+  const CommunityDetail = async (communityId: number) => {
+    setDataSaved(false);
+    const detail = communityList.find(
+      (item) => item.communityId === communityId
+    );
+    if (detail) {
+      setCommunityDetail(detail);
+    }
+
+    setCommunityDetailOpen(true);
+  };
+
+  const communityUsersModal = async (communityId: number) => {
+    setDataSaved(false);
+    const userToken = getToken();
+
+    const response = await getConferenceCommunityUsersList(
+      String(userToken),
+      Number(communityId)
+    );
+
+    if (response?.length > 0) {
+      setCommunityUsers(response);
+    } else {
+      setCommunityUsers([]);
+    }
+    setDetailOpen(true);
   };
 
   const getData = async () => {
@@ -136,6 +179,9 @@ const CommunityList = ({ url }: Props) => {
             </div>
           </div>
         </div>
+        {communityDetailOpen ? <CommunityDetailModal /> : ""}
+
+        {detailOpen ? <CommunityUsersModal /> : ""}
       </div>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto text-sm">
@@ -179,14 +225,14 @@ const CommunityList = ({ url }: Props) => {
               </th>
 
               <th className="min-w-[200px] px-4 py-3 font-medium text-black dark:text-white ">
-                제목
+                회의 제목
               </th>
 
               <th className="min-w-[150px] px-4 py-3 font-medium text-black dark:text-white">
-                Type
+                회의 참가 방식
               </th>
               <th className="min-w-[150px] max-w-[200px] px-4 py-3 font-medium text-black dark:text-white">
-                Person count
+                회의 참여자
               </th>
               <th className="max-w-[130px] px-4 py-3 font-medium text-black dark:text-white">
                 상태
@@ -246,9 +292,18 @@ const CommunityList = ({ url }: Props) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
-                  <h5 className="font-medium  dark:text-white">
-                    {item?.title}
-                  </h5>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? CommunityDetail(Number(item?.communityId))
+                        : ""
+                    }
+                  >
+                    <h5 className="font-medium  dark:text-white">
+                      {item?.title}
+                    </h5>
+                  </div>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
@@ -257,7 +312,16 @@ const CommunityList = ({ url }: Props) => {
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
-                  {item?.conference?.personCnt}
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      menuPermission?.status === "write"
+                        ? communityUsersModal(Number(item?.communityId))
+                        : ""
+                    }
+                  >
+                    {item?.availableMembersCnt}
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <p
@@ -287,6 +351,14 @@ const CommunityList = ({ url }: Props) => {
                 type="button"
                 className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
                 onClick={() => statusChange("reject")}
+                disabled={checkedElements?.length > 0 ? false : true}
+              >
+                생성불가
+              </button>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-md bg-slate-400 px-5 py-1.5 text-center text-[15px] font-medium text-white hover:bg-opacity-90 disabled:bg-slate-300"
+                onClick={() => statusChange("request")}
                 disabled={checkedElements?.length > 0 ? false : true}
               >
                 대기

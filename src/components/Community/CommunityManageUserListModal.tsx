@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import AlertModal from "../Modal/AlertModal";
 import { FaUserLarge } from "react-icons/fa6";
 
-const CommunityUsersModal: React.FC = () => {
+const CommunityManageUserListModal: React.FC = () => {
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
   const communityUsers = useRecoilValue(communityUsersAtom);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,9 +47,9 @@ const CommunityUsersModal: React.FC = () => {
                           <div className="h-16 w-16 rounded-full  bg-slate-400">
                             <label htmlFor="doc">
                               <div className="flex h-full items-center justify-center rounded-full">
-                                {item?.user?.imgUrl ? (
+                                {item?.member?.imgUrl ? (
                                   <img
-                                    src={`${item?.user?.imgUrl}`}
+                                    src={`${item?.member?.imgUrl}`}
                                     contextMenu="false"
                                     className="h-full max-w-16 rounded-full object-cover"
                                   />
@@ -63,8 +63,8 @@ const CommunityUsersModal: React.FC = () => {
 
                         <td className=" px-4 py-4   ">
                           <p className="text-[18px]">
-                            {item?.user?.company_name} {item?.user?.name}{" "}
-                            {item?.user?.position}
+                            {item?.member?.company_name} {item?.member?.name}{" "}
+                            {item?.member?.position}
                           </p>
                         </td>
                       </tr>
@@ -99,4 +99,4 @@ const CommunityUsersModal: React.FC = () => {
   );
 };
 
-export default CommunityUsersModal;
+export default CommunityManageUserListModal;

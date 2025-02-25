@@ -239,6 +239,11 @@ export const communityListAtom = atom<CommunityListType[]>({
   default: [],
 });
 
+export const communityDetailAtom = atom<CommunityListType>({
+  key: "communityDetailAtom",
+  default: {},
+});
+
 export const conferencesListAtom = atom<ConferenceType[]>({
   key: "conferencesListAtom",
   default: [],
@@ -304,6 +309,11 @@ export const searchWordAtom = atom({
 
 export const detailOpenAtom = atom({
   key: "detailOpenAtom",
+  default: false,
+});
+
+export const communityDetailOpenAtom = atom({
+  key: "communityDetailOpenAtom",
   default: false,
 });
 
@@ -461,6 +471,11 @@ export const userReportDetailAtom = atom<UserReportListType>({
 export const communityManageListAtom = atom<CommunityManageListType[]>({
   key: "communityManageListAtom",
   default: [],
+});
+
+export const communityManageDetailAtom = atom<CommunityManageListType>({
+  key: "communityManageDetailAtom",
+  default: {},
 });
 
 export const communityUsersAtom = atom<CommunityUsersListType[]>({

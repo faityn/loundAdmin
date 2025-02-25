@@ -79,6 +79,31 @@ export const getLoginData = async (token: string) => {
   }
 };
 
+export const getUsersAll = async (
+  token: string,
+  page: number,
+  size: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/list?page=${page}&pageSize=${size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 export const getUsersList = async (
   token: string,
   searchUrl: string,
@@ -482,7 +507,6 @@ export const updateUserProfile = async (token: string, formdata: FormData) => {
   if (image !== null) {
     formData2.append("img", image);
   }
-  console.log(formData2);
 
   try {
     const response = await fetch(
@@ -656,7 +680,6 @@ export const deleteOrganizer = async (token: string, ids: string) => {
         redirect: "follow",
       }
     );
-    console.log(response);
 
     const data = await response.text();
     return { status: response.ok, result: data };

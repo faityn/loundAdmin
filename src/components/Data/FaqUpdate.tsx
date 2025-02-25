@@ -47,7 +47,6 @@ const Update = ({ id, url }: Props) => {
   const getData = async () => {
     const userToken = getToken();
     const response = await getFaqDetail(String(userToken), id);
-    console.log(response?.result);
 
     if (response?.status) {
       setItemsDetail(response?.result);

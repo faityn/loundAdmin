@@ -70,7 +70,6 @@ const InterestsList = ({ url }: Props) => {
   const getData = async () => {
     const userToken = getToken();
     const response = await getInterestsList(String(userToken));
-    console.log(response);
 
     if (response?.status) {
       setTotalPage(response?.result?.page);

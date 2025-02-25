@@ -322,7 +322,6 @@ const UserReportList = ({ url }: Props) => {
                       {item?.blocker?.name}
                     </h5>
                   </div>
-                  
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4  dark:border-strokedark ">
                   <div
@@ -370,7 +369,13 @@ const UserReportList = ({ url }: Props) => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
                   <h5 className="font-medium  dark:text-white">
-                    {item?.request}
+                    {item?.request === "kick"
+                      ? "영구 차단"
+                      : item?.request === "block"
+                      ? "계정 일시 정지"
+                      : item?.request === "reject"
+                      ? "신고 취소"
+                      : "대기"}
                   </h5>
                 </td>
               </tr>
