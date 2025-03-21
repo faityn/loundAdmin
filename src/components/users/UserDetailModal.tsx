@@ -205,6 +205,7 @@ const DetailModal: React.FC = () => {
   };
 
   useEffect(() => {
+    
     setOptionRole(String(userDetail[0]?.roleId));
     setOptionProfession(String(userDetail[0]?.professionId));
     setContentValue(userDetail[0]?.description);
