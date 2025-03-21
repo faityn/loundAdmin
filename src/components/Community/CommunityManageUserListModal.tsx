@@ -26,7 +26,8 @@ const CommunityManageUserListModal: React.FC = () => {
         <div className=" rounded-2xl  bg-white  p-5 px-8 text-center">
           <div className="  w-full  ">
             <div className="flex justify-between items-center border-b border-[#EEEEEE] pb-3 h-[55px]">
-              <div className="font-bold">회의 참가자 리스트</div>
+              <div className="font-bold">커뮤니티 회원 리스트
+</div>
               <div></div>
               <div className="">
                 <RiCloseFill

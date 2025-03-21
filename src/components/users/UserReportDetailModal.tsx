@@ -237,7 +237,7 @@ const UserReportDetailModal: React.FC = () => {
                       } `}
                     >
                       <div className="min-w-[124px] text-[#666666]">
-                        신고 내용
+                        정지 기간
                       </div>
                       <div className="w-full">
                         <div className="flex w-full gap-4 max-sm:flex-col ">

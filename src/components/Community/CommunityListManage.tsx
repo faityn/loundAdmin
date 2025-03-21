@@ -372,12 +372,16 @@ const CommunityListManage = ({ url }: Props) => {
                   </div>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-4 dark:border-strokedark">
+                   {menuPermission?.status === "write" ? (
                   <button
                     onClick={() => deleteConfirm(Number(item?.communityId))}
                     className={`inline-flex rounded-3xl bg-opacity-10 px-3 py-1 text-sm font-medium capitalize border border-red text-red `}
                   >
                     삭제
                   </button>
+                  ) : (
+              ""
+            )}
                 </td>
               </tr>
             ))}

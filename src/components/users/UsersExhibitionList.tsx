@@ -32,7 +32,8 @@ const UsersExhibitionList = ({ userId }: Props) => {
     <div className="pl-5 text-xs">
       <div className=" font-semibold text-[#17B0D9] mb-2">
         {" "}
-        참가한 행사 정보
+        활동한 회의 정보
+
       </div>
 
       <div className="flex gap-3">

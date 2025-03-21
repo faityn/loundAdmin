@@ -209,7 +209,7 @@ const UsersList = ({ url }: Props) => {
     const userToken = getToken();
 
     const response =
-      userRole === "Super Admin"
+      userRole === "Super Admin" || userRole === "Admin"
         ? await getUsersList(
             String(userToken),
             newUrl as string,
