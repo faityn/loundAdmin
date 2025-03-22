@@ -57,6 +57,8 @@ const Sidebar = ({
   };
 
   useEffect(() => {
+
+    
     const foundItem = findByMenuId(menuList, Number(menuId));
     setMenuPermission({ menuId: foundItem?.menuId, status: foundItem?.status });
   }, [menuList]);
