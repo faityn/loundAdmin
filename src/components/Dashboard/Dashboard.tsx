@@ -1,5 +1,7 @@
 "use client";
 
+import { TiStarFullOutline } from "react-icons/ti";
+
 const Dashboard = () => {
   
 
@@ -74,7 +76,38 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="col-span-6 bg-[#F8F8F8]  rounded-xl">
+                        <div className="flex w-full h-full">
+                            <div className={`w-[40%] bg-[#4A90E2] rounded-l-xl flex flex-col items-center justify-center text-[12px] text-white`}>
+                                <div>남자</div>
+                                <div>40%</div>
+                            </div>
+                            <div className={`w-[60%] bg-[#FF6B6B] rounded-r-xl flex flex-col items-center justify-center text-[12px] text-white`}>
+                                <div>여자</div>
+                                <div>60%</div></div>
+                        </div>
+                    </div>
+                    <div className="col-span-6 bg-[#F8F8F8] h-[60px] rounded-xl">
+                        <div className="flex w-full h-full">
+                            <div className={`w-[30%] bg-[#4A90E2] rounded-l-xl flex flex-col items-center justify-center text-[12px] text-white`}>
+                                <div>20대</div>
+                                <div>30%</div>
+                            </div>
+                            <div className={`w-[30%] bg-[#4ECDC4] flex flex-col items-center justify-center text-[12px] text-white`}>
+                                <div>30대</div>
+                                <div>30%</div>
+                            </div>
+                            <div className={`w-[20%] bg-[#45B7D1] flex flex-col items-center justify-center text-[12px] text-white`}>
+                                <div>40대</div>
+                                <div>20%</div>
+                            </div>
+                            <div className={`w-[20%] bg-[#FF6B6B] rounded-r-xl flex flex-col items-center justify-center text-[12px] text-white`}>
+                                <div>50대+</div>
+                                <div>20%</div></div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
         <div className="col-span-6 max-lg:col-span-12">
@@ -144,6 +177,15 @@ const Dashboard = () => {
                                 <div className="text-[#111111] text-[15px] mb-2">참석율</div>
                                 <div ><span className="text-[#17B0D9] font-semibold text-[24px]">89.2</span> <span className="text-[#666666] text-[18px]" >%</span></div>
                             </div>
+                        </div>
+                    </div>
+                    <div className="col-span-12 bg-[#F8F8F8] h-[60px] px-5 rounded-xl">
+                        <div className="flex w-full h-full items-center ">
+                            <div className="w-full flex gap-x-4 items-center h-full ">
+                                <div className="text-[#111111] text-[15px] ">피드백 평균  </div> 
+                                <div className="flex h-full items-center"> <TiStarFullOutline className="text-[#FA423A] text-xl" />  <TiStarFullOutline className="text-[#FA423A] text-xl" /> <TiStarFullOutline className="text-[#FA423A] text-xl" /> <TiStarFullOutline className="text-[#DBDBDB] text-xl" /> <TiStarFullOutline className="text-[#DBDBDB] text-xl" /></div>
+                            </div>
+                            <div className="w-full font-bold flex justify-end"><div><span className="text-[#17B0D9]">4.2</span>  <span className="text-[#111111]">/ 5.0 </span></div></div>
                         </div>
                     </div>
                 </div>
