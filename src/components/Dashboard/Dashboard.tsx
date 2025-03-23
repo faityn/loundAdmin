@@ -1,12 +1,41 @@
 "use client";
 
+import { FaCaretDown } from "react-icons/fa";
 import { TiStarFullOutline } from "react-icons/ti";
 
 const Dashboard = () => {
   
 
   return (
-    <div className="grid grid-cols-12 gap-6 pb-4">
+    <>
+    <div className="flex justify-between">
+        <h2 className="text-title-md font-semibold capitalize text-black dark:text-white">
+            종합 통계 대시보드
+        
+        </h2>
+        <div className=""> 
+            <div className="relative z-20 bg-transparent dark:bg-form-input w-[122px]">
+                <select
+                    
+                    className={`relative z-20 w-full appearance-none rounded-lg border bg-white border-stroke bg-transparent px-3 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-bodydark text-sm`}
+                >
+                    
+                    
+                    <option
+                        value={`30day`}
+                        className="text-black dark:text-white"
+                    >
+                        최근 30일
+                    </option>
+                </select>
+
+                <span className="absolute right-3 top-1/2 z-30 -translate-y-1/2 text-black">
+                    <FaCaretDown />
+                </span>
+            </div>
+        </div>
+    </div>
+    <div className="grid grid-cols-12 gap-6 pb-4 ">
         <div className="col-span-6 max-lg:col-span-12">
             <div className="rounded-lg border border-stroke bg-white py-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-5 ">
      
@@ -335,8 +364,8 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
-      </div>
-    
+    </div>
+    </>
   );
 };
 
