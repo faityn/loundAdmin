@@ -632,3 +632,50 @@ export type CompanyListType = {
 
   use: boolean;
 };
+
+
+export type UserCurrentSituationType = {
+  age20sRate?: number;
+  age30sRate?: number;
+  age40sRate?: number;
+  age50PlusRate?: number;
+  allFemaleUserCount?: number;
+  allMaleUserCount?: number;
+  allNewUserCount?: number;
+  allOrganizer?: number;
+  allRecentLoginUserCount?: number;
+  allUserCount?: number;
+  femaleRate?: number;
+  maleRate?: number;
+  unknownAgeRate?: number;
+  userUsage?: number;
+  
+};
+
+export type ExhibitionCurrentSituationType = {
+  allDisabledExhibitionCount?: number;
+  allExhibitionCount?: number;
+  allUserExhibitionCount?: number;
+  avgExhibition?: string;
+  exhibitionUserConfirmedRate?: number;
+  
+  
+};
+
+export type ConferenceCurrentSituationType = {
+  allConferenceCount?: number;
+  allExhibitionConferenceTableCount?: number;
+  approvedConferenceRate?: number;
+  tableUsageRate?: number;
+  
+  
+};
+
+export type CommunityCurrentSituationType = {
+  allApprovedCommunityCount?: number;
+  allCommunityCount?: number;
+  allCommunityLikeCount?: number;
+  allCommunityPostCount?: number;
+  avgCommunityUsers?: number;
+  
+};

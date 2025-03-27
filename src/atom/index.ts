@@ -5,12 +5,15 @@ import {
   AdminType,
   AdminUsersType,
   BannerType,
+  CommunityCurrentSituationType,
   CommunityListType,
   CommunityManageListType,
   CommunityUsersListType,
   CompanyListType,
+  ConferenceCurrentSituationType,
   ConferenceOptionType,
   ConferenceType,
+  ExhibitionCurrentSituationType,
   ExhibitionLecturesType,
   ExhibitionOptionType,
   ExhibitionOrganizerListType,
@@ -30,6 +33,7 @@ import {
   PurposesType,
   SearchOptionsType,
   TableOrderDetailType,
+  UserCurrentSituationType,
   UserDetailOptionsType,
   UserExhibitionConferenceType,
   UserExhibitionLectureType,
@@ -486,4 +490,24 @@ export const communityUsersAtom = atom<CommunityUsersListType[]>({
 export const companyListAtom = atom<CompanyListType[]>({
   key: "companyListAtom",
   default: [],
+});
+
+export const userCurrentSituationAtom = atom<UserCurrentSituationType>({
+  key: "user_current_situation_atom",
+  default: {},
+});
+
+export const exhibitionCurrentSituationAtom = atom<ExhibitionCurrentSituationType>({
+  key: "exhibition_current_situation_atom",
+  default: {},
+});
+
+export const conferenceCurrentSituationAtom = atom<ConferenceCurrentSituationType>({
+  key: "admin_conference_current_situation_atom",
+  default: {},
+});
+
+export const communityCurrentSituationAtom = atom<CommunityCurrentSituationType>({
+  key: "community_current_situation_atom",
+  default: {},
 });
