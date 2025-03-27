@@ -35,7 +35,7 @@ const Login: React.FC = () => {
         path: "/",
       });
 
-      push("/users");
+      push("/");
       setLoader(false);
     }
   };
