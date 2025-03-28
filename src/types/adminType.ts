@@ -633,7 +633,6 @@ export type CompanyListType = {
   use: boolean;
 };
 
-
 export type UserCurrentSituationType = {
   age20sRate?: number;
   age30sRate?: number;
@@ -649,7 +648,6 @@ export type UserCurrentSituationType = {
   maleRate?: number;
   unknownAgeRate?: number;
   userUsage?: number;
-  
 };
 
 export type ExhibitionCurrentSituationType = {
@@ -658,8 +656,6 @@ export type ExhibitionCurrentSituationType = {
   allUserExhibitionCount?: number;
   avgExhibition?: string;
   exhibitionUserConfirmedRate?: number;
-  
-  
 };
 
 export type ConferenceCurrentSituationType = {
@@ -667,8 +663,6 @@ export type ConferenceCurrentSituationType = {
   allExhibitionConferenceTableCount?: number;
   approvedConferenceRate?: number;
   tableUsageRate?: number;
-  
-  
 };
 
 export type CommunityCurrentSituationType = {
@@ -676,6 +670,6 @@ export type CommunityCurrentSituationType = {
   allCommunityCount?: number;
   allCommunityLikeCount?: number;
   allCommunityPostCount?: number;
+  allCommunityCommentCount?: number;
   avgCommunityUsers?: number;
-  
 };
