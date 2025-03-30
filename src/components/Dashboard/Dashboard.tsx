@@ -17,6 +17,8 @@ import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import getStarRating2 from "../common/getStarRating2";
+import {  Tooltip, ResponsiveContainer, BarChart, XAxis, YAxis, Bar, TooltipProps } from "recharts";
+
 
 const Dashboard = () => {
   const [userCurrentSituation, setUserCurrentSituation] = useRecoilState(
@@ -35,8 +37,7 @@ const Dashboard = () => {
     setCommunityCurrentSituation,
   ] = useRecoilState(communityCurrentSituationAtom);
   const [filterDay, setFilterDay] = useState("30days");
-  const [male, setMale] = useState(0);
-  const [female, setFemale] = useState(0);
+  
   const selectDay = (day: string) => {
     setFilterDay(day);
   };
@@ -45,6 +46,64 @@ const Dashboard = () => {
     const num = Number(avg);
     return getStarRating2(Number(num?.toFixed()));
   };
+
+  const data = [
+    { name: "", value1: Number(userCurrentSituation?.maleRate?.toFixed(1)), value2: Number(userCurrentSituation?.femaleRate?.toFixed(1)) },
+  ];
+
+  const data2 = [
+    { name: "", value1: Number(userCurrentSituation?.age20sRate?.toFixed(1)), value2: Number(userCurrentSituation?.age30sRate?.toFixed(1)), value3: Number(userCurrentSituation?.age40sRate?.toFixed(1)), value4: Number(userCurrentSituation?.age50PlusRate?.toFixed(1)) },
+  ];
+
+  const LABELS1: Record<string, string> = {
+    value1: "남자",
+    value2: "여자",
+  
+  };
+
+  const LABELS2: Record<string, string> = {
+    value1: "20대",
+    value2: "20대",
+    value3: "30대",
+    value4: "40대",
+  
+  };
+
+  const CustomTooltip1 = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white text-gray-700 p-2 rounded shadow-md">
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.color }}>
+              {LABELS1[entry.dataKey as string]}: {entry.value}%
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const CustomTooltip2 = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white text-gray-700 p-2 rounded shadow-md">
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.color }}>
+              {LABELS2[entry.dataKey as string]}: {entry.value}%
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+
+
+  const COLORS = ["#0088FE", "#FF6B6B"];
+  const COLORS2 = ["#0088FE", "#4ECDC4", "#45B7D1", "#FF6B6B"];
+
   const getData1 = async () => {
     const userToken = getToken();
 
@@ -54,8 +113,7 @@ const Dashboard = () => {
     );
 
     if (response) {
-      setMale(Number(response?.maleRate?.toFixed(0)));
-      setFemale(Number(response?.femaleRate?.toFixed(0)));
+      
       setUserCurrentSituation(response);
     }
   };
@@ -142,11 +200,11 @@ const Dashboard = () => {
       </div>
       <div className="grid grid-cols-12 gap-6 pb-4 ">
         <div className="col-span-6 max-lg:col-span-12">
-          <div className="rounded-lg border border-stroke bg-white py-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-5 ">
+          <div className="rounded-lg border border-stroke bg-white pt-5 pb-3 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-5 ">
             <div className=" font-semibold mb-4 text-black dark:text-white">
               회원현황
             </div>
-            <div className="grid grid-cols-12 gap-3">
+            <div className="grid grid-cols-12 gap-3 ">
               <div className="col-span-6 bg-[#F8F8F8] p-5 rounded-xl ">
                 <div className="flex gap-5 items-center w-full ">
                   <div className="">
@@ -240,63 +298,58 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-span-6 bg-[#F8F8F8] rounded-xl">
-                <div className="flex w-full h-full">
-                  <div
-                    className={`max-w-[${Number(
-                      male
-                    )}%] bg-[#4A90E2] rounded-l-xl flex flex-col items-center justify-center text-[12px] text-white`}
-                  >
-                    <div>남자</div>
-                    <div>
-                      {Number(userCurrentSituation?.maleRate?.toFixed(1))}%{" "}
-                    </div>
+              <div className="col-span-6  rounded-xl ">
+                
+                <div className=" w-full h-full">
+                  <div className="flex text-sm text-gray-700  w-full">
+                    <div className="flex flex-col items-center text-[12px]" style={{ width: `50%` }}><span className="flex items-center gap-1 justify-center ">
+                      <span className="flex h-2 w-2 rounded-full bg-[#4A90E2]"></span> 남자</span> <span className="text-black dark:text-white">{Number(userCurrentSituation?.maleRate?.toFixed(1))}%</span></div>
+                    <div className="flex  flex-col items-center text-[12px]" style={{ width: `50%` }}><span className="flex items-center gap-1 justify-center ">
+                      <span className="flex h-2 w-2 rounded-full bg-[#FF6B6B]"></span> 여자</span> <span className="text-black dark:text-white">{Number(userCurrentSituation?.femaleRate?.toFixed(1))}%</span></div>
+                   
                   </div>
-                  <div
-                    className={`w-[100%] bg-[#FF6B6B] rounded-r-xl flex flex-col items-center justify-center text-[12px] text-white`}
-                  >
-                    <div>여자 {Number(female)}</div>
-                    <div>
-                      {Number(userCurrentSituation?.femaleRate)?.toFixed(1)}%
-                    </div>
-                  </div>
+                  <ResponsiveContainer width="100%" height={30}>
+                    
+                    <BarChart data={data} stackOffset="expand" layout="vertical">
+                      <XAxis type="number" hide />
+                      <YAxis type="category" dataKey="name" hide />
+                      <Tooltip content={<CustomTooltip1 />} />
+                      <Bar dataKey="value1" stackId="a" fill={COLORS[0]} radius={[20, 0, 0, 20]} />
+                     
+                      <Bar dataKey="value2" stackId="a" fill={COLORS[1]} radius={[0, 20, 20, 0]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
+                 
                 </div>
               </div>
-              <div className="col-span-6 bg-[#F8F8F8] h-[60px] rounded-xl">
-                <div className="flex w-full h-full">
-                  <div
-                    className={`w-[30%] bg-[#4A90E2] rounded-l-xl flex flex-col items-center justify-center text-[12px] text-white`}
-                  >
-                    <div>20대</div>
-                    <div>
-                      {Number(userCurrentSituation?.age20sRate)?.toFixed(1)}%
-                    </div>
+              <div className="col-span-6  h-[60px] rounded-xl ">
+                <div className=" w-full h-full ">
+                  <div className="flex text-sm text-gray-700  w-full">
+                    <div className="flex flex-col items-center text-[12px]" style={{ width: `25%` }}>
+                      <span className="flex items-center gap-1 justify-center ">
+                      <span className="flex h-2 w-2 rounded-full bg-[#4A90E2]"></span> 20대</span> <span className="text-black dark:text-white">{Number(userCurrentSituation?.age20sRate)?.toFixed(1)}%</span></div>
+                    <div className="flex  flex-col items-center text-[12px]" style={{ width: `25%` }}><span className="flex items-center gap-1 justify-center ">
+                      <span className="flex h-2 w-2 rounded-full bg-[#4ECDC4]"></span> 30대</span> <span className="text-black dark:text-white">{Number(userCurrentSituation?.age30sRate)?.toFixed(1)}%</span></div>
+                   <div className="flex  flex-col items-center text-[12px]" style={{ width: `25%` }}><span className="flex items-center gap-1 justify-center ">
+                      <span className="flex h-2 w-2 rounded-full bg-[#45B7D1]"></span> 40대</span> <span className="text-black dark:text-white">{Number(userCurrentSituation?.age40sRate)?.toFixed(1)}%</span></div>
+                   <div className="flex  flex-col items-center text-[12px]" style={{ width: `25%` }}><span className="flex items-center gap-1 justify-center ">
+                      <span className="flex h-2 w-2 rounded-full bg-[#FF6B6B]"></span> 50대</span> <span className="text-black dark:text-white">{Number(userCurrentSituation?.age50PlusRate)?.toFixed(1)}%</span></div>
+                   
                   </div>
-                  <div
-                    className={`w-[30%] bg-[#4ECDC4] flex flex-col items-center justify-center text-[12px] text-white`}
-                  >
-                    <div>30대</div>
-                    <div>
-                      {Number(userCurrentSituation?.age30sRate)?.toFixed(1)}%
-                    </div>
+                  <ResponsiveContainer width="100%" height={30} >
+                    
+                    <BarChart data={data2} stackOffset="expand" layout="vertical" className="w-full"    >
+                      <XAxis type="number" hide />
+                      <YAxis type="category" dataKey="name" hide />
+                      <Tooltip content={<CustomTooltip2 />} />
+                      <Bar dataKey="value1" stackId="a" fill={COLORS2[0]} radius={[20, 0, 0, 20]} />
+                      <Bar dataKey="value2" stackId="a" fill={COLORS2[1]} />
+                      <Bar dataKey="value3" stackId="a" fill={COLORS2[2]} />
+                      <Bar dataKey="value4" stackId="a" fill={COLORS2[3]} radius={[0, 20, 30, 0]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
                   </div>
-                  <div
-                    className={`w-[20%] bg-[#45B7D1] flex flex-col items-center justify-center text-[12px] text-white`}
-                  >
-                    <div>40대</div>
-                    <div>
-                      {Number(userCurrentSituation?.age40sRate)?.toFixed(1)}%
-                    </div>
-                  </div>
-                  <div
-                    className={`w-[20%] bg-[#FF6B6B] rounded-r-xl flex flex-col items-center justify-center text-[12px] text-white`}
-                  >
-                    <div>50대+</div>
-                    <div>
-                      {Number(userCurrentSituation?.age50PlusRate)?.toFixed(1)}%
-                    </div>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -401,7 +454,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-span-12 bg-[#F8F8F8] h-[60px] px-5 rounded-xl">
+              <div className="col-span-12 bg-[#F8F8F8] h-[62px] px-5 rounded-xl">
                 <div className="flex w-full h-full items-center ">
                   <div className="w-full flex gap-x-4 items-center h-full ">
                     <div className="text-[#111111] text-[15px] ">
