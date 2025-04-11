@@ -585,6 +585,8 @@ export type UserReportListType = {
   endDate?: string;
   request?: string;
   description?: string;
+  img?: string;
+  imgUrl?: string;
   blocker?: {
     imgUrl?: string;
     userId?: number;

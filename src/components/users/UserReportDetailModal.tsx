@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaRegCheckCircle } from "react-icons/fa";
 
-import { RiCloseFill } from "react-icons/ri";
+import { RiAttachment2, RiCloseFill } from "react-icons/ri";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import AlertModal from "../Modal/AlertModal";
@@ -21,6 +21,7 @@ import EndDatePicker from "../common/EndDatePicker";
 import { format } from "date-fns";
 import { userReportUpdate } from "@/hooks/useData";
 import { LuAlertCircle } from "react-icons/lu";
+import ImageModal from "../Modal/ImageModal";
 
 interface FormData {
   startDate: string;
@@ -29,6 +30,7 @@ interface FormData {
   description: string;
 }
 const UserReportDetailModal: React.FC = () => {
+  const [imageOpen, setImageOpen] = useState(false);
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
   const [optionStatus, setOptionStatus] = useState("");
   const userReportDetail = useRecoilValue(userReportDetailAtom);
@@ -174,6 +176,34 @@ const UserReportDetailModal: React.FC = () => {
                           className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent px-4 py-1.5 h-[52px] text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter "
                         />
                       </div>
+                    </div>
+                    <div className="mb-5 flex gap-1 items-center">
+                      <div className="min-w-[124px] text-[#666666]">
+                        신고 내용
+                      </div>
+                      <div className="w-full">
+                        <textarea className="w-full rounded-xl border-[1.5px] border-slate-300 bg-transparent h-[150px] px-4 py-1.5  text-black outline-none transition focus:border-slate-400 active:border-slate-400 disabled:cursor-default disabled:bg-whiter">
+                          {userReportDetail?.description}
+                        </textarea>
+                      </div>
+                    </div>
+                    <div className="mb-5 flex gap-1 items-center">
+                      <div className="min-w-[124px] text-[#666666]">
+                        이미지 파일
+                      </div>
+                      <div
+                        className="w-full flex items-center gap-3 cursor-pointer"
+                        onClick={() => setImageOpen(true)}
+                      >
+                        <RiAttachment2 className="text-xl text-slate-500" />{" "}
+                        {userReportDetail?.img}
+                      </div>
+                      <ImageModal
+                        src={String(userReportDetail?.imgUrl)}
+                        alt={userReportDetail?.img}
+                        isOpen={imageOpen}
+                        onClose={() => setImageOpen(false)}
+                      />
                     </div>
                     <div className="mb-5 flex gap-1 items-center">
                       <div className="min-w-[124px] text-[#666666]">
