@@ -801,13 +801,13 @@ const DetailModal: React.FC = () => {
                     <div className="flex w-full items-center ">
                       <div className="w-25 ">
                         <div className="h-20 w-20 rounded-full  bg-slate-400">
-                          <div className="flex h-full items-center justify-center ">
+                          <div className="flex h-full items-center justify-center object-cover">
                             {userDetail[0]?.imgUrl !== null ? (
                               <img
                                 src={`${userDetail[0]?.imgUrl}`}
                                 contextMenu="false"
                                 alt={userDetail[0]?.name}
-                                className="max-h-20 max-w-20 rounded-full "
+                                className="h-20 w-full rounded-full object-cover  "
                               />
                             ) : (
                               <FaUserLarge className="text-[40px] text-white" />

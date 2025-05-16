@@ -1,5 +1,7 @@
 import {
+  companyListAtom,
   endDateAtom,
+  optionCompanyAtom,
   optionExhibitionAtom,
   optionStatusAtom,
   optionTypeAtom,
@@ -14,6 +16,8 @@ import { FaChevronDown } from "react-icons/fa";
 import { useRecoilState, useRecoilValue } from "recoil";
 import StartDatePicker from "./StartDatePicker";
 import EndDatePicker from "./EndDatePicker";
+import getToken from "@/helper/getToken";
+import { getCompanyAllList } from "@/hooks/useUser";
 interface Props {
   handleSubmit?: () => void;
   exhibitionId?: string;
@@ -44,8 +48,19 @@ const SearchFieldsExhibitionUsers = ({
   const [optionStatus, setOptionStatus] = useRecoilState(optionStatusAtom);
   const [searchWord, setSearchWord] = useRecoilState(searchWordAtom);
   const usersAddExhibitionList = useRecoilValue(usersAddExhibitionListAtom);
+const [companyList, setCompanyList] = useRecoilState(companyListAtom);
+const [optionCompany, setOptionCompany] = useRecoilState(
+  optionCompanyAtom
+);
+  const getCompanyList = async () => {
+    const userToken = getToken();
+    const response = await getCompanyAllList(String(userToken));
 
+    setCompanyList(response?.rows);
+  };
+  
   useEffect(() => {
+    getCompanyList();
     setOptionExhibition(exhibitionId as string);
     setOptionType(searchType as string);
     setSearchWord(search as string);
@@ -59,6 +74,10 @@ const SearchFieldsExhibitionUsers = ({
 
   const handleExhibitionOption = (val: string) => {
     setOptionExhibition(val);
+  };
+
+  const handleCompanyOption = (val: string) => {
+    setOptionCompany(val);
   };
 
   const handleStatusOption = (val: string) => {
@@ -83,6 +102,40 @@ const SearchFieldsExhibitionUsers = ({
     <div>
       <table className=" w-[800px] table-auto text-sm ">
         <tbody>
+        <tr>
+            <td className=" w-20 border-[#eee]  py-3 dark:border-strokedark ">
+              <h5 className=" text-black dark:text-white">회사 선택하기</h5>
+            </td>
+            <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+              <div className=" w-full  ">
+                <div className="w-full relative z-20 bg-transparent dark:bg-form-input ">
+                  <select
+                    value={optionCompany}
+                    onChange={(e) => handleCompanyOption(e.target.value)}
+                    className={`relative z-20 text-md w-full appearance-none rounded border border-stroke bg-transparent px-5 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
+                  >
+                    <option value="" className="text-black dark:text-bodydark">
+                      선택
+                    </option>
+                    {companyList?.map((e, i) => (
+                      <option
+                        key={i}
+                        value={String(e?.id)}
+                        className="text-black dark:text-bodydark"
+                      >
+                        {e?.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <span className="absolute right-2 top-1/2 z-30 -translate-y-1/2 text-black dark:text-white">
+                    <FaChevronDown />
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td className=" w-70 border-[#eee]  py-3 dark:border-strokedark "></td>
+          </tr>
           <tr>
             <td className=" w-20 border-[#eee]  py-3 dark:border-strokedark ">
               <h5 className=" text-black dark:text-white">행사 이름</h5>

@@ -7,6 +7,7 @@ import {
   endDateAtom,
   exhibitionUserListAtom,
   menuPermissionAtom,
+  optionCompanyAtom,
   optionExhibitionAtom,
   optionStatusAtom,
   optionTypeAtom,
@@ -71,6 +72,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
   const optionStatus = useRecoilValue(optionStatusAtom);
   const searchWord = useRecoilValue(searchWordAtom);
   const optionExhibition = useRecoilValue(optionExhibitionAtom);
+  const optionCompany = useRecoilValue(optionCompanyAtom);
   const setUserDetail = useSetRecoilState(userDetailAtom);
   const [detailOpen, setDetailOpen] = useRecoilState(detailOpenAtom);
   const setUserExhibition = useSetRecoilState(userExhibitionListAtom);
@@ -108,11 +110,16 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     const exhibition = optionExhibition
       ? `&exhibitionId=${optionExhibition}`
       : "";
+      const company = optionCompany
+      ? `&companyId=${optionCompany}`
+      : "";
+
+      
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
     const status = optionStatus ? `&isConfirmed=${optionStatus}` : "";
-    const searchUrl = `searchType=${option}${exhibition}${search}${start}${end}${status}`;
+    const searchUrl = `searchType=${option}${exhibition}${company}${search}${start}${end}${status}`;
 
     const newUrl = decodeURIComponent(searchUrl);
 
@@ -137,7 +144,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       setChechedElements([]);
       setIsOpen(false);
     } else {
-      setDeleteAlertMessage(String(res?.result));
+      setDeleteAlertMessage('이미 행사에 참가한 회원은 삭제할 수 없습니다.');
       setDeleteAlert(true);
     }
   };
@@ -218,9 +225,15 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
 
     setSearchOptions(response);
   };
+
+  
   const getData = async () => {
     const exhibitionId = searchParams.get("exhibitionId")
       ? `&exhibitionId=${searchParams.get("exhibitionId")}`
+      : "";
+
+      const companyName = searchParams.get("companyName")
+      ? `&companyName=${searchParams.get("companyName")}`
       : "";
     const searchType = searchParams.get("searchType");
 
@@ -241,7 +254,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       : size;
 
     setPageLimit(pageLimitNew as string);
-    const searchUrl = `searchType=${searchType}${exhibitionId}${search}${start}${end}${isConfirmed}`;
+    const searchUrl = `searchType=${searchType}${exhibitionId}${companyName}${search}${start}${end}${isConfirmed}`;
 
     const newUrl = decodeURIComponent(searchUrl);
 
@@ -253,6 +266,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
+console.log(response);
 
     if (response?.rows?.length) {
       setTotalCount(Number(response?.count));
