@@ -273,6 +273,7 @@ export const createExhibitionLectures = async (formdata: FormData) => {
   const formData2 = new FormData();
   const token = formdata.get("token") as string;
 
+  formData2.append("companyId", formdata.get("companyId") as string);
   formData2.append("exhibitionId", formdata.get("exhibitionId") as string);
   formData2.append("title", formdata.get("title") as string);
   formData2.append("short_desc", formdata.get("short_desc") as string);
@@ -308,6 +309,7 @@ export const updateExhibitionLectures = async (formdata: FormData) => {
   const token = formdata.get("token") as string;
 
   formData2.append("lectureId", formdata.get("lectureId") as string);
+  formData2.append("companyId", formdata.get("companyId") as string);
   formData2.append("exhibitionId", formdata.get("exhibitionId") as string);
   formData2.append("title", formdata.get("title") as string);
   formData2.append("short_desc", formdata.get("short_desc") as string);

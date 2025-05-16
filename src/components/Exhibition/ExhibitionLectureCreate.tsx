@@ -13,6 +13,7 @@ import TextEditor from "../Editor/TextEditor";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { format } from "date-fns";
 import {
+  companyListAtom,
   endDateAtom,
   exhibitionAllAtom,
   fileAtom,
@@ -22,6 +23,7 @@ import {
 
 import { createExhibitionLectures, getExhibitionAll } from "@/hooks/useEvents";
 import DateTimePicker from "../common/DateTimePicker";
+import { getCompanyAllList } from "@/hooks/useUser";
 interface Props {
   url?: string;
 }
@@ -33,6 +35,7 @@ interface FormData {
   image: string;
   status: string;
   exhibitionId: string;
+  companyId: string;
 }
 
 const ExhibitionLectureCreate = ({ url }: Props) => {
@@ -46,7 +49,7 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
   const [exhibitionAllList, setExhibitionAllList] = useRecoilState(
     exhibitionAllAtom
   );
-
+const [companyList, setCompanyList] = useRecoilState(companyListAtom);
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const menuPermission = useRecoilValue(menuPermissionAtom);
@@ -57,16 +60,27 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
     formState: { errors },
   } = useForm<FormData>();
 
+
+  const getCompanyList = async () => {
+    const userToken = getToken();
+    const response = await getCompanyAllList(String(userToken));
+
+    setCompanyList(response?.rows);
+  };
   const getData = async () => {
     const userToken = getToken();
 
     const response = await getExhibitionAll(String(userToken));
 
     setExhibitionAllList(response?.rows);
+
+    
   };
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+    getCompanyList();
   }, []);
 
   const handleEditorChange = (newContent: string) => {
@@ -110,6 +124,10 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
       const formdata = new FormData();
       formdata.append("token", String(token));
       formdata.append(
+        "companyId",
+        data.companyId ? data.companyId : ""
+      );
+      formdata.append(
         "exhibitionId",
         data.exhibitionId ? data.exhibitionId : ""
       );
@@ -142,6 +160,43 @@ const ExhibitionLectureCreate = ({ url }: Props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <table className=" w-full table-auto text-sm">
                 <tbody>
+                <tr>
+                    <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <h5 className="font-medium text-black dark:text-white">
+                        회사 선택하기
+                      </h5>
+                    </td>
+                    <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                      <div className="relative z-20 bg-transparent dark:bg-form-input w-full">
+                        <select
+                          {...register(`companyId`, {
+                            required: true,
+                          })}
+                          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-bodydark`}
+                        >
+                          <option
+                            value=""
+                            className="text-black dark:text-white"
+                          >
+                            선택
+                          </option>
+                          {companyList?.map((item, index) => (
+                            <option
+                              key={index}
+                              value={item?.id}
+                              className="text-black dark:text-white"
+                            >
+                              {item?.name}{" "}
+                            </option>
+                          ))}
+                        </select>
+
+                        <span className="absolute right-4 top-1/2 z-30 -translate-y-1/2 text-black">
+                          <FaChevronDown />
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
                   <tr>
                     <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                       <h5 className="font-medium text-black dark:text-white">

@@ -1,5 +1,6 @@
 "use client";
 import {
+  companyListAtom,
   endDateAtom,
   exhibitionAllAtom,
   exhibitionDetailAtom,
@@ -30,6 +31,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import TextEditor from "../Editor/TextEditor";
 import StartDateTimePicker from "../common/StartDateTimePicker";
 import EndDateTimePicker from "../common/EndDateTimePicker";
+import { getCompanyAllList } from "@/hooks/useUser";
 interface Props {
   id: number;
   url?: string;
@@ -43,6 +45,7 @@ interface FormData {
   image: string;
   status: string;
   exhibitionId: string;
+  companyId: string;
 }
 const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   const router = useRouter();
@@ -62,7 +65,9 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   const [exhibitionAllList, setExhibitionAllList] = useRecoilState(
     exhibitionAllAtom
   );
+  const [companyList, setCompanyList] = useRecoilState(companyListAtom);
   const [optionValue, setOptionValue] = useState("");
+  const [companyValue, setCompanyValue] = useState("");
   const menuPermission = useRecoilValue(menuPermissionAtom);
 
   const {
@@ -75,6 +80,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
     getOptions();
+    getCompanyList();
   }, []);
 
   const getOptions = async () => {
@@ -84,6 +90,13 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
     setExhibitionAllList(response?.rows);
   };
 
+  const getCompanyList = async () => {
+    const userToken = getToken();
+    const response = await getCompanyAllList(String(userToken));
+
+    setCompanyList(response?.rows);
+  };
+  
   const getData = async () => {
     const userToken = getToken();
     const response = await getExhibitionLectureDetail(String(userToken), id);
@@ -105,6 +118,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
 
       setContentValue(response?.result?.description);
       setOptionValue(response?.result?.exhibitionId);
+      setCompanyValue(response?.result?.companyId);
       setItemsDetail([response?.result]);
     } else {
       setNotFound(true);
@@ -134,6 +148,9 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
   const closeError = () => {
     setCreateError(false);
   };
+  const handleCompany = (val: string) => {
+    setCompanyValue(val);
+  };
   const handleOption = (val: string) => {
     setOptionValue(val);
   };
@@ -155,6 +172,7 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
 
       formdata.append("lectureId", String(id));
       formdata.append("exhibitionId", optionValue);
+      formdata.append("companyId", companyValue);
       formdata.append("title", data.title ? data.title : "");
       formdata.append("short_desc", data.subtitle ? data.subtitle : "");
       formdata.append("startDate", startDate);
@@ -187,30 +205,46 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <table className=" w-full table-auto text-sm">
                     <tbody>
-                      <tr>
+                    <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
-                            강연 제목
+                          회사 선택하기
                           </h5>
                         </td>
                         <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
-                          <input
-                            type="text"
-                            {...register("title", {
-                              required: true,
-                            })}
-                            defaultValue={item?.title}
-                            placeholder="강연 제목을 입력해주세요."
-                            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                          />
-                          {errors.title && (
-                            <span className="font-medium text-red ">
-                              입력해주세요
+                          <div className="relative z-20 bg-transparent dark:bg-form-input w-full">
+                            <select
+                              {...register(`companyId`, {
+                                required: true,
+                              })}
+                              value={companyValue}
+                              onChange={(e) => handleCompany(e.target.value)}
+                              className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-black dark:text-white`}
+                            >
+                              <option
+                                value={"0"}
+                                className="text-black dark:text-bodydark"
+                              >
+                                선택
+                              </option>
+                              {companyList?.map((e, i) => (
+                                <option
+                                  key={i}
+                                  value={String(e?.id)}
+                                  className="text-black dark:text-bodydark"
+                                >
+                                  {e?.name}{" "}
+                                 
+                                </option>
+                              ))}
+                            </select>
+
+                            <span className="absolute right-4 top-1/2 z-30 -translate-y-1/2 text-black">
+                              <FaChevronDown />
                             </span>
-                          )}
+                          </div>
                         </td>
                       </tr>
-
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">
@@ -251,6 +285,31 @@ const ExhibitionLectureUpdate = ({ id, url }: Props) => {
                           </div>
                         </td>
                       </tr>
+                      <tr>
+                        <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
+                          <h5 className="font-medium text-black dark:text-white">
+                            강연 제목
+                          </h5>
+                        </td>
+                        <td className=" border-[#eee] px-4 py-3 dark:border-strokedark ">
+                          <input
+                            type="text"
+                            {...register("title", {
+                              required: true,
+                            })}
+                            defaultValue={item?.title}
+                            placeholder="강연 제목을 입력해주세요."
+                            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          />
+                          {errors.title && (
+                            <span className="font-medium text-red ">
+                              입력해주세요
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+
+                      
                       <tr>
                         <td className="  border-[#eee] px-4 py-3 dark:border-strokedark ">
                           <h5 className="font-medium text-black dark:text-white">

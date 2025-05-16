@@ -302,6 +302,11 @@ export const optionExhibitionAtom = atom({
   default: "",
 });
 
+export const optionCompanyAtom = atom({
+  key: "optionCompanyAtom",
+  default: "",
+});
+
 export const optionStatusAtom = atom({
   key: "optionStatusAtom",
   default: "",
