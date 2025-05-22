@@ -110,11 +110,8 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     const exhibition = optionExhibition
       ? `&exhibitionId=${optionExhibition}`
       : "";
-      const company = optionCompany
-      ? `&companyId=${optionCompany}`
-      : "";
+    const company = optionCompany ? `&companyId=${optionCompany}` : "";
 
-      
     const search = searchWord ? `&search=${searchWord}` : "";
     const start = startDate ? `&startDate=${startDate}` : "";
     const end = endDate ? `&endDate=${endDate}` : "";
@@ -144,7 +141,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       setChechedElements([]);
       setIsOpen(false);
     } else {
-      setDeleteAlertMessage('이미 행사에 참가한 회원은 삭제할 수 없습니다.');
+      setDeleteAlertMessage("이미 행사에 참가한 회원은 삭제할 수 없습니다.");
       setDeleteAlert(true);
     }
   };
@@ -226,13 +223,12 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
     setSearchOptions(response);
   };
 
-  
   const getData = async () => {
     const exhibitionId = searchParams.get("exhibitionId")
       ? `&exhibitionId=${searchParams.get("exhibitionId")}`
       : "";
 
-      const companyName = searchParams.get("companyName")
+    const companyName = searchParams.get("companyName")
       ? `&companyName=${searchParams.get("companyName")}`
       : "";
     const searchType = searchParams.get("searchType");
@@ -266,7 +262,7 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       Number(page),
       Number(size)
     );
-console.log(response);
+    console.log(response);
 
     if (response?.rows?.length) {
       setTotalCount(Number(response?.count));
@@ -387,7 +383,7 @@ console.log(response);
                   onClick={closeModal}
                   className="rounded-md bg-slate-500 px-3 py-1 text-white"
                 >
-                  취소{" "}
+                  확인{" "}
                 </button>
               </div>
             </CustomModal>
