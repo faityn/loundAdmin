@@ -378,7 +378,6 @@ export const getFeedbackDetail = async (token: string, id: number) => {
         redirect: "follow",
       }
     );
-  
 
     const data = await response.json();
 
@@ -484,6 +483,7 @@ export const getUsersListByExhibitions = async (
   size: number
 ) => {
   const search = searchUrl;
+  console.log(search);
 
   try {
     const response = await fetch(
@@ -1059,10 +1059,9 @@ export const getRatingDownload = async (token: string, id: number) => {
         },
       }
     );
-   
 
     const data = await response.text();
-   
+
     return { status: response.ok, result: data };
   } catch (error) {
     console.error("Error fetching data:", error);
