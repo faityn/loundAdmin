@@ -228,8 +228,8 @@ const ExhibitionUsersListManage = ({ url }: Props) => {
       ? `&exhibitionId=${searchParams.get("exhibitionId")}`
       : "";
 
-    const companyName = searchParams.get("companyName")
-      ? `&companyName=${searchParams.get("companyName")}`
+    const companyName = searchParams.get("companyId")
+      ? `&companyId=${searchParams.get("companyId")}`
       : "";
     const searchType = searchParams.get("searchType");
 
