@@ -3,6 +3,7 @@ import {
   dataSavedAtom,
   detailOpenAtom,
   fileAtom,
+  menuPermissionAtom,
   userDetailAtom,
   userDetailOptionsAtom,
 } from "@/atom";
@@ -52,6 +53,9 @@ const DetailModal: React.FC = () => {
   const userRole = useRecoilValue(ActiveRoleAtom);
   const setDetailOpen = useSetRecoilState(detailOpenAtom);
   const userDetail = useRecoilValue(userDetailAtom);
+  const menuPermission = useRecoilValue(menuPermissionAtom);
+  console.log(menuPermission);
+
   const [isOpen, setIsOpen] = useState(false);
   const [createError, setCreateError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -205,7 +209,6 @@ const DetailModal: React.FC = () => {
   };
 
   useEffect(() => {
-    
     setOptionRole(String(userDetail[0]?.roleId));
     setOptionProfession(String(userDetail[0]?.professionId));
     setContentValue(userDetail[0]?.description);
@@ -531,7 +534,7 @@ const DetailModal: React.FC = () => {
 
                   <div
                     className={`flex justify-center gap-4 pt-5 ${
-                      userRole === "Super Admin" ? "" : "hidden"
+                      menuPermission?.status === "write" ? "" : "hidden"
                     }`}
                   >
                     {" "}
